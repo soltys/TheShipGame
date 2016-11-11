@@ -1,11 +1,14 @@
-
-
+declare class BoundingBox{
+    
+}
     interface IGameState {
         keys: Object;
         clicks: Object;
         mouse: IMousePosition;
         objects: Array<IGameObject>;
-        gamepad: IGamepadData;        
+        gamepad: IGamepadData;  
+
+        debugSTAGE:any;      
     }
 
     interface IMousePosition {
@@ -22,6 +25,7 @@
 
     interface IGameObject {
         update(delta: number, state: IGameState): void;
+        collideWith(boundingBox: BoundingBox):boolean;
     }
 
     interface IGameDisplayObject extends IGameObject {

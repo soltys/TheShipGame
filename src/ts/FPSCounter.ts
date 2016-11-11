@@ -1,4 +1,5 @@
-export default class FPSCounter implements IGameDisplayObject {
+import GameObject from './common/GameObject';
+export default class FPSCounter extends GameObject implements IGameDisplayObject {
     private lastCalledTime: number
     private counter: number
 
@@ -8,6 +9,7 @@ export default class FPSCounter implements IGameDisplayObject {
 
 
     constructor() {
+        super();
         this.counter = 0;
         this.fpsArray = [];
 

@@ -2,4 +2,4 @@ enum CharacterType {
     Player,
     NPC
 }
-export default CharacterType
+export default CharacterType;

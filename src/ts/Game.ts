@@ -1,5 +1,4 @@
 
-
 class Game {
     private readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
@@ -7,6 +6,7 @@ class Game {
     private gamepads: Gamepad[];
     constructor() {
         this.stage = this.newStage()
+        this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
         this.state = {
@@ -18,16 +18,17 @@ class Game {
                 axes: [],
                 isConnected: false
             },
-            "objects": []
+            "objects": [],
+            debugSTAGE: this.stage
         };
     }
 
 
-    public addObject(object: IGameDisplayObject) {
+    public addObject(object: IGameObject) {
         this.state.objects.push(object);
 
-        if (object.displayObject) {
-            this.stage.addChild(object.displayObject);
+        if ((<IGameDisplayObject>object).displayObject) {
+            this.stage.addChild((<IGameDisplayObject>object).displayObject);
         }
 
         return this;
@@ -38,10 +39,11 @@ class Game {
     }
 
     private newRenderer() {
-        return PIXI.autoDetectRenderer(800, 600,
+        return PIXI.autoDetectRenderer(400, 500,
             {
                 backgroundColor: 0x1099bb,
                 "antialias": true,
+                resolution: 1.5
             });
     }
 
@@ -70,9 +72,9 @@ class Game {
 
             let lagOffset = elapsed / frameDuration;
             this.gamepads = navigator.getGamepads() || [];
-            
+
             this.state.gamepad.isConnected = false;
-            for (let i = 0; i < this.gamepads.length; i++) {                
+            for (let i = 0; i < this.gamepads.length; i++) {
                 const gamepad = this.gamepads[i];
                 if (gamepad) {
                     this.state.gamepad.isConnected = true;
@@ -117,9 +119,6 @@ class Game {
             this.state.mouse.clientX = event.clientX;
             this.state.mouse.clientY = event.clientY;
         });
-
-
-
 
         return this;
     }
