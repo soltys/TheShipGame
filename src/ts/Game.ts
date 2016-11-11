@@ -1,8 +1,8 @@
-
+import * as IGame from './common/IGame';
 class Game {
     private readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private readonly state: IGameState;
+    private readonly state: IGame.IGameState;
     private gamepads: Gamepad[];
     constructor() {
         this.stage = this.newStage()
@@ -24,14 +24,12 @@ class Game {
     }
 
 
-    public addObject(object: IGameObject) {
+    public addObject(object: IGame.IGameObject):void {
         this.state.objects.push(object);
 
-        if ((<IGameDisplayObject>object).displayObject) {
-            this.stage.addChild((<IGameDisplayObject>object).displayObject);
-        }
-
-        return this;
+        if ((<IGame.IGameDisplayObject>object).displayObject) {
+            this.stage.addChild((<IGame.IGameDisplayObject>object).displayObject);
+        }        
     }
 
     private newStage() {
@@ -47,9 +45,8 @@ class Game {
             });
     }
 
-    public addRendererToElement(element: HTMLElement) {
+    public addRendererToElement(element: HTMLElement):void {
         element.appendChild(this.renderer.view);
-        return this;
     }
 
     public animate() {
@@ -90,12 +87,12 @@ class Game {
             this.renderer.render(this.stage);
         };
 
-        caller();
+        requestAnimationFrame(caller);
 
         return this;
     }
 
-    public addEventListenerToElement(element) {
+    public addEventListenerToElement(element):void {
         element.addEventListener("keydown", (event) => {
             this.state.keys[event.keyCode] = true;
         });
@@ -120,7 +117,6 @@ class Game {
             this.state.mouse.clientY = event.clientY;
         });
 
-        return this;
     }
 }
 

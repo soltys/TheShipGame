@@ -1,5 +1,5 @@
 import Keys from './common/Keys';
-
+import * as Game from './common/IGame';
 export enum PlayerAction {
     MoveUp,
     MoveDown,
@@ -15,7 +15,7 @@ function approxeq(v1: number, v2: number, epsilon?: number): boolean {
     }
     return Math.abs(v1 - v2) < epsilon;
 };
-export function GetPlayerAction(state: IGameState): PlayerAction[] {
+export function GetPlayerAction(state: Game.IGameState): PlayerAction[] {
     const playerActions: PlayerAction[] = [];
 
     if (shouldMoveUp(state)) {
@@ -44,7 +44,7 @@ export function GetPlayerAction(state: IGameState): PlayerAction[] {
     return playerActions;
 }
 
-function shouldMoveUp(state: IGameState): boolean {
+function shouldMoveUp(state: Game.IGameState): boolean {
     if (state.gamepad.isConnected) {
          const leftStick = state.gamepad.axes[1];
         if (leftStick < -0.3) {
@@ -54,7 +54,7 @@ function shouldMoveUp(state: IGameState): boolean {
     return state.keys[Keys.UP_ARROW]
 }
 
-function shouldMoveDown(state: IGameState): boolean {
+function shouldMoveDown(state: Game.IGameState): boolean {
     if (state.gamepad.isConnected) {
          const leftStick = state.gamepad.axes[1];
         if (leftStick > 0.3) {
@@ -64,7 +64,7 @@ function shouldMoveDown(state: IGameState): boolean {
     return state.keys[Keys.DOWN_ARROW]
 }
 
-function shouldMoveLeft(state: IGameState): boolean {
+function shouldMoveLeft(state: Game.IGameState): boolean {
     if (state.gamepad.isConnected) {
          const leftStick = state.gamepad.axes[0];
         if (leftStick < -0.3) {
@@ -74,7 +74,7 @@ function shouldMoveLeft(state: IGameState): boolean {
     return state.keys[Keys.LEFT_ARROW]
 }
 
-function shouldMoveRight(state: IGameState): boolean {
+function shouldMoveRight(state: Game.IGameState): boolean {
     if (state.gamepad.isConnected) {
          const leftStick = state.gamepad.axes[0];
         if (leftStick > 0.3) {
@@ -83,7 +83,7 @@ function shouldMoveRight(state: IGameState): boolean {
     }
     return state.keys[Keys.RIGHT_ARROW]
 }
-function shouldScaleUp(state: IGameState): boolean {
+function shouldScaleUp(state: Game.IGameState): boolean {
     if (state.gamepad.isConnected) {
         const button = state.gamepad.buttons;
         if (button && button[0] && button[0].pressed) {
@@ -94,7 +94,7 @@ function shouldScaleUp(state: IGameState): boolean {
     return state.keys[Keys.KEY_W]
 }
 
-function shouldScaleDown(state: IGameState): boolean {
+function shouldScaleDown(state: Game.IGameState): boolean {
     if (state.gamepad.isConnected) {
         const button = state.gamepad.buttons;
         if (button && button[1] && button[1].pressed) {

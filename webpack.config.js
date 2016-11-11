@@ -31,7 +31,7 @@ module.exports = {
         //         }],
         loaders: [{
             test: /\.ts$/,
-            loader: 'ts-loader'
+            loader: 'awesome-typescript-loader'
         }, {
             test: /\.scss$/,
             loader: ExtractTextPlugin.extract(['css', 'postcss', 'sass'])

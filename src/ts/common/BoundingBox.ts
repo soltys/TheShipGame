@@ -1,10 +1,10 @@
-import CollisionDirection from './CollisionDirection';
-
+import * as Game from './IGame';
 class BoundingBox {
     private rectangle: PIXI.Rectangle;
 
     collidesWith(gameObject: BoundingBox): boolean {
         let edges = this.getEdges(this, gameObject);
+        
 
         if (!(
             edges.boxTop > edges.gameObjectBottom ||
@@ -31,7 +31,7 @@ class BoundingBox {
         };
     }
 
-    collidesInDirection(box, gameObject): CollisionDirection {
+    collidesInDirection(box, gameObject): Game.CollisionDirection {
         let edges = this.getEdges(box, gameObject);
 
         let offsetLeft = edges.gameObjectRight - edges.boxLeft;
@@ -40,22 +40,22 @@ class BoundingBox {
         let offsetBottom = edges.boxBottom - edges.gameObjectTop;
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetTop) {
-            return CollisionDirection.Down;
+            return Game.CollisionDirection.Down;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetBottom) {
-            return CollisionDirection.Up
+            return Game.CollisionDirection.Up
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetLeft) {
-            return CollisionDirection.Left
+            return Game.CollisionDirection.Left
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetRight) {
-            return CollisionDirection.Right;
+            return Game.CollisionDirection.Right;
         }
 
-        return CollisionDirection.Unknown
+        return Game.CollisionDirection.Unknown
     }
     get x() {
         return this.rectangle.x
@@ -77,13 +77,15 @@ class BoundingBox {
         this.rectangle = rectangle;
     }
 
-    update(state: IGameState) {
+    update(state: Game.IGameState) {
+        /*
         var graphics = new PIXI.Graphics();
         graphics.lineStyle(2, 0xFF00FF, 1);
         graphics.beginFill(0xFF00BB, 0.25);
         graphics.drawRect(this.rectangle.x, this.rectangle.y, this.rectangle.width, this.rectangle.height);
         graphics.endFill();
         state.debugSTAGE.addChild(graphics);
+        */
     }
 
     clone(): BoundingBox {

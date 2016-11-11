@@ -2,9 +2,10 @@ import GameObject from './common/GameObject';
 import CharacterType from './common/CharacterType';
 import { PlayerAction, GetPlayerAction } from './PlayerAction';
 import BoundingBox from './common/BoundingBox';
+import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 
-export default class Ship extends GameObject implements IGameDisplayObject {
+export default class Ship extends GameObject implements IGame.IGameDisplayObject {
 
     private shipSprite: PIXI.Sprite;
     private position: PIXI.Point;
@@ -30,35 +31,37 @@ export default class Ship extends GameObject implements IGameDisplayObject {
         ))
     }
 
-    update(delta: number, state: IGameState) {
+    update(timeDelta: number, state: IGame.IGameState) {
         const playerActions = GetPlayerAction(state);
-        this.playerInput(playerActions, delta);
+        this.playerInput(playerActions, timeDelta);
 
         this.velocityX *= (1 - this.frictionX);
         this.velocityY *= (1 - this.frictionY);
 
-        const deltaX = this.velocityX * delta;
-        const deltaY = this.velocityY * delta;
+        let deltaX = this.velocityX * timeDelta;
+        let deltaY = this.velocityY * timeDelta;
 
         let tempBoundingBox = this.boundingBox.clone();
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
-        let isColliding = false;
+        let collisionData: IGame.ICollisionData = super.collideWith(this.boundingBox);
         state.objects.forEach(gameObject => {
             if (gameObject.constructor.name === "GameBorder") {
-                if (gameObject.collideWith(tempBoundingBox)) {
-                    isColliding = true;
+                collisionData = gameObject.collideWith(tempBoundingBox);
+                if (collisionData.direction == IGame.CollisionDirection.Up || collisionData.direction == IGame.CollisionDirection.Down) {
+                    deltaY = 0
                 }
+                if (collisionData.direction == IGame.CollisionDirection.Left || collisionData.direction == IGame.CollisionDirection.Right) {
+                    deltaX = 0
+                }
+
             }
         });
 
-        if (!isColliding) {
-            this.shipSprite.x += deltaX;
-            this.shipSprite.y += deltaY;
-            this.boundingBox.x += deltaX;
-            this.boundingBox.y += deltaY;
-        }
-
+        this.shipSprite.x += deltaX;
+        this.shipSprite.y += deltaY;
+        this.boundingBox.x += deltaX;
+        this.boundingBox.y += deltaY;
     }
 
     private playerInput(playerActions: PlayerAction[], delta: number) {

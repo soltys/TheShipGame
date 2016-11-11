@@ -1,12 +1,10 @@
 import '../scss/main.scss';
 import 'pixi.js';
-import * as Matter from 'matter-js';
-
 import Ship from './Ship';
 import GameBorder from './GameBorder';
 import FPSCounter from './FPSCounter';
 import TextureLoader from './TextureLoader';
-import CharacterType from './common/CharacterType';
+
 import Game from './Game';
 /// <reference path="../../typings/index.d.ts" />
 /// <reference path="../local.d.ts" />

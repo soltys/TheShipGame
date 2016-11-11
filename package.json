@@ -21,6 +21,7 @@
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^6.5.1",
+    "awesome-typescript-loader": "^2.2.4",
     "chai": "^3.5.0",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.25.0",

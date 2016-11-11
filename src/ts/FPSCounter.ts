@@ -1,5 +1,6 @@
 import GameObject from './common/GameObject';
-export default class FPSCounter extends GameObject implements IGameDisplayObject {
+import * as IGame from './common/IGame';
+export default class FPSCounter extends GameObject implements IGame.IGameDisplayObject {
     private lastCalledTime: number
     private counter: number
 
@@ -43,6 +44,7 @@ export default class FPSCounter extends GameObject implements IGameDisplayObject
             var average = Math.ceil(sum / this.fpsArray.length);
             this.updateFPSDisplay(average);
             this.counter = 0;
+            this.fpsArray=[];
         } else {
             if (fps !== Infinity) {
                 this.fpsArray.push(fps);
