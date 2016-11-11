@@ -1,22 +1,29 @@
+
+
 class Game {
     private readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private readonly state: ThisGame.IGameState;
-
+    private readonly state: IGameState;
+    private gamepads: Gamepad[];
     constructor() {
         this.stage = this.newStage()
         this.renderer = this.newRenderer();
-
+        this.gamepads = [];
         this.state = {
             "keys": {},
             "clicks": {},
             "mouse": { clientX: 0, clientY: 0 },
+            "gamepad": {
+                buttons: [],
+                axes: [],
+                isConnected: false
+            },
             "objects": []
         };
     }
 
 
-    public addObject(object: ThisGame.IGameDisplayObject) {
+    public addObject(object: IGameDisplayObject) {
         this.state.objects.push(object);
 
         if (object.displayObject) {
@@ -60,12 +67,22 @@ class Game {
                 elapsed = current - start;
             start = current;
             //Add the elapsed time to the lag counter
-            
-            let lagOffset = elapsed / frameDuration;
 
+            let lagOffset = elapsed / frameDuration;
+            this.gamepads = navigator.getGamepads() || [];
+            
+            this.state.gamepad.isConnected = false;
+            for (let i = 0; i < this.gamepads.length; i++) {                
+                const gamepad = this.gamepads[i];
+                if (gamepad) {
+                    this.state.gamepad.isConnected = true;
+                    this.state.gamepad.axes = gamepad.axes;
+                    this.state.gamepad.buttons = gamepad.buttons;
+                }
+            }
 
             this.state.objects.forEach((object) => {
-                object.update(lagOffset,this.state);           
+                object.update(lagOffset, this.state);
             });
 
             this.renderer.render(this.stage);
@@ -100,6 +117,9 @@ class Game {
             this.state.mouse.clientX = event.clientX;
             this.state.mouse.clientY = event.clientY;
         });
+
+
+
 
         return this;
     }

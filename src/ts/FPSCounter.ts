@@ -1,6 +1,4 @@
-
-
-export default class FPSCounter implements ThisGame.IGameDisplayObject {
+export default class FPSCounter implements IGameDisplayObject {
     private lastCalledTime: number
     private counter: number
 
@@ -50,8 +48,6 @@ export default class FPSCounter implements ThisGame.IGameDisplayObject {
             this.counter++;
         }
     }
-
-
 
     get displayObject(): PIXI.DisplayObject {
         return this.fpsDisplay;

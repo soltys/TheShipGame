@@ -1,15 +1,23 @@
-declare namespace ThisGame {
+
 
     interface IGameState {
         keys: Object;
         clicks: Object;
         mouse: IMousePosition;
         objects: Array<IGameObject>;
+        gamepad: IGamepadData;        
     }
 
     interface IMousePosition {
         clientX: number;
         clientY: number;
+    }
+
+     interface IGamepadData {
+        buttons: GamepadButton[];
+        isConnected: boolean;
+        axes: number[];       
+
     }
 
     interface IGameObject {
@@ -29,4 +37,3 @@ declare namespace ThisGame {
     }
 
 
-}
