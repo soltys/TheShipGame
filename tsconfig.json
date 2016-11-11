@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "noEmitHelpers": true
+    "target": "es6",
+    "module": "commonjs",        
+    "sourceMap": true
+    
   },
   "exclude": [
-    "node_modules",
-    "typings"
+    "node_modules"    
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,

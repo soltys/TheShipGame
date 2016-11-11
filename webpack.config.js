@@ -5,6 +5,7 @@ var sassPath = path.resolve(__dirname, 'src/scss');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var StyleLintPlugin = require('stylelint-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
     entry: {
         app: [
@@ -15,7 +16,8 @@ module.exports = {
     output: {
         path: outputPath,
         filename: '[name].js',
-        publicPath: 'build/'
+        publicPath: 'build/',
+        devtoolLineToLine: true
     },
     resolve: {
         root: [path.join(__dirname, 'node_modules')],
@@ -23,10 +25,10 @@ module.exports = {
     },
     devtool: 'source-map',
     module: {
- //     preLoaders: [{
-          //  test: /\.ts$/,
-//            loader: 'tslint'
- //         }],
+        //     preLoaders: [{
+        //  test: /\.ts$/,
+        //            loader: 'tslint'
+        //         }],
         loaders: [{
             test: /\.ts$/,
             loader: 'ts-loader'
@@ -38,17 +40,18 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('[name].css'),
         new StyleLintPlugin({
-          configFile: '.stylelintrc',
-          syntax: 'scss',
-          files: ['**/*.s?(a|c)ss'],
-          failOnError: false,
+            configFile: '.stylelintrc',
+            syntax: 'scss',
+            files: ['**/*.s?(a|c)ss'],
+            failOnError: false,
         }),
-        new CopyWebpackPlugin([ { from: 'assets', to: 'build/assets' } ])
+        new CopyWebpackPlugin([{ from: 'assets', to: 'build/assets' }]),
+
     ],
     tslint: {
-      emitErrors: false,
-      failOnHint: false,
-      resourcePath: 'src/ts'
+        emitErrors: false,
+        failOnHint: false,
+        resourcePath: 'src/ts'
     },
     sassLoader: {
         includePaths: [
