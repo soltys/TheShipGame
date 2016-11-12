@@ -1,5 +1,4 @@
 import GameObject from './common/GameObject';
-import { PlayerAction, GetPlayerAction } from './PlayerAction';
 import BoundingBox from './common/BoundingBox';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';

@@ -31,6 +31,21 @@ export enum CollisionDirection {
     Left,
     Right
 }
+
+export enum PlayerAction {
+    MoveUp,
+    MoveDown,
+    MoveRight,
+    MoveLeft,
+
+    ScaleUp,
+    ScaleDown,
+}
+
+export interface IPlayerActionData{
+    action: PlayerAction;
+    value: number;
+}
 export interface IGameState {
     keys: Object;
     clicks: Object;

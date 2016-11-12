@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Sat Oct 29 2016 14:04:16 GMT+0800 (中国标准时间)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,10 +15,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-          // all files ending in "_test"
-          {pattern: 'test/*_test.ts'},
-          {pattern: 'test/**/*_test.ts'}
-          // each file acts as entry point for the webpack configuration
+      // all files ending in "_test"
+      { pattern: 'test/*_test.ts' },
+      { pattern: 'test/**/*_test.ts' }
+      // each file acts as entry point for the webpack configuration
     ],
 
 
@@ -36,14 +36,20 @@ module.exports = function(config) {
     },
 
     webpack: {
-        resolve: {
-            extensions: ['', '.ts', '.webpack.js', '.web.js', '.js']
-        },
+      resolve: {
+        extensions: ['', '.ts', '.webpack.js', '.web.js', '.js']
+      },
       module: {
         loaders: [{
           test: /\.ts$/,
           loader: "ts-loader"
         }]
+      },
+      ts: {
+        compilerOptions: {
+          "target": "es5",
+          "module": "commonjs"
+        }
       }
     },
 
@@ -80,8 +86,8 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['PhantomJS'],
     phantomjsLauncher: {
-        // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
-         exitOnResourceError: true
+      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+      exitOnResourceError: true
     },
 
     // Continuous Integration mode
@@ -91,17 +97,17 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity,
-    plugins: [ 'karma-*' ],
+    plugins: ['karma-*'],
     client: {
-        mocha: { ui: 'bdd' }
+      mocha: { ui: 'bdd' }
     },
     typescriptPreprocessor: {
-        typings: [
-            'typings/tsd.d.ts'
-        ],
-        transformPath: function(path) {
-            return path.replace(/\.ts$/, '.js');
-        }
+      typings: [
+        'typings/index.d.ts'
+      ],
+      transformPath: function (path) {
+        return path.replace(/\.ts$/, '.js');
+      }
     }
   })
 }
