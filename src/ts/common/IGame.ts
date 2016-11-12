@@ -51,10 +51,16 @@ export interface IGameState {
     clicks: Object;
     mouse: IMousePosition;
     objects: Array<IGameObject>;
-    gamepad: IGamepadData;
-
-    debugSTAGE: any;
+    gamepad: IGamepadData;    
     game: Game;
+
+    matter: IMatter;
+}
+
+export interface IMatter{
+    engine:  Matter.Engine,    
+    world:  Matter.World,
+    bodies:  Matter.Bodies,
 }
 
 export interface IMousePosition {

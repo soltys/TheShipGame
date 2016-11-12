@@ -109,9 +109,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             );
         }
 
-        if (_.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleUp))) {
-            const newWidth = this.shipSprite.width + this.scaleFactor * timeDelta;
-            const newHeight = this.shipSprite.height + this.scaleFactor * timeDelta;
+        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleUp))
+        if (scaleUp) {
+            const newWidth = this.shipSprite.width + this.scaleFactor * timeDelta * scaleUp.value;
+            const newHeight = this.shipSprite.height + this.scaleFactor * timeDelta *scaleUp.value;
 
             if (newHeight < this.maxHeight || newWidth < this.maxWidth) {
                 this.shipSprite.width = newWidth
@@ -120,10 +121,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 this.boundingBox.height = newHeight;
             }
         }
-
-        if (_.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleDown))) {
-            const newWidth = this.shipSprite.width + -this.scaleFactor * timeDelta;
-            const newHeight = this.shipSprite.height + -this.scaleFactor * timeDelta;
+        const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleDown))
+        if (scaleDown) {
+            const newWidth = this.shipSprite.width + -this.scaleFactor * timeDelta * scaleDown.value;
+            const newHeight = this.shipSprite.height + -this.scaleFactor * timeDelta * scaleDown.value;
 
             if (newHeight > this.minHeight || newWidth > this.minWidth) {
                 this.shipSprite.width = newWidth

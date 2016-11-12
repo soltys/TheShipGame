@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "lodash": "^4.16.6",
+    "matter-js": "^0.11.1",
     "normalize-scss": "^6.0.0",
     "pixi.js": "^4.1.1"
   }

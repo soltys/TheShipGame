@@ -68,6 +68,14 @@ function shouldMoveDown(state: IGame.IGameState, data: IGame.IPlayerActionData[]
 
 function shouldMoveLeft(state: IGame.IGameState, data: IGame.IPlayerActionData[]): void {
     if (state.gamepad.isConnected) {
+        const button = state.gamepad.buttons;
+        if (button && button[4] && button[4].pressed) {
+            data.push({
+                action: IGame.PlayerAction.MoveLeft,
+                value: button[4].value
+            });
+            return;
+        }
         const leftStick = state.gamepad.axes[0];
         if (leftStick < -getGamepadActivationPoint()) {
             data.push({
@@ -87,6 +95,15 @@ function shouldMoveLeft(state: IGame.IGameState, data: IGame.IPlayerActionData[]
 
 function shouldMoveRight(state: IGame.IGameState, data: IGame.IPlayerActionData[]): void {
     if (state.gamepad.isConnected) {
+        const button = state.gamepad.buttons;
+        if (button && button[5] && button[5].pressed) {
+            data.push({
+                action: IGame.PlayerAction.MoveRight,
+                value: button[5].value
+            });
+            return;
+        }
+
         const leftStick = state.gamepad.axes[0];
         if (leftStick > getGamepadActivationPoint()) {
             data.push({
@@ -106,6 +123,13 @@ function shouldMoveRight(state: IGame.IGameState, data: IGame.IPlayerActionData[
 function shouldScaleUp(state: IGame.IGameState, data: IGame.IPlayerActionData[]): void {
     if (state.gamepad.isConnected) {
         const button = state.gamepad.buttons;
+        if (button && button[7] && button[7].pressed) {
+            data.push({
+                action: IGame.PlayerAction.ScaleUp,
+                value: button[7].value
+            });
+            return;
+        }
         if (button && button[0] && button[0].pressed) {
             data.push({
                 action: IGame.PlayerAction.ScaleUp,
@@ -126,6 +150,13 @@ function shouldScaleUp(state: IGame.IGameState, data: IGame.IPlayerActionData[])
 function shouldScaleDown(state: IGame.IGameState, data: IGame.IPlayerActionData[]): void {
     if (state.gamepad.isConnected) {
         const button = state.gamepad.buttons;
+        if (button && button[6] && button[6].pressed) {
+            data.push({
+                action: IGame.PlayerAction.ScaleDown,
+                value: button[6].value
+            });
+            return;
+        }
         if (button && button[1] && button[1].pressed) {
             data.push({
                 action: IGame.PlayerAction.ScaleDown,

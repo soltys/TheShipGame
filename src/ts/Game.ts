@@ -4,17 +4,19 @@ class Game {
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly state: IGame.IGameState;
     private gamepads: Gamepad[];
-    private gameWidth=0;
-    private gameHeight=0;
-    constructor(gameWidth:number, gameHeight:number) {
+    private gameWidth = 0;
+    private gameHeight = 0;
+    constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        
+
         this.stage = this.newStage()
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
-        
+
+        var engine = Matter.Engine.create();
+       
         this.state = {
             "keys": {},
             "clicks": {},
@@ -26,9 +28,14 @@ class Game {
             },
             "objects": [],
             "game": this,
-            debugSTAGE: this.stage
-
+            matter: {
+                engine: engine,
+                bodies: engine.world.bodies,
+                world: engine.world
+            }
         };
+    
+        Matter.Engine.run(engine);
     }
 
 
@@ -49,13 +56,29 @@ class Game {
             {
                 backgroundColor: IGame.Colors.Background,
                 antialias: true,
-                roundPixels:false,
-                resolution: 2,                
+                roundPixels: false,
+                resolution: 2,
             });
     }
 
     public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
+    }
+
+    public addMatterRendererToElement(element: HTMLElement): void {
+        var render = Matter.Render.create(<any>{
+            element: element,
+            engine: this.state.matter.engine,
+            options: {
+                width: this.gameWidth,
+                height: this.gameHeight,
+                hasBounds: true,
+                wireframes: false,
+                pixelRatio: 2,
+            }
+        });
+        
+        Matter.Render.run(render);
     }
 
     public animate() {

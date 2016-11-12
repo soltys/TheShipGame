@@ -1,5 +1,6 @@
 import '../scss/main.scss';
 import 'pixi.js';
+import * as Matter from 'matter-js';
 import Ship from './Ship';
 import Coin from './Coin';
 import Bullet from './Bullet';
@@ -8,6 +9,8 @@ import FPSCounter from './FPSCounter';
 import TextureLoader from './TextureLoader';
 
 import Game from './Game';
+
+(<any>window).Matter = Matter;
 /// <reference path="../../typings/index.d.ts" />
 /// <reference path="../local.d.ts" />
 const gameWidth = 250;
@@ -22,8 +25,6 @@ PIXI.loader
     .add('assets/animation/bullet.json')
     .load(onAssetsLoaded);
 function onAssetsLoaded() {
-
-
     const coinAnimation = createAnimation("coin", 7);
     const bulletAnimation = createAnimation("bullet", 2);
     game.addObject(new FPSCounter());
@@ -31,6 +32,7 @@ function onAssetsLoaded() {
     game.addObject(new Ship(bunnyTexture));
     game.addObject(new Coin(coinAnimation, 100, 100));
     game.addObject(new Bullet(bulletAnimation, 200, 100));
+    game.addMatterRendererToElement(document.getElementById("physicsHost"))
     game.addRendererToElement(document.getElementById("gameHost"));
     game.addEventListenerToElement(document.body);
     game.animate();
