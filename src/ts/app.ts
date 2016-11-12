@@ -34,7 +34,7 @@ function onAssetsLoaded() {
     game.addObject(new GameBorder());
     game.addObject(new Ship(bunnyTexture));
     game.addObject(new Coin(movie, 100, 100));
-    game.addRendererToElement(document.body);
+    game.addRendererToElement(document.getElementById("gameHost"));
     game.addEventListenerToElement(document.body);
     game.animate();
 }

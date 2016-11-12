@@ -15,12 +15,12 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
         this.fpsArray = [];
 
         this.textStyle = {
-            fontFamily: 'Consolas',
+            fontFamily: 'Fira Sans',
             fontSize: '16px',
             fontWeight: 'bold',
             fill: IGame.Colors.TextColor,
             stroke: IGame.Colors.TextOutlineColor,
-            strokeThickness: 5
+            strokeThickness: 2
         };
         this.fpsDisplay = new PIXI.Text('0 FPS', this.textStyle);
         this.fpsDisplay.x = 10;
@@ -39,7 +39,7 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
         this.lastCalledTime = new Date().getTime();
         fps = Math.ceil((1 / delta));
 
-        if (this.counter >= 10) {
+        if (this.counter >= 30) {
             var sum = this.fpsArray.reduce(function (a, b) { return a + b });
             var average = Math.ceil(sum / this.fpsArray.length);
             this.updateFPSDisplay(average);

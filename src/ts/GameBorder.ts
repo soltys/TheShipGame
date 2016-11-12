@@ -8,13 +8,18 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
     private upBorder: BoundingBox;
     private downBorder: BoundingBox;
     private graphics: PIXI.Graphics;
+    private wasDrawn: boolean = false;
+    private showBorders: boolean = true;
     constructor() {
         super();
         this.upBorder = new BoundingBox(new PIXI.Rectangle(0, 0, 500, 10))
         this.leftBorder = new BoundingBox(new PIXI.Rectangle(0, 0, 10, 500))
         this.rightBorder = new BoundingBox(new PIXI.Rectangle(390, 0, 10, 500))
         this.downBorder = new BoundingBox(new PIXI.Rectangle(0, 490, 500, 10))
-        this.graphics = new PIXI.Graphics();
+        if (this.showBorders) {
+            this.graphics = new PIXI.Graphics();
+        }
+
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
@@ -40,13 +45,17 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
         return data;
     }
 
-    update(delta: number, state: IGame.IGameState): void {        
+    update(delta: number, state: IGame.IGameState): void {
+        if (!this.showBorders || this.wasDrawn) {
+            return;
+        }
         this.graphics.beginFill(IGame.Colors.GameBorder, 1);
         const borders: BoundingBox[] = [this.upBorder, this.downBorder, this.leftBorder, this.rightBorder];
         for (let border of borders) {
             this.graphics.drawRect(border.x, border.y, border.width, border.height);
         }
         this.graphics.endFill();
+        this.wasDrawn = true;
     }
 
     get displayObject(): PIXI.DisplayObject {
