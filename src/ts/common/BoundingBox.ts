@@ -73,19 +73,27 @@ class BoundingBox {
         this.rectangle.y = value;
     }
 
+    get width() {
+        return this.rectangle.width
+    }
+
+    set width(value) {
+        this.rectangle.width = value;
+    }
+
+    get height() {
+        return this.rectangle.height;
+    }
+
+    set height(value) {
+        this.rectangle.height = value;
+    }
     constructor(rectangle: PIXI.Rectangle) {
         this.rectangle = rectangle;
     }
 
     update(state: Game.IGameState) {
-        /*
-        var graphics = new PIXI.Graphics();
-        graphics.lineStyle(2, 0xFF00FF, 1);
-        graphics.beginFill(0xFF00BB, 0.25);
-        graphics.drawRect(this.rectangle.x, this.rectangle.y, this.rectangle.width, this.rectangle.height);
-        graphics.endFill();
-        state.debugSTAGE.addChild(graphics);
-        */
+       
     }
 
     clone(): BoundingBox {

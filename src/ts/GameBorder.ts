@@ -1,18 +1,20 @@
 import GameObject from './common/GameObject';
 import BoundingBox from './common/BoundingBox';
 import * as IGame from './common/IGame';
-export default class GameBorder extends GameObject {
+export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
 
     private leftBorder: BoundingBox;
     private rightBorder: BoundingBox;
     private upBorder: BoundingBox;
     private downBorder: BoundingBox;
+    private graphics: PIXI.Graphics;
     constructor() {
         super();
         this.upBorder = new BoundingBox(new PIXI.Rectangle(0, 0, 500, 10))
         this.leftBorder = new BoundingBox(new PIXI.Rectangle(0, 0, 10, 500))
         this.rightBorder = new BoundingBox(new PIXI.Rectangle(390, 0, 10, 500))
         this.downBorder = new BoundingBox(new PIXI.Rectangle(0, 490, 500, 10))
+        this.graphics = new PIXI.Graphics();
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
@@ -31,14 +33,23 @@ export default class GameBorder extends GameObject {
         for (let border of borders) {
             if (border.collidesWith(boundingBox)) {
                 data.direction = border.collidesInDirection(border, boundingBox);
-                data.isColliding  = true;
+                data.isColliding = true;
                 return data;
             }
         }
         return data;
     }
 
-    update(delta: number, state: IGame.IGameState): void {
-      
+    update(delta: number, state: IGame.IGameState): void {        
+        this.graphics.beginFill(IGame.Colors.GameBorder, 1);
+        const borders: BoundingBox[] = [this.upBorder, this.downBorder, this.leftBorder, this.rightBorder];
+        for (let border of borders) {
+            this.graphics.drawRect(border.x, border.y, border.width, border.height);
+        }
+        this.graphics.endFill();
+    }
+
+    get displayObject(): PIXI.DisplayObject {
+        return this.graphics
     }
 }

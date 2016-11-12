@@ -19,17 +19,19 @@ class Game {
                 isConnected: false
             },
             "objects": [],
+            "game": this,
             debugSTAGE: this.stage
+
         };
     }
 
 
-    public addObject(object: IGame.IGameObject):void {
+    public addObject(object: IGame.IGameObject): void {
         this.state.objects.push(object);
 
         if ((<IGame.IGameDisplayObject>object).displayObject) {
             this.stage.addChild((<IGame.IGameDisplayObject>object).displayObject);
-        }        
+        }
     }
 
     private newStage() {
@@ -39,13 +41,13 @@ class Game {
     private newRenderer() {
         return PIXI.autoDetectRenderer(400, 500,
             {
-                backgroundColor: 0x1099bb,
+                backgroundColor: IGame.Colors.Background,
                 "antialias": true,
                 resolution: 1.5
             });
     }
 
-    public addRendererToElement(element: HTMLElement):void {
+    public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
     }
 
@@ -92,7 +94,7 @@ class Game {
         return this;
     }
 
-    public addEventListenerToElement(element):void {
+    public addEventListenerToElement(element): void {
         element.addEventListener("keydown", (event) => {
             this.state.keys[event.keyCode] = true;
         });

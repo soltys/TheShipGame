@@ -1,5 +1,4 @@
 import GameObject from './common/GameObject';
-import CharacterType from './common/CharacterType';
 import { PlayerAction, GetPlayerAction } from './PlayerAction';
 import BoundingBox from './common/BoundingBox';
 import * as IGame from './common/IGame';
@@ -12,7 +11,6 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private anchor: PIXI.ObservablePoint;
     private boundingBox: BoundingBox;
 
-
     private velocityX = 0;
     private maximumVelocityX = 10;
     private accelerationX = 2;
@@ -21,6 +19,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private velocityY = 0;
     private maximumVelocityY = 10;
     private accelerationY = 2;
+
+    private scaleFactor = 2;
 
     constructor(texture: PIXI.Texture) {
         super();
@@ -46,15 +46,25 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         tempBoundingBox.y += deltaY;
         let collisionData: IGame.ICollisionData = super.collideWith(this.boundingBox);
         state.objects.forEach(gameObject => {
-            if (gameObject.constructor.name === "GameBorder") {
-                collisionData = gameObject.collideWith(tempBoundingBox);
+            if (this === gameObject) {
+                return;
+            }
+
+            collisionData = gameObject.collideWith(tempBoundingBox);
+            if(!collisionData.isColliding){
+                return;
+            } 
+            if (collisionData.name === "GameBorder") {
                 if (collisionData.direction == IGame.CollisionDirection.Up || collisionData.direction == IGame.CollisionDirection.Down) {
                     deltaY = 0
                 }
                 if (collisionData.direction == IGame.CollisionDirection.Left || collisionData.direction == IGame.CollisionDirection.Right) {
                     deltaX = 0
                 }
+            }
 
+            if (collisionData.name === "Coin") {
+                console.log("I touched a coin");
             }
         });
 
@@ -64,7 +74,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBox.y += deltaY;
     }
 
-    private playerInput(playerActions: PlayerAction[], delta: number) {
+    private playerInput(playerActions: PlayerAction[], timeDelta: number) {
 
         if (_.includes(playerActions, PlayerAction.MoveLeft)) {
             this.velocityX = Math.max(
@@ -95,13 +105,20 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         }
 
         if (_.includes(playerActions, PlayerAction.ScaleUp)) {
-            this.shipSprite.width += 2 * delta;
-            this.shipSprite.height += 2 * delta;
+            this.shipSprite.width += this.scaleFactor * timeDelta;
+            this.shipSprite.height += this.scaleFactor * timeDelta;
+
+            this.boundingBox.width += this.scaleFactor * timeDelta;
+            this.boundingBox.height += this.scaleFactor * timeDelta;
+
         }
 
         if (_.includes(playerActions, PlayerAction.ScaleDown)) {
-            this.shipSprite.width += -2 * delta;
-            this.shipSprite.height += -2 * delta;
+            this.shipSprite.width += -this.scaleFactor * timeDelta;
+            this.shipSprite.height += -this.scaleFactor * timeDelta;
+
+            this.boundingBox.width += -this.scaleFactor * timeDelta;
+            this.boundingBox.height += -this.scaleFactor * timeDelta;
         }
     }
 

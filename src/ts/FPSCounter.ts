@@ -7,22 +7,22 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
     private fpsArray: Array<number>
 
     private fpsDisplay: PIXI.Text
-
+    private textStyle:Object;
 
     constructor() {
         super();
         this.counter = 0;
         this.fpsArray = [];
 
-        let style = {
+        this.textStyle = {
             fontFamily: 'Consolas',
             fontSize: '16px',
             fontWeight: 'bold',
-            fill: '#eee',
-            stroke: '#000',
+            fill: IGame.Colors.TextColor,
+            stroke: IGame.Colors.TextOutlineColor,
             strokeThickness: 5
         };
-        this.fpsDisplay = new PIXI.Text('0 FPS', style);
+        this.fpsDisplay = new PIXI.Text('0 FPS', this.textStyle);
         this.fpsDisplay.x = 10;
         this.fpsDisplay.y = 10;
     }
