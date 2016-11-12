@@ -4,11 +4,17 @@ class Game {
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly state: IGame.IGameState;
     private gamepads: Gamepad[];
-    constructor() {
+    private gameWidth=0;
+    private gameHeight=0;
+    constructor(gameWidth:number, gameHeight:number) {
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
+        
         this.stage = this.newStage()
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
+        
         this.state = {
             "keys": {},
             "clicks": {},
@@ -39,11 +45,12 @@ class Game {
     }
 
     private newRenderer() {
-        return PIXI.autoDetectRenderer(400, 500,
+        return PIXI.autoDetectRenderer(this.gameWidth, this.gameHeight,
             {
                 backgroundColor: IGame.Colors.Background,
-                "antialias": true,
-                resolution: 1.5
+                antialias: true,
+                roundPixels:false,
+                resolution: 2,                
             });
     }
 
@@ -87,6 +94,7 @@ class Game {
             });
 
             this.renderer.render(this.stage);
+
         };
 
         requestAnimationFrame(caller);

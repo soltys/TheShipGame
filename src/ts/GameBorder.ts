@@ -10,12 +10,13 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
     private graphics: PIXI.Graphics;
     private wasDrawn: boolean = false;
     private showBorders: boolean = true;
-    constructor() {
+    private borderSize = 5;
+    constructor(gameWidth: number, gameHeight: number) {
         super();
-        this.upBorder = new BoundingBox(new PIXI.Rectangle(0, 0, 500, 10))
-        this.leftBorder = new BoundingBox(new PIXI.Rectangle(0, 0, 10, 500))
-        this.rightBorder = new BoundingBox(new PIXI.Rectangle(390, 0, 10, 500))
-        this.downBorder = new BoundingBox(new PIXI.Rectangle(0, 490, 500, 10))
+        this.upBorder = new BoundingBox(new PIXI.Rectangle(0, 0, gameWidth, this.borderSize))
+        this.leftBorder = new BoundingBox(new PIXI.Rectangle(0, 0, this.borderSize, gameHeight))
+        this.rightBorder = new BoundingBox(new PIXI.Rectangle(gameWidth - this.borderSize, 0, this.borderSize, gameHeight))
+        this.downBorder = new BoundingBox(new PIXI.Rectangle(0, gameHeight - this.borderSize, gameWidth, this.borderSize))
         if (this.showBorders) {
             this.graphics = new PIXI.Graphics();
         }

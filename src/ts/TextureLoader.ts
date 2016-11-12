@@ -21,7 +21,7 @@ class TextureLoader {
             return this.textureDictionry["name"];
         }
         else {
-            const texture = PIXI.Texture.fromImage(`assets/${name}`);
+            const texture = PIXI.Texture.fromImage(`assets/${name}`, undefined, PIXI.SCALE_MODES.NEAREST);
             this.textureDictionry.add(name, texture);
             return texture;
         }
