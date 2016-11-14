@@ -3,58 +3,37 @@ import BoundingBox from './common/BoundingBox';
 import * as IGame from './common/IGame';
 export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
 
-    private leftBorder: BoundingBox;
-    private rightBorder: BoundingBox;
-    private upBorder: BoundingBox;
-    private downBorder: BoundingBox;
+    private border: BoundingBox;
     private graphics: PIXI.Graphics;
     private wasDrawn: boolean = false;
     private showBorders: boolean = true;
-    private borderSize = 5;
-    constructor(gameWidth: number, gameHeight: number) {
+
+    constructor(rect: PIXI.Rectangle) {
         super();
-        this.upBorder = new BoundingBox(new PIXI.Rectangle(0, 0, gameWidth, this.borderSize))
-        this.leftBorder = new BoundingBox(new PIXI.Rectangle(0, 0, this.borderSize, gameHeight))
-        this.rightBorder = new BoundingBox(new PIXI.Rectangle(gameWidth - this.borderSize, 0, this.borderSize, gameHeight))
-        this.downBorder = new BoundingBox(new PIXI.Rectangle(0, gameHeight - this.borderSize, gameWidth, this.borderSize))
+        this.border = new BoundingBox(rect);
+
         if (this.showBorders) {
             this.graphics = new PIXI.Graphics();
         }
-
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        var data = this.checkCollision(boundingBox);
+        var data =  super.checkCollision(this.border, boundingBox);
         return {
             name: this.constructor.name,
             isColliding: data.isColliding,
-            direction: data.direction
+            direction: data.direction,
+            collisionBox: data.collisionBox
         }
     }
 
-    private checkCollision(boundingBox: BoundingBox): { isColliding: boolean; direction: IGame.CollisionDirection; } {
-        let data = { isColliding: false, direction: IGame.CollisionDirection.Unknown };
-
-        const borders: BoundingBox[] = [this.upBorder, this.downBorder, this.leftBorder, this.rightBorder];
-        for (let border of borders) {
-            if (border.collidesWith(boundingBox)) {
-                data.direction = border.collidesInDirection(border, boundingBox);
-                data.isColliding = true;
-                return data;
-            }
-        }
-        return data;
-    }
-
+   
     update(delta: number, state: IGame.IGameState): void {
         if (!this.showBorders || this.wasDrawn) {
             return;
         }
         this.graphics.beginFill(IGame.Colors.GameBorder, 1);
-        const borders: BoundingBox[] = [this.upBorder, this.downBorder, this.leftBorder, this.rightBorder];
-        for (let border of borders) {
-            this.graphics.drawRect(border.x, border.y, border.width, border.height);
-        }
+        this.graphics.drawRect(this.border.x, this.border.y, this.border.width, this.border.height);
         this.graphics.endFill();
         this.wasDrawn = true;
     }

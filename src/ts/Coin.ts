@@ -25,24 +25,24 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
 
     }
 
-    collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        var data = this.checkCollision(boundingBox);
-        return {
-            name: this.constructor.name,
-            isColliding: data.isColliding,
-            direction: data.direction
-        }
-    }
-    private checkCollision(boundingBox: BoundingBox): { isColliding: boolean; direction: IGame.CollisionDirection; } {
-        let data = { isColliding: false, direction: IGame.CollisionDirection.Unknown };
-        if (this.box.collidesWith(boundingBox)) {
-            data.direction = this.box.collidesInDirection(this.box, boundingBox);
-            data.isColliding = true;
-            return data;
-        }
+    update(timeDelta: number, state: IGame.IGameState) {
+        state.objects.forEach(gameObject => {
+            if (this === gameObject) {
+                return;
+            }
 
-        return data;
+            //Current Colision
+            const collisionData = gameObject.collideWith(this.box);
+            if (collisionData.isColliding && collisionData.name === "Ship") {
+                state.score.addToScore(10);
+             
+                state.game.removeObject(this);
+            }
+        });
     }
+
+
+
 
     get displayObject(): PIXI.DisplayObject {
         return this.coinAnimation;

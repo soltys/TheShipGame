@@ -51,8 +51,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "lodash": "^4.16.6",
-    "matter-js": "^0.11.1",
+    "lodash": "^4.16.6",    
     "normalize-scss": "^6.0.0",
     "pixi.js": "^4.1.1"
   }

@@ -10,7 +10,6 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private position: PIXI.Point;
     private anchor: PIXI.ObservablePoint;
     private boundingBox: BoundingBox;
-
     private velocityX = 0;
     private maximumVelocityX = 10;
     private accelerationX = 1;
@@ -27,6 +26,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     private maxWidth = 75;
     private maxHeight = 75;
+
+    private graphics: PIXI.Graphics;
     constructor(texture: PIXI.Texture) {
         super();
         this.shipSprite = new PIXI.Sprite(texture);
@@ -34,9 +35,29 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBox = new BoundingBox(new PIXI.Rectangle(
             200, 150, 32, 32
         ))
+
+
+
+    }
+
+    init(state: IGame.IGameState): void {
+
+    }
+
+    collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
+        var data = super.checkCollision(this.boundingBox, boundingBox);
+        return {
+            name: this.constructor.name,
+            isColliding: data.isColliding,
+            direction: data.direction,
+            collisionBox: this.boundingBox
+        }
     }
 
     update(timeDelta: number, state: IGame.IGameState) {
+
+
+
         const playerActions = GetPlayerAction(state);
         this.playerInput(playerActions, timeDelta);
 
@@ -49,34 +70,40 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         let tempBoundingBox = this.boundingBox.clone();
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
+
         let collisionData: IGame.ICollisionData = super.collideWith(this.boundingBox);
         state.objects.forEach(gameObject => {
             if (this === gameObject) {
                 return;
             }
 
+            //Future colision
             collisionData = gameObject.collideWith(tempBoundingBox);
-            if (!collisionData.isColliding) {
-                return;
-            }
-            if (collisionData.name === "GameBorder") {
-                if (collisionData.direction == IGame.CollisionDirection.Up || collisionData.direction == IGame.CollisionDirection.Down) {
-                    deltaY = 0
+
+            if (collisionData.isColliding && collisionData.name === "GameBorder") {
+
+                if (collisionData.direction == IGame.CollisionDirection.Up) {
+                    deltaY = Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - this.boundingBox.y);
                 }
-                if (collisionData.direction == IGame.CollisionDirection.Left || collisionData.direction == IGame.CollisionDirection.Right) {
-                    deltaX = 0
+                if (collisionData.direction == IGame.CollisionDirection.Down) {
+                    deltaY = - Math.abs((collisionData.collisionBox.y - collisionData.collisionBox.height) - (this.boundingBox.y + this.boundingBox.height));
+                }
+                if (collisionData.direction == IGame.CollisionDirection.Left) {
+                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - this.boundingBox.x);
+                }
+                if (collisionData.direction == IGame.CollisionDirection.Right) {
+                    deltaX = -Math.abs((collisionData.collisionBox.x - collisionData.collisionBox.width) - (this.boundingBox.x + this.boundingBox.width));
                 }
             }
 
-            if (collisionData.name === "Coin") {
-                console.log("I touched a coin");
-            }
+
         });
-
         this.shipSprite.x += deltaX;
         this.shipSprite.y += deltaY;
         this.boundingBox.x += deltaX;
         this.boundingBox.y += deltaY;
+
+
     }
 
     private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number) {
@@ -112,7 +139,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleUp))
         if (scaleUp) {
             const newWidth = this.shipSprite.width + this.scaleFactor * timeDelta * scaleUp.value;
-            const newHeight = this.shipSprite.height + this.scaleFactor * timeDelta *scaleUp.value;
+            const newHeight = this.shipSprite.height + this.scaleFactor * timeDelta * scaleUp.value;
 
             if (newHeight < this.maxHeight || newWidth < this.maxWidth) {
                 this.shipSprite.width = newWidth
