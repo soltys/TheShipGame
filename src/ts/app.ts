@@ -31,9 +31,6 @@ PIXI.loader
 
 
 function onAssetsLoaded(load, res) {
-    console.log(load);
-    console.log(res);
-
     const coinAnimationFrames = createAnimation("coin", 7);
     const bulletAnimationFrames = createAnimation("bullet", 2);
 
