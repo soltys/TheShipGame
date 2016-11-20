@@ -14,8 +14,8 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
     }
 
 
-    get displayObject(): PIXI.DisplayObject {
-        return this.bulletAnimation;
+    get displayObjects(): PIXI.DisplayObject[] {
+        return [this.bulletAnimation];
     }
 
 } 

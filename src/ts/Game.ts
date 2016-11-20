@@ -33,14 +33,15 @@ class Game {
     }
 
     public removeObject(gameObject: IGame.IGameObject): void {
-
-        if ((<IGame.IGameDisplayObject>gameObject).displayObject) {
-            this.stage.removeChild((<IGame.IGameDisplayObject>gameObject).displayObject);
+        const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
+        if (displayObjects) {
+            for (const displayObject of displayObjects)
+                this.stage.removeChild(displayObject);
         }
 
         var index = _.indexOf(this.state.objects, gameObject);
         this.state.objects.splice(index, 1);
-        
+
 
     }
 
@@ -48,9 +49,12 @@ class Game {
         gameObject.init(this.state);
 
         this.state.objects.push(gameObject);
+        const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
+        if (displayObjects) {
+            for (const displayObject of displayObjects) {
+                this.stage.addChild(displayObject);
+            }
 
-        if ((<IGame.IGameDisplayObject>gameObject).displayObject) {
-            this.stage.addChild((<IGame.IGameDisplayObject>gameObject).displayObject);
         }
     }
 

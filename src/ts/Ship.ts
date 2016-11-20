@@ -7,6 +7,10 @@ import * as _ from 'lodash';
 export default class Ship extends GameObject implements IGame.IGameDisplayObject {
 
     private shipSprite: PIXI.Sprite;
+    private normalShipTexture: PIXI.Texture;
+    private leftShipTexture: PIXI.Texture;
+    private rightShipTexture: PIXI.Texture;
+
     private position: PIXI.Point;
     private anchor: PIXI.ObservablePoint;
     private boundingBox: BoundingBox;
@@ -28,9 +32,13 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private maxHeight = 75;
 
     private graphics: PIXI.Graphics;
-    constructor(texture: PIXI.Texture) {
+    constructor(texture: PIXI.Texture, textureToLeft: PIXI.Texture, textureToRight: PIXI.Texture) {
         super();
         this.shipSprite = new PIXI.Sprite(texture);
+        this.normalShipTexture = texture;
+        this.leftShipTexture = textureToLeft;
+        this.rightShipTexture = textureToRight;
+
         this.shipSprite.position.set(200, 150);
         this.boundingBox = new BoundingBox(new PIXI.Rectangle(
             200, 150, 32, 32
@@ -54,11 +62,11 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         }
     }
 
-    update(timeDelta: number, state: IGame.IGameContext) {
+    update(timeDelta: number, context: IGame.IGameContext) {
 
 
 
-        const playerActions = GetPlayerAction(state);
+        const playerActions = GetPlayerAction(context);
         this.playerInput(playerActions, timeDelta);
 
         this.velocityX *= (1 - this.frictionX);
@@ -72,7 +80,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         tempBoundingBox.y += deltaY;
 
         let collisionData: IGame.ICollisionData = super.collideWith(this.boundingBox);
-        state.objects.forEach(gameObject => {
+        context.objects.forEach(gameObject => {
             if (this === gameObject) {
                 return;
             }
@@ -107,12 +115,14 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     }
 
     private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number) {
+        this.shipSprite.texture = this.normalShipTexture;
         let moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveLeft))
         if (moveLeft) {
             this.velocityX = Math.max(
                 (this.velocityX - this.accelerationX) * moveLeft.value,
                 this.maximumVelocityX * -1
             );
+             this.shipSprite.texture = this.leftShipTexture;
         }
 
         if (_.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveRight))) {
@@ -120,6 +130,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 this.velocityX + this.accelerationX,
                 this.maximumVelocityX
             );
+            this.shipSprite.texture = this.rightShipTexture;
         }
         const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveUp))
         if (moveUp) {
@@ -162,8 +173,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         }
     }
 
-    get displayObject() {
-        return this.shipSprite
+    get displayObjects() {
+        return [this.shipSprite];
     }
 
 } 

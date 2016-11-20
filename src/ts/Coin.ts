@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 export default class Coin extends GameObject implements IGame.IGameDisplayObject {
     private coinAnimation: PIXI.extras.MovieClip
     private box: BoundingBox;
-    private coinWidth = 16;
-    private coinHeight = 16;
+    private coinWidth = 8;
+    private coinHeight = 8;
     /**
      *
      */
@@ -25,8 +25,8 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
 
     }
 
-    update(timeDelta: number, state: IGame.IGameContext) {
-        state.objects.forEach(gameObject => {
+    update(timeDelta: number, context: IGame.IGameContext) {
+        context.objects.forEach(gameObject => {
             if (this === gameObject) {
                 return;
             }
@@ -34,9 +34,9 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
             //Current Colision
             const collisionData = gameObject.collideWith(this.box);
             if (collisionData.isColliding && collisionData.name === "Ship") {
-                state.score.addToScore(10);
+                context.score.addToScore(10);
              
-                state.game.removeObject(this);
+                context.game.removeObject(this);
             }
         });
     }
@@ -44,8 +44,8 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
 
 
 
-    get displayObject(): PIXI.DisplayObject {
-        return this.coinAnimation;
+    get displayObjects(): PIXI.DisplayObject[] {
+        return [this.coinAnimation];
     }
 
 } 

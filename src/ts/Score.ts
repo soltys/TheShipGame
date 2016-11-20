@@ -82,7 +82,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         return pad + str;
     }
 
-    get displayObject(): PIXI.DisplayObject {
-        return this.scoreDisplay
+    get displayObjects(): PIXI.DisplayObject[] {
+        return [this.scoreDisplay];
     }
 }

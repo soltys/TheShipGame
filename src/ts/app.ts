@@ -1,3 +1,5 @@
+/// <reference path="../../typings/index.d.ts" />
+
 import '../scss/main.scss';
 import 'pixi.js';
 
@@ -12,32 +14,39 @@ import TextureLoader from './TextureLoader';
 import Game from './Game';
 
 
-/// <reference path="../../typings/index.d.ts" />
-/// <reference path="../local.d.ts" />
-const gameWidth = 250;
+
+const gameWidth = 300;
 const gameHeight = 350;
 const game = new Game(gameWidth, gameHeight);
 
 
-const texLoader = new TextureLoader();
-const bunnyTexture = texLoader.addOrGet('ship.png');
+
 PIXI.loader
     .add('assets/animation/coin.json')
     .add('assets/animation/bullet.json')
+    .add('assets/ship_to_left.png')
+    .add('assets/ship_to_right.png')
+    .add('assets/ship.png')
     .load(onAssetsLoaded);
-function onAssetsLoaded() {
+
+
+function onAssetsLoaded(load, res) {
+    console.log(load);
+    console.log(res);
+
     const coinAnimationFrames = createAnimation("coin", 7);
     const bulletAnimationFrames = createAnimation("bullet", 2);
+
     game.addObject(new FPSCounter());
     for (let border of getGameBorders()) {
         game.addObject(border);
     }
 
-    game.addObject(new Ship(bunnyTexture));
+    game.addObject(new Ship(createTexture('ship.png'), createTexture('ship_to_left.png'), createTexture('ship_to_right.png')));
     game.addObject(new Score(gameWidth));
-    
+
     setInterval(function () {
-        game.addObject(new Coin(new PIXI.extras.MovieClip(coinAnimationFrames), getRandomInt(20,gameWidth-20), getRandomInt(20,gameHeight-20)));
+        game.addObject(new Coin(new PIXI.extras.MovieClip(coinAnimationFrames), getRandomInt(20, gameWidth - 20), getRandomInt(20, gameHeight - 20)));
     }, 1000);
     //game.addObject(new Bullet(bulletAnimation, 200, 100));
     game.addRendererToElement(document.getElementById("gameHost"));
@@ -45,7 +54,15 @@ function onAssetsLoaded() {
     game.animate();
 }
 
-function createAnimation(name: string, frameNumber: number): any[]  {
+
+function createTexture(name: string) {
+    const texture = PIXI.Texture.fromImage(`assets/${name}`, undefined, PIXI.SCALE_MODES.NEAREST);
+    texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    return texture;
+}
+
+
+function createAnimation(name: string, frameNumber: number): any[] {
     const frames = [];
 
     for (var i = 0; i < frameNumber; i++) {

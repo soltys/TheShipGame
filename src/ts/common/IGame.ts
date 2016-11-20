@@ -91,7 +91,7 @@ export interface IGameObject {
 }
 
 export interface IGameDisplayObject extends IGameObject {
-    readonly displayObject: PIXI.DisplayObject
+    readonly displayObjects: PIXI.DisplayObject[]
 }
 
 export interface IDictionary {

@@ -53,8 +53,8 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
         }
     }
 
-    get displayObject(): PIXI.DisplayObject {
-        return this.fpsDisplay;
+    get displayObjects(): PIXI.DisplayObject[] {
+        return [this.fpsDisplay];
     }
 
     private updateFPSDisplay(fps: number) {

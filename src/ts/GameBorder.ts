@@ -38,7 +38,7 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
         this.wasDrawn = true;
     }
 
-    get displayObject(): PIXI.DisplayObject {
-        return this.graphics
+    get displayObjects(): PIXI.DisplayObject[] {
+        return [this.graphics];
     }
 }
