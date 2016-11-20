@@ -40,7 +40,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     }
 
-    init(state: IGame.IGameState): void {
+    init(state: IGame.IGameContext): void {
 
     }
 
@@ -54,7 +54,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         }
     }
 
-    update(timeDelta: number, state: IGame.IGameState) {
+    update(timeDelta: number, state: IGame.IGameContext) {
 
 
 

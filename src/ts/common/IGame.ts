@@ -53,7 +53,7 @@ export interface IPlayerActionData {
     action: PlayerAction;
     value: number;
 }
-export interface IGameState {
+export interface IGameContext {
     keys: Object;
     clicks: Object;
     mouse: IMousePosition;
@@ -85,8 +85,8 @@ export interface ICollisionData {
 }
 
 export interface IGameObject {
-    init(state: IGameState): void;
-    update(delta: number, state: IGameState): void;
+    init(state: IGameContext): void;
+    update(delta: number, state: IGameContext): void;
     collideWith(boundingBox: BoundingBox): ICollisionData;
 }
 

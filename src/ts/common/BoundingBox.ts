@@ -92,7 +92,7 @@ class BoundingBox {
         this.rectangle = rectangle;
     }
 
-    update(state: Game.IGameState) {
+    update(state: Game.IGameContext) {
        
     }
 

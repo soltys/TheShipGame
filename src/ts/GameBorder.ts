@@ -28,7 +28,7 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
     }
 
    
-    update(delta: number, state: IGame.IGameState): void {
+    update(delta: number, state: IGame.IGameContext): void {
         if (!this.showBorders || this.wasDrawn) {
             return;
         }

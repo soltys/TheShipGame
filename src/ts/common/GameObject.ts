@@ -1,10 +1,10 @@
 import BoundingBox from './BoundingBox';
 import * as IGame from './IGame';
 export default class GameObject implements IGame.IGameObject {
-    init(state: IGame.IGameState): void {
+    init(state: IGame.IGameContext): void {
 
     }
-    update(delta: number, state: IGame.IGameState): void {
+    update(delta: number, state: IGame.IGameContext): void {
 
     }
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {

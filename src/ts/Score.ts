@@ -23,7 +23,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         this.scoreDisplay.x = gameWidth/2 - this.scoreDisplay.width/2;
     }
 
-    init(state:IGame.IGameState):void{
+    init(state:IGame.IGameContext):void{
         state.score = this;
     }
 

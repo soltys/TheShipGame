@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 class Game {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private readonly state: IGame.IGameState;
+    private readonly state: IGame.IGameContext;
     private gamepads: Gamepad[];
     private gameWidth = 0;
     private gameHeight = 0;
