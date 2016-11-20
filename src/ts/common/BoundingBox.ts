@@ -48,11 +48,11 @@ class BoundingBox {
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetLeft) {
-            return Game.CollisionDirection.Left
+            return Game.CollisionDirection.Right
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetRight) {
-            return Game.CollisionDirection.Right;
+            return Game.CollisionDirection.Left;
         }
 
         return Game.CollisionDirection.Unknown
@@ -92,7 +92,7 @@ class BoundingBox {
         this.rectangle = rectangle;
     }
 
-    update(state: Game.IGameState) {
+    update(state: Game.IGameContext) {
        
     }
 

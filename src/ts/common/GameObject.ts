@@ -1,14 +1,29 @@
 import BoundingBox from './BoundingBox';
-import * as Game from './IGame';
-export default class GameObject implements Game.IGameObject {
-    update(delta: number, state: Game.IGameState): void {
+import * as IGame from './IGame';
+export default class GameObject implements IGame.IGameObject {
+    init(state: IGame.IGameContext): void {
 
     }
-    collideWith(boundingBox: BoundingBox): Game.ICollisionData {
-        var data: Game.ICollisionData = {
+    update(delta: number, state: IGame.IGameContext): void {
+
+    }
+    collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
+        var data: IGame.ICollisionData = {
             isColliding: false,
-            direction: Game.CollisionDirection.Unknown,
-            name: ""
+            direction: IGame.CollisionDirection.Unknown,
+            name: "",
+            collisionBox: null
+        }
+        return data;
+    }
+
+    checkCollision(me: BoundingBox, boundingBox: BoundingBox): { isColliding: boolean; direction: IGame.CollisionDirection; collisionBox: BoundingBox } {
+        let data = { isColliding: false, direction: IGame.CollisionDirection.Unknown, collisionBox: null };
+        if (me.collidesWith(boundingBox)) {
+            data.direction = me.collidesInDirection(me, boundingBox);
+            data.isColliding = true;
+            data.collisionBox = me;
+            return data;
         }
         return data;
     }

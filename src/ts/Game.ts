@@ -1,8 +1,9 @@
 import * as IGame from './common/IGame';
+import * as _ from 'lodash';
 class Game {
-    private readonly stage: PIXI.Container;
+    public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private readonly state: IGame.IGameState;
+    private readonly state: IGame.IGameContext;
     private gamepads: Gamepad[];
     private gameWidth = 0;
     private gameHeight = 0;
@@ -15,8 +16,6 @@ class Game {
         this.renderer = this.newRenderer();
         this.gamepads = [];
 
-        var engine = Matter.Engine.create();
-       
         this.state = {
             "keys": {},
             "clicks": {},
@@ -28,22 +27,34 @@ class Game {
             },
             "objects": [],
             "game": this,
-            matter: {
-                engine: engine,
-                bodies: engine.world.bodies,
-                world: engine.world
-            }
+            "score": null
         };
-    
-        Matter.Engine.run(engine);
+
     }
 
+    public removeObject(gameObject: IGame.IGameObject): void {
+        const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
+        if (displayObjects) {
+            for (const displayObject of displayObjects)
+                this.stage.removeChild(displayObject);
+        }
 
-    public addObject(object: IGame.IGameObject): void {
-        this.state.objects.push(object);
+        var index = _.indexOf(this.state.objects, gameObject);
+        this.state.objects.splice(index, 1);
 
-        if ((<IGame.IGameDisplayObject>object).displayObject) {
-            this.stage.addChild((<IGame.IGameDisplayObject>object).displayObject);
+
+    }
+
+    public addObject(gameObject: IGame.IGameObject): void {
+        gameObject.init(this.state);
+
+        this.state.objects.push(gameObject);
+        const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
+        if (displayObjects) {
+            for (const displayObject of displayObjects) {
+                this.stage.addChild(displayObject);
+            }
+
         }
     }
 
@@ -63,22 +74,6 @@ class Game {
 
     public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
-    }
-
-    public addMatterRendererToElement(element: HTMLElement): void {
-        var render = Matter.Render.create(<any>{
-            element: element,
-            engine: this.state.matter.engine,
-            options: {
-                width: this.gameWidth,
-                height: this.gameHeight,
-                hasBounds: true,
-                wireframes: false,
-                pixelRatio: 2,
-            }
-        });
-        
-        Matter.Render.run(render);
     }
 
     public animate() {
@@ -122,7 +117,6 @@ class Game {
 
         requestAnimationFrame(caller);
 
-        return this;
     }
 
     public addEventListenerToElement(element): void {

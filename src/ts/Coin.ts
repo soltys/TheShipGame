@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 export default class Coin extends GameObject implements IGame.IGameDisplayObject {
     private coinAnimation: PIXI.extras.MovieClip
     private box: BoundingBox;
-    private coinWidth = 16;
-    private coinHeight = 16;
+    private coinWidth = 8;
+    private coinHeight = 8;
     /**
      *
      */
@@ -25,27 +25,27 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
 
     }
 
-    collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        var data = this.checkCollision(boundingBox);
-        return {
-            name: this.constructor.name,
-            isColliding: data.isColliding,
-            direction: data.direction
-        }
-    }
-    private checkCollision(boundingBox: BoundingBox): { isColliding: boolean; direction: IGame.CollisionDirection; } {
-        let data = { isColliding: false, direction: IGame.CollisionDirection.Unknown };
-        if (this.box.collidesWith(boundingBox)) {
-            data.direction = this.box.collidesInDirection(this.box, boundingBox);
-            data.isColliding = true;
-            return data;
-        }
+    update(timeDelta: number, context: IGame.IGameContext) {
+        context.objects.forEach(gameObject => {
+            if (this === gameObject) {
+                return;
+            }
 
-        return data;
+            //Current Colision
+            const collisionData = gameObject.collideWith(this.box);
+            if (collisionData.isColliding && collisionData.name === "Ship") {
+                context.score.addToScore(10);
+             
+                context.game.removeObject(this);
+            }
+        });
     }
 
-    get displayObject(): PIXI.DisplayObject {
-        return this.coinAnimation;
+
+
+
+    get displayObjects(): PIXI.DisplayObject[] {
+        return [this.coinAnimation];
     }
 
 } 

@@ -1,11 +1,18 @@
 declare class BoundingBox {
-
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 }
 
 declare class Game {
-
+    stage: PIXI.Container
+    removeObject(gameObject: IGameObject): void ;
+    addObject(gameObject: IGameObject): void 
 }
-
+declare class Score{
+    public addToScore(value:number):void;
+}
 export class Colors {
     static get GameBorder(): number {
         return 0xFF00BB;
@@ -42,26 +49,21 @@ export enum PlayerAction {
     ScaleDown,
 }
 
-export interface IPlayerActionData{
+export interface IPlayerActionData {
     action: PlayerAction;
     value: number;
 }
-export interface IGameState {
+export interface IGameContext {
     keys: Object;
     clicks: Object;
     mouse: IMousePosition;
     objects: Array<IGameObject>;
-    gamepad: IGamepadData;    
+    gamepad: IGamepadData;
     game: Game;
-
-    matter: IMatter;
+    score: Score;
 }
 
-export interface IMatter{
-    engine:  Matter.Engine,    
-    world:  Matter.World,
-    bodies:  Matter.Bodies,
-}
+
 
 export interface IMousePosition {
     clientX: number;
@@ -78,17 +80,18 @@ export interface IGamepadData {
 export interface ICollisionData {
     name: string,
     isColliding: boolean,
-    direction: CollisionDirection
-
+    direction: CollisionDirection,
+    collisionBox: BoundingBox,
 }
 
 export interface IGameObject {
-    update(delta: number, state: IGameState): void;
+    init(state: IGameContext): void;
+    update(delta: number, state: IGameContext): void;
     collideWith(boundingBox: BoundingBox): ICollisionData;
 }
 
 export interface IGameDisplayObject extends IGameObject {
-    readonly displayObject: PIXI.DisplayObject
+    readonly displayObjects: PIXI.DisplayObject[]
 }
 
 export interface IDictionary {
