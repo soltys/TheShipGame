@@ -12,7 +12,7 @@
     "test": "karma start karma.conf.js",
     "tslint": "tslint",
     "stylelint": "stylelint",
-    "server": "webpack-dev-server -d --devtool --inline  --content-base --client-log-level warning --env.dev",
+    "server": "webpack-dev-server -d  --inline  --content-base --client-log-level warning --env.dev",
     "start": "npm run server",
     "build": "webpack --progress --colors --display-modules",
     "tsd": "tsd"
@@ -20,6 +20,12 @@
   "author": "Ryan Ruan",
   "license": "MIT",
   "devDependencies": {
+    "@types/assertion-error": "^1.0.30",
+    "@types/chai": "^3.4.34",
+    "@types/karma": "^0.13.33",
+    "@types/lodash": "^4.14.39",
+    "@types/mocha": "^2.2.33",
+    "@types/node": "^6.0.49",
     "autoprefixer": "^6.5.1",
     "awesome-typescript-loader": "^2.2.4",
     "chai": "^3.5.0",
@@ -41,17 +47,16 @@
     "stylelint-config-standard": "^14.0.0",
     "stylelint-webpack-plugin": "^0.4.0",
     "ts-loader": "^0.9.5",
-    "tsd": "^0.6.5",
     "tslint": "^3.15.1",
     "tslint-eslint-rules": "^2.1.0",
     "tslint-loader": "^2.1.5",
-    "typescript": "^2.0.6",
-    "typings": "^1.5.0",
+    "typescript": "^2.0.6",    
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "lodash": "^4.16.6",    
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.16.6",
     "normalize-scss": "^6.0.0",
     "pixi.js": "^4.1.1"
   }

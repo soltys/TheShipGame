@@ -1,5 +1,3 @@
-/// <reference path="../../typings/index.d.ts" />
-
 import '../scss/main.scss';
 import 'pixi.js';
 
