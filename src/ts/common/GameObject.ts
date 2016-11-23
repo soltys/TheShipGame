@@ -8,7 +8,7 @@ export default class GameObject implements IGame.IGameObject {
 
     }
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        var data: IGame.ICollisionData = {
+        const data: IGame.ICollisionData = {
             isColliding: false,
             direction: IGame.CollisionDirection.Unknown,
             name: "",

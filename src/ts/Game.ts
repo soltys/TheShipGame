@@ -35,16 +35,14 @@ class Game {
     public removeObject(gameObject: IGame.IGameObject): void {
         const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
         if (displayObjects) {
-            for (const displayObject of displayObjects){
+            for (const displayObject of displayObjects) {
                 this.stage.removeChild(displayObject);
             }
-                
+
         }
 
-        var index = _.indexOf(this.state.objects, gameObject);
+        const index = _.indexOf(this.state.objects, gameObject);
         this.state.objects.splice(index, 1);
-
-
     }
 
     public addObject(gameObject: IGame.IGameObject): void {
@@ -85,12 +83,12 @@ class Game {
         let start = Date.now();
         //Set the frame duration in milliseconds
         const frameDuration = 1000 / fps;
-        
 
-        var caller = () => {
+
+        const caller = () => {
             requestAnimationFrame(caller);
 
-            var current = Date.now(),
+            const current = Date.now(),
                 elapsed = current - start;
             start = current;
             //Add the elapsed time to the lag counter
@@ -99,8 +97,7 @@ class Game {
             this.gamepads = navigator.getGamepads() || [];
 
             this.state.gamepad.isConnected = false;
-            for (let i = 0; i < this.gamepads.length; i++) {
-                const gamepad = this.gamepads[i];
+            for (const gamepad of this.gamepads) {
                 if (gamepad) {
                     this.state.gamepad.isConnected = true;
                     this.state.gamepad.axes = gamepad.axes;

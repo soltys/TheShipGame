@@ -1,14 +1,24 @@
 {
   "rules": {
     "no-unused-expression": true,
-    "no-duplicate-variable": true,   
-    "no-unused-variable": true,
+    "no-duplicate-variable": true,    
     "curly": true,
     "class-name": true,
+    "no-reference":true,
+    "prefer-for-of":true,
     "semicolon": [
       "always"
     ],
-    "triple-equals": true   
-
+    "triple-equals": true,    
+    "no-var-keyword":true,
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "log",
+      "time",
+      "timeEnd",
+      "trace"
+    ]
   }
 }

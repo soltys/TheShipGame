@@ -5,7 +5,10 @@
     "sourceMap": true,
      "typeRoots": [
       "./node_modules/@types"
-    ]    
+    ],
+    "noUnusedLocals": true,    
+    "inlineSources": true,
+    "noImplicitReturns": true    
   },
   "exclude": [
     "node_modules"    

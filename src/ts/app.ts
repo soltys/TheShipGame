@@ -52,8 +52,8 @@ function createTexture(name: string) {
 function createAnimation(name: string, frameNumber: number): any[] {
     const frames = [];
 
-    for (var i = 0; i < frameNumber; i++) {
-        var val = i.toString();
+    for (let i = 0; i < frameNumber; i++) {
+        const val = i.toString();
 
         // magically works since the spritesheet was loaded with the pixi loader
         const tex = PIXI.Texture.fromFrame(`${name}_animation_${val}.png`);

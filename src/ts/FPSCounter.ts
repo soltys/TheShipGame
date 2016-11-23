@@ -28,20 +28,20 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
     }
 
     public update() {
-        var fps;
+        let fps;
 
         if (!this.lastCalledTime) {
             this.lastCalledTime = new Date().getTime();
             fps = 0;
         }
 
-        var delta = (new Date().getTime() - this.lastCalledTime) / 1000;
+        const delta = (new Date().getTime() - this.lastCalledTime) / 1000;
         this.lastCalledTime = new Date().getTime();
         fps = Math.ceil((1 / delta));
 
         if (this.counter >= 60) {
-            var sum = this.fpsArray.reduce((a, b) => { return a + b; });
-            var average = Math.ceil(sum / this.fpsArray.length);
+            const sum = this.fpsArray.reduce((a, b) => { return a + b; });
+            const average = Math.ceil(sum / this.fpsArray.length);
             this.updateFPSDisplay(average);
             this.counter = 0;
             this.fpsArray = [];

@@ -69,7 +69,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
             return this.cache[len] + str;
         }
         // `pad` starts with an empty string
-        var pad = '';
+        let pad = '';
         // loop
         while (true) {
             // add `ch` to `pad` if `len` is odd

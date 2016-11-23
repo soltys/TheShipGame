@@ -50,7 +50,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        var data = super.checkCollision(this.boundingBox, boundingBox);
+        const data = super.checkCollision(this.boundingBox, boundingBox);
         return {
             name: "Ship",
             isColliding: data.isColliding,
