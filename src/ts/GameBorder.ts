@@ -20,11 +20,11 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
         var data =  super.checkCollision(this.border, boundingBox);
         return {
-            name: this.constructor.name,
+            name: "GameBorder",
             isColliding: data.isColliding,
             direction: data.direction,
             collisionBox: data.collisionBox
-        }
+        };
     }
 
    

@@ -3,21 +3,15 @@ import 'pixi.js';
 
 import Ship from './Ship';
 import Coin from './Coin';
-import Bullet from './Bullet';
 import GameBorder from './GameBorder';
 import FPSCounter from './FPSCounter';
 import Score from './Score';
-import TextureLoader from './TextureLoader';
 
 import Game from './Game';
-
-
 
 const gameWidth = 300;
 const gameHeight = 350;
 const game = new Game(gameWidth, gameHeight);
-
-
 
 PIXI.loader
     .add('assets/animation/coin.json')
@@ -30,7 +24,6 @@ PIXI.loader
 
 function onAssetsLoaded(load, res) {
     const coinAnimationFrames = createAnimation("coin", 7);
-    const bulletAnimationFrames = createAnimation("bullet", 2);
 
     game.addObject(new FPSCounter());
     for (let border of getGameBorders()) {
@@ -43,7 +36,6 @@ function onAssetsLoaded(load, res) {
     setInterval(function () {
         game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), getRandomInt(20, gameWidth - 20), getRandomInt(20, gameHeight - 20)));
     }, 1000);
-    //game.addObject(new Bullet(bulletAnimation, 200, 100));
     game.addRendererToElement(document.getElementById("gameHost"));
     game.addEventListenerToElement(document.body);
     game.animate();
@@ -74,7 +66,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function getGameBorders(): GameBorder[] {
-    const borderSize = 5
+    const borderSize = 5;
     const gameBorders: GameBorder[] = [];
     //up
     gameBorders.push(new GameBorder(

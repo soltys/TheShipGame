@@ -1,13 +1,13 @@
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 export default class FPSCounter extends GameObject implements IGame.IGameDisplayObject {
-    private lastCalledTime: number
-    private counter: number
+    private lastCalledTime: number;
+    private counter: number;
 
-    private fpsArray: Array<number>
+    private fpsArray: Array<number>;
 
-    private fpsDisplay: PIXI.Text
-    private textStyle:Object;
+    private fpsDisplay: PIXI.Text;
+    private textStyle: Object;
 
     constructor() {
         super();
@@ -40,11 +40,11 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
         fps = Math.ceil((1 / delta));
 
         if (this.counter >= 60) {
-            var sum = this.fpsArray.reduce(function (a, b) { return a + b });
+            var sum = this.fpsArray.reduce((a, b) => { return a + b; });
             var average = Math.ceil(sum / this.fpsArray.length);
             this.updateFPSDisplay(average);
             this.counter = 0;
-            this.fpsArray=[];
+            this.fpsArray = [];
         } else {
             if (fps !== Infinity) {
                 this.fpsArray.push(fps);

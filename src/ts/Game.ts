@@ -11,7 +11,7 @@ class Game {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
-        this.stage = this.newStage()
+        this.stage = this.newStage();
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
@@ -35,8 +35,10 @@ class Game {
     public removeObject(gameObject: IGame.IGameObject): void {
         const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
         if (displayObjects) {
-            for (const displayObject of displayObjects)
+            for (const displayObject of displayObjects){
                 this.stage.removeChild(displayObject);
+            }
+                
         }
 
         var index = _.indexOf(this.state.objects, gameObject);
@@ -83,8 +85,7 @@ class Game {
         let start = Date.now();
         //Set the frame duration in milliseconds
         const frameDuration = 1000 / fps;
-        //Initialize the lag offset
-        let lag = 0;
+        
 
         var caller = () => {
             requestAnimationFrame(caller);

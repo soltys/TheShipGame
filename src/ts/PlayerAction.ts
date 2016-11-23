@@ -2,13 +2,6 @@ import LinearConvert from './common/LinearConvert';
 import Keys from './common/Keys';
 import * as IGame from './common/IGame';
 
-function approxeq(v1: number, v2: number, epsilon?: number): boolean {
-    if (epsilon == null) {
-        epsilon = 0.001;
-    }
-    return Math.abs(v1 - v2) < epsilon;
-};
-
 function getGamepadActivationPoint(): number {
     return 0.25;
 }

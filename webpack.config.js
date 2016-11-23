@@ -4,7 +4,6 @@ var autoprefixer = require('autoprefixer');
 var sassPath = path.resolve(__dirname, 'src/scss');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -24,14 +23,15 @@ module.exports = {
         extensions: ['', '.ts', '.webpack.js', '.web.js', '.js']
     },
     devtool: 'source-map',
+    debug: true,
     module: {
-        //     preLoaders: [{
-        //  test: /\.ts$/,
-        //            loader: 'tslint'
-        //         }],
+        preLoaders: [{
+            test: /\.ts$/,
+            loader: 'tslint'
+        }],
         loaders: [{
             test: /\.ts$/,
-            loader: 'ts-loader'
+            loader: 'awesome-typescript-loader'
         }, {
             test: /\.scss$/,
             loader: ExtractTextPlugin.extract(['css', 'postcss', 'sass'])
@@ -39,7 +39,6 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin('[name].css'),
-
         new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
 
     ],

@@ -13,7 +13,7 @@ export default class GameObject implements IGame.IGameObject {
             direction: IGame.CollisionDirection.Unknown,
             name: "",
             collisionBox: null
-        }
+        };
         return data;
     }
 

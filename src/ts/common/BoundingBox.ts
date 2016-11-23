@@ -44,21 +44,21 @@ class BoundingBox {
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetBottom) {
-            return Game.CollisionDirection.Up
+            return Game.CollisionDirection.Up;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetLeft) {
-            return Game.CollisionDirection.Right
+            return Game.CollisionDirection.Right;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetRight) {
             return Game.CollisionDirection.Left;
         }
 
-        return Game.CollisionDirection.Unknown
+        return Game.CollisionDirection.Unknown;
     }
     get x() {
-        return this.rectangle.x
+        return this.rectangle.x;
     }
 
     set x(value) {
@@ -66,7 +66,7 @@ class BoundingBox {
     }
 
     get y() {
-        return this.rectangle.y
+        return this.rectangle.y;
     }
 
     set y(value) {
@@ -74,7 +74,7 @@ class BoundingBox {
     }
 
     get width() {
-        return this.rectangle.width
+        return this.rectangle.width;
     }
 
     set width(value) {

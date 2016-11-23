@@ -6,7 +6,7 @@ declare class BoundingBox {
 }
 
 declare class Game {
-    stage: PIXI.Container
+    stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void ;
     addObject(gameObject: IGameObject): void 
 }
@@ -78,10 +78,10 @@ export interface IGamepadData {
 }
 
 export interface ICollisionData {
-    name: string,
-    isColliding: boolean,
-    direction: CollisionDirection,
-    collisionBox: BoundingBox,
+    name: string;
+    isColliding: boolean;
+    direction: CollisionDirection;
+    collisionBox: BoundingBox;
 }
 
 export interface IGameObject {
@@ -91,7 +91,7 @@ export interface IGameObject {
 }
 
 export interface IGameDisplayObject extends IGameObject {
-    readonly displayObjects: PIXI.DisplayObject[]
+    readonly displayObjects: PIXI.DisplayObject[];
 }
 
 export interface IDictionary {
