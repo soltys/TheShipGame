@@ -25,7 +25,7 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
     }
 
     update(timeDelta: number, context: IGame.IGameContext) {
-        context.objects.forEach(gameObject => {
+        context.objects.all.forEach(gameObject => {
             if (this === gameObject) {
                 return;
             }

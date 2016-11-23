@@ -7,11 +7,11 @@ declare class BoundingBox {
 
 declare class Game {
     stage: PIXI.Container;
-    removeObject(gameObject: IGameObject): void ;
-    addObject(gameObject: IGameObject): void 
+    removeObject(gameObject: IGameObject): void;
+    addObject(gameObject: IGameObject): void
 }
-declare class Score{
-    public addToScore(value:number):void;
+declare class Score {
+    public addToScore(value: number): void;
 }
 export class Colors {
     static get GameBorder(): number {
@@ -54,15 +54,21 @@ export interface IPlayerActionData {
     value: number;
 }
 export interface IGameContext {
-    keys: Object;
-    clicks: Object;
-    mouse: IMousePosition;
-    objects: Array<IGameObject>;
-    gamepad: IGamepadData;
+    inputs: IGameInput;
+    objects:IGameObjectCollection;
     game: Game;
     score: Score;
 }
+export interface IGameInput {
+    keys: Object;
+    clicks: Object;
+    mouse: IMousePosition;
+    gamepad: IGamepadData;
+}
 
+export interface IGameObjectCollection{
+    all:  Array<IGameObject>;
+}
 
 
 export interface IMousePosition {

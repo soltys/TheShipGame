@@ -15,8 +15,7 @@ module.exports = {
     output: {
         path: outputPath,
         filename: '[name].js',
-        publicPath: 'build/',
-        devtoolLineToLine: true
+        publicPath: 'build/'        
     },
     resolve: {
         root: [path.join(__dirname, 'node_modules')],

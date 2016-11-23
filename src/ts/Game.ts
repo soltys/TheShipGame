@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 class Game {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private readonly state: IGame.IGameContext;
+    private readonly context: IGame.IGameContext;
     private gamepads: Gamepad[];
     private gameWidth = 0;
     private gameHeight = 0;
@@ -16,16 +16,20 @@ class Game {
         this.renderer = this.newRenderer();
         this.gamepads = [];
 
-        this.state = {
-            "keys": {},
-            "clicks": {},
-            "mouse": { clientX: 0, clientY: 0 },
-            "gamepad": {
-                buttons: [],
-                axes: [],
-                isConnected: false
+        this.context = {
+            inputs: {
+                "keys": {},
+                "clicks": {},
+                "mouse": { clientX: 0, clientY: 0 },
+                "gamepad": {
+                    buttons: [],
+                    axes: [],
+                    isConnected: false
+                }
             },
-            "objects": [],
+            "objects": {
+                "all": []
+            },
             "game": this,
             "score": null
         };
@@ -41,14 +45,14 @@ class Game {
 
         }
 
-        const index = _.indexOf(this.state.objects, gameObject);
-        this.state.objects.splice(index, 1);
+        const index = _.indexOf(this.context.objects.all, gameObject);
+        this.context.objects.all.splice(index, 1);
     }
 
     public addObject(gameObject: IGame.IGameObject): void {
-        gameObject.init(this.state);
+        gameObject.init(this.context);
 
-        this.state.objects.push(gameObject);
+        this.context.objects.all.push(gameObject);
         const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
         if (displayObjects) {
             for (const displayObject of displayObjects) {
@@ -96,17 +100,18 @@ class Game {
             let lagOffset = elapsed / frameDuration;
             this.gamepads = navigator.getGamepads() || [];
 
-            this.state.gamepad.isConnected = false;
+            const inputs = this.context.inputs;
+            inputs.gamepad.isConnected = false;
             for (const gamepad of this.gamepads) {
                 if (gamepad) {
-                    this.state.gamepad.isConnected = true;
-                    this.state.gamepad.axes = gamepad.axes;
-                    this.state.gamepad.buttons = gamepad.buttons;
+                    inputs.gamepad.isConnected = true;
+                    inputs.gamepad.axes = gamepad.axes;
+                    inputs.gamepad.buttons = gamepad.buttons;
                 }
             }
 
-            this.state.objects.forEach((object) => {
-                object.update(lagOffset, this.state);
+            this.context.objects.all.forEach((object) => {
+                object.update(lagOffset, this.context);
             });
 
             this.renderer.render(this.stage);
@@ -118,28 +123,29 @@ class Game {
     }
 
     public addEventListenerToElement(element): void {
+        const inputs = this.context.inputs;
         element.addEventListener("keydown", (event) => {
-            this.state.keys[event.keyCode] = true;
+            inputs.keys[event.keyCode] = true;
         });
 
         element.addEventListener("keyup", (event) => {
-            this.state.keys[event.keyCode] = false;
+            inputs.keys[event.keyCode] = false;
         });
 
         element.addEventListener("mousedown", (event) => {
-            this.state.clicks[event.which] = {
+            inputs.clicks[event.which] = {
                 "clientX": event.clientX,
                 "clientY": event.clientY
             };
         });
 
         element.addEventListener("mouseup", (event) => {
-            this.state.clicks[event.which] = false;
+            inputs.clicks[event.which] = false;
         });
 
         element.addEventListener("mousemove", (event) => {
-            this.state.mouse.clientX = event.clientX;
-            this.state.mouse.clientY = event.clientY;
+            inputs.mouse.clientX = event.clientX;
+            inputs.mouse.clientY = event.clientY;
         });
 
     }

@@ -74,7 +74,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         tempBoundingBox.y += deltaY;
 
         let collisionData: IGame.ICollisionData = super.collideWith(this.boundingBox);
-        context.objects.forEach(gameObject => {
+        context.objects.all.forEach(gameObject => {
             if (this === gameObject) {
                 return;
             }
