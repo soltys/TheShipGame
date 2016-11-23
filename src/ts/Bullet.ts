@@ -2,9 +2,9 @@ import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 
 export default class Bullet extends GameObject implements IGame.IGameDisplayObject {
-    private bulletAnimation: PIXI.extras.MovieClip
+    private bulletAnimation: PIXI.extras.AnimatedSprite
 
-    constructor(bulletAnimation: PIXI.extras.MovieClip, posX: number, posY: number) {
+    constructor(bulletAnimation: PIXI.extras.AnimatedSprite, posX: number, posY: number) {
         super();
         this.bulletAnimation = bulletAnimation;
         this.bulletAnimation.position.set(posX, posY);

@@ -41,7 +41,7 @@ function onAssetsLoaded(load, res) {
     game.addObject(new Score(gameWidth));
 
     setInterval(function () {
-        game.addObject(new Coin(new PIXI.extras.MovieClip(coinAnimationFrames), getRandomInt(20, gameWidth - 20), getRandomInt(20, gameHeight - 20)));
+        game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), getRandomInt(20, gameWidth - 20), getRandomInt(20, gameHeight - 20)));
     }, 1000);
     //game.addObject(new Bullet(bulletAnimation, 200, 100));
     game.addRendererToElement(document.getElementById("gameHost"));
