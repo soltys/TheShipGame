@@ -8,8 +8,16 @@ declare class BoundingBox {
 declare class Game {
     stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void;
-    addObject(gameObject: IGameObject): void
+    addObject(gameObject: IGameObject): void;
+
+    gameHeight:number;
+    gameWidth:number;
 }
+
+export interface IGameState{
+    handle(context: IGameContext ):void;
+}
+
 declare class Score {
     public addToScore(value: number): void;
 }
@@ -57,7 +65,8 @@ export interface IGameContext {
     inputs: IGameInput;
     objects:IGameObjectCollection;
     game: Game;
-    score: Score;
+    
+    state: IGameState;
 }
 export interface IGameInput {
     keys: Object;
@@ -68,6 +77,7 @@ export interface IGameInput {
 
 export interface IGameObjectCollection{
     all:  Array<IGameObject>;
+    score: Score;
 }
 
 

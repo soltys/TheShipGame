@@ -1,7 +1,7 @@
 import LinearConvert from './common/LinearConvert';
 import Keys from './common/Keys';
 import * as IGame from './common/IGame';
-
+import * as _ from 'lodash';
 function getGamepadActivationPoint(): number {
     return 0.25;
 }
@@ -17,7 +17,39 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
     shouldScaleUp(inputs, playerActions);
     shouldScaleDown(inputs, playerActions);
 
+
+    const diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][] = [
+        [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveLeft],
+        [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveRight],
+        [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveLeft],
+        [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveRight],
+    ];
+
+    diagonalSpeedFix(playerActions, diagonalPairs);
+
     return playerActions;
+}
+
+/**
+ * When player moves diaognal with speed of 1 in both directions, then player moves at sqrt(2). To limit that
+ * Player should move at sqrt(1/2) 
+ * 
+ * @param {IGame.IPlayerActionData[]} data
+ * @param {[IGame.PlayerAction, IGame.PlayerAction][]} diagonalPairs
+ */
+function diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][]): void {
+    const speedFix: number = 0.9;
+    diagonalPairs.forEach(pair => {
+        const data1 = _.find(data, ['action', pair[0]]);
+        const data2 = _.find(data, ['action', pair[1]]);
+        if (data1 && data2) {
+            if (data1.value === 1 && data2.value === 1) {
+                data1.value = speedFix;
+                data2.value = speedFix;
+            }
+        }
+    });
+
 }
 
 function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {

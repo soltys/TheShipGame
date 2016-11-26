@@ -1,16 +1,24 @@
 {
+  "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules"
+  ],
   "rules": {
+    "no-eval": true,
+    "radix": true,
+    "no-duplicate-case": true,
+    "use-isnan": true,    
+    "valid-typeof": true,
     "no-unused-expression": true,
-    "no-duplicate-variable": true,    
+    "no-duplicate-variable": true,
     "curly": true,
     "class-name": true,
-    "no-reference":true,
-    "prefer-for-of":true,
+    "no-reference": true,
+    "prefer-for-of": true,
     "semicolon": [
       "always"
     ],
-    "triple-equals": true,    
-    "no-var-keyword":true,
+    "triple-equals": true,
+    "no-var-keyword": true,
     "no-console": [
       true,
       "debug",

@@ -110,7 +110,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number) {
         this.shipSprite.texture = this.normalShipTexture;
-        let moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveLeft));
+        const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveLeft));
         if (moveLeft) {
             this.velocityX = Math.max(
                 (this.velocityX - this.accelerationX) * moveLeft.value,
@@ -119,9 +119,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
              this.shipSprite.texture = this.leftShipTexture;
         }
 
-        if (_.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveRight))) {
+        const moveRight: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveRight));
+        if (moveRight) {
             this.velocityX = Math.min(
-                this.velocityX + this.accelerationX,
+                (this.velocityX + this.accelerationX) * moveRight.value,
                 this.maximumVelocityX
             );
             this.shipSprite.texture = this.rightShipTexture;

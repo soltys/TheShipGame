@@ -5,8 +5,8 @@ class Game {
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly context: IGame.IGameContext;
     private gamepads: Gamepad[];
-    private gameWidth = 0;
-    private gameHeight = 0;
+    public gameWidth = 0;
+    public gameHeight = 0;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
@@ -28,10 +28,12 @@ class Game {
                 }
             },
             "objects": {
-                "all": []
+                "all": [],
+                "score": undefined
             },
+            "state": undefined,
             "game": this,
-            "score": null
+
         };
 
     }
@@ -79,7 +81,10 @@ class Game {
     public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
     }
-
+    public gotoState(state: IGame.IGameState){
+        this.context.state = state;
+        this.context.state.handle(this.context);
+    }
     public animate() {
         //Set the frame rate
         const fps = 60;

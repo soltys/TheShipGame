@@ -7,9 +7,7 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
     private box: BoundingBox;
     private coinWidth = 8;
     private coinHeight = 8;
-    /**
-     *
-     */
+    
     constructor(coinAnimation: PIXI.extras.AnimatedSprite, posX: number, posY: number) {
         super();
         this.coinAnimation = coinAnimation;
@@ -33,7 +31,7 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
             //Current Colision
             const collisionData = gameObject.collideWith(this.box);
             if (collisionData.isColliding && collisionData.name === "Ship") {
-                context.score.addToScore(10);
+                context.objects.score.addToScore(10);
              
                 context.game.removeObject(this);
             }

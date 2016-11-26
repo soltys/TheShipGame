@@ -23,7 +23,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
     }
 
     init(state: IGame.IGameContext): void {
-        state.score = this;
+        state.objects.score = this;
     }
 
     public addToScore(value: number): void {
