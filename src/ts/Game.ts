@@ -26,6 +26,11 @@ class Game {
                     buttons: [],
                     axes: [],
                     isConnected: false
+                },
+                wheel:{
+                    deltaX:0,
+                    deltaY:0,
+                    deltaZ:0
                 }
             },
             "objects": {
@@ -154,10 +159,18 @@ class Game {
         });
 
         element.addEventListener("mousemove", (event) => {
-
             inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
             inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
+        element.addEventListener("wheel", (event)=>{
+            event.preventDefault();
+            console.log(event);
+            inputs.wheel = {
+                deltaX :event.deltaX,
+                deltaY :event.deltaY,
+                deltaZ :event.deltaZ,
+            };
+        }, false);
 
     }
 }

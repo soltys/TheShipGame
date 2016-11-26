@@ -77,7 +77,8 @@ export interface IGameContext {
 export interface IGameInput {
     keys: {[index: number]: boolean};
     clicks: {[index: number]:IMousePosition };
-    mouse:  IMousePosition;
+    wheel:IMouseWheel;
+    mouse:  IMousePosition;    
     gamepad: IGamepadData;
 }
 
@@ -91,6 +92,13 @@ export interface IGameObjectCollection {
 export interface IMousePosition {
     clientX: number;
     clientY: number;
+}
+
+
+export interface IMouseWheel {
+    deltaX: number;
+    deltaY: number;
+    deltaZ: number;
 }
 
 export interface IGamepadData {

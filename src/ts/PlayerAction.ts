@@ -236,7 +236,14 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
             return;
         }
     }
+    if (inputs.wheel &&inputs.wheel.deltaY < 0) {
+        data.push({
+            action: IGame.PlayerAction.ScaleUp,
+            value: 1
+        });
 
+        delete inputs.wheel;
+    }
     if (inputs.keys[Keys.KEY_W]) {
         data.push({
             action: IGame.PlayerAction.ScaleUp,
@@ -262,6 +269,13 @@ function shouldScaleDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
             });
             return;
         }
+    }
+    if (inputs.wheel && inputs.wheel.deltaY > 0) {
+        data.push({
+            action: IGame.PlayerAction.ScaleDown,
+            value: 1
+        });
+        delete inputs.wheel;
     }
     if (inputs.keys[Keys.KEY_S]) {
         data.push({
