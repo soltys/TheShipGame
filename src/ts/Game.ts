@@ -8,6 +8,7 @@ class Game {
     private gamepads: Gamepad[];
     public gameWidth = 0;
     public gameHeight = 0;
+    private scale = 2;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
@@ -16,7 +17,6 @@ class Game {
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
-
         this.context = {
             inputs: {
                 "keys": {},
@@ -30,7 +30,8 @@ class Game {
             },
             "objects": {
                 "all": [],
-                "score": undefined
+                "score": undefined,
+                "ship": undefined,
             },
             "state": new InitState(),
             "game": this,
@@ -75,15 +76,15 @@ class Game {
                 backgroundColor: IGame.Colors.Background,
                 antialias: true,
                 roundPixels: false,
-                resolution: 2,
+                resolution: this.scale,
             });
     }
 
     public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
     }
-    public gotoState(state: IGame.IGameState){
-        if(this.context.state){
+    public gotoState(state: IGame.IGameState) {
+        if (this.context.state) {
             this.context.state.onLeave(this.context);
         }
         this.context.state = state;
@@ -149,12 +150,13 @@ class Game {
         });
 
         element.addEventListener("mouseup", (event) => {
-            inputs.clicks[event.which] = false;
+            delete inputs.clicks[event.which];
         });
 
         element.addEventListener("mousemove", (event) => {
-            inputs.mouse.clientX = event.clientX;
-            inputs.mouse.clientY = event.clientY;
+
+            inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
+            inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
 
     }

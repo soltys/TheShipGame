@@ -1,13 +1,15 @@
 import LinearConvert from './common/LinearConvert';
 import Keys from './common/Keys';
+import MouseButtons from './common/MouseButtons';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 function getGamepadActivationPoint(): number {
     return 0.25;
 }
 
-
+let gameContext: IGame.IGameContext;
 export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActionData[] {
+    gameContext = context;
     const playerActions: IGame.IPlayerActionData[] = [];
     const inputs = context.inputs;
     shouldMoveUp(inputs, playerActions);
@@ -18,14 +20,18 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
     shouldScaleDown(inputs, playerActions);
 
 
-    const diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][] = [
-        [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveLeft],
-        [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveRight],
-        [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveLeft],
-        [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveRight],
-    ];
 
-    diagonalSpeedFix(playerActions, diagonalPairs);
+    if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
+        mouseSpeedFix(playerActions);
+    } else {
+        const diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][] = [
+            [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveLeft],
+            [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveRight],
+            [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveLeft],
+            [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveRight],
+        ];
+        diagonalSpeedFix(playerActions, diagonalPairs);
+    }
 
     return playerActions;
 }
@@ -38,7 +44,7 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
  * @param {[IGame.PlayerAction, IGame.PlayerAction][]} diagonalPairs
  */
 function diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][]): void {
-    const speedFix: number = 0.9;
+    const speedFix: number = 0.707;
     diagonalPairs.forEach(pair => {
         const data1 = _.find(data, ['action', pair[0]]);
         const data2 = _.find(data, ['action', pair[1]]);
@@ -52,6 +58,29 @@ function diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [IGame
 
 }
 
+function mouseSpeedFix(data: IGame.IPlayerActionData[]) {
+    const location = gameContext.inputs.mouse;
+    const deltaY = Math.abs(location.clientY - gameContext.objects.ship.position.y);
+    const deltaX = Math.abs(location.clientX - gameContext.objects.ship.position.x);
+    const vectorLength = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+
+    for (const entry of data) {
+        switch (entry.action) {
+            case IGame.PlayerAction.MoveUp:
+                entry.value = deltaY / vectorLength;
+                break;
+            case IGame.PlayerAction.MoveDown:
+                entry.value = deltaY / vectorLength;
+                break;
+            case IGame.PlayerAction.MoveLeft:
+                entry.value = deltaX / vectorLength;
+                break;
+            case IGame.PlayerAction.MoveRight:
+                entry.value = deltaX / vectorLength;
+                break;
+        }
+    }
+}
 function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const leftStick = inputs.gamepad.axes[1];
@@ -63,6 +92,16 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
             });
             return;
         }
+    }
+    if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
+        const location = inputs.mouse;
+        if (location.clientY < gameContext.objects.ship.position.y) {
+            data.push({
+                action: IGame.PlayerAction.MoveUp,
+                value: 1
+            });
+        }
+
     }
     if (inputs.keys[Keys.UP_ARROW]) {
         data.push({
@@ -82,6 +121,16 @@ function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
             });
             return;
         }
+    }
+    if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
+        const location = inputs.mouse;
+        if (location.clientY > gameContext.objects.ship.position.y) {
+            data.push({
+                action: IGame.PlayerAction.MoveDown,
+                value: 1
+            });
+        }
+
     }
     if (inputs.keys[Keys.DOWN_ARROW]) {
         data.push({
@@ -110,6 +159,18 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
             return;
         }
     }
+
+    if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
+        const location = inputs.mouse;
+        if (location.clientX < gameContext.objects.ship.position.x) {
+            data.push({
+                action: IGame.PlayerAction.MoveLeft,
+                value: 1
+            });
+        }
+
+    }
+
     if (inputs.keys[Keys.LEFT_ARROW]) {
         data.push({
             action: IGame.PlayerAction.MoveLeft,
@@ -138,6 +199,18 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
             return;
         }
     }
+
+    if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
+        const location = inputs.mouse;
+        if (location.clientX > gameContext.objects.ship.position.x) {
+            data.push({
+                action: IGame.PlayerAction.MoveRight,
+                value: 1
+            });
+        }
+
+    }
+
     if (inputs.keys[Keys.RIGHT_ARROW]) {
         data.push({
             action: IGame.PlayerAction.MoveRight,

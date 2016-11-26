@@ -15,6 +15,10 @@ declare class Game {
     gameWidth: number;
 }
 
+declare class Ship{
+    position:PIXI.Point;
+}
+
 export interface IGameState {
     handle(context: IGameContext): void;
     onLeave(context: IGameContext): void;
@@ -72,14 +76,15 @@ export interface IGameContext {
 }
 export interface IGameInput {
     keys: {[index: number]: boolean};
-    clicks: Object;
-    mouse: IMousePosition;
+    clicks: {[index: number]:IMousePosition };
+    mouse:  IMousePosition;
     gamepad: IGamepadData;
 }
 
 export interface IGameObjectCollection {
     all: Array<IGameObject>;
     score: Score;
+    ship: Ship;
 }
 
 

@@ -44,9 +44,11 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
 
     }
-
+    get position(){
+        return  new PIXI.Point(this.shipSprite.position.x + this.shipSprite.width /2, this.shipSprite.position.y + this.shipSprite.height/2);
+    }
     init(state: IGame.IGameContext): void {
-
+        state.objects.ship = this;
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
