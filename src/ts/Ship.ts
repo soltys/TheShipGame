@@ -115,7 +115,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveLeft));
         if (moveLeft) {
             this.velocityX = Math.max(
-                (this.velocityX - this.accelerationX) * moveLeft.value,
+                this.velocityX - (this.accelerationX * moveLeft.value),
                 this.maximumVelocityX * -1
             );
              this.shipSprite.texture = this.leftShipTexture;
@@ -124,7 +124,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         const moveRight: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveRight));
         if (moveRight) {
             this.velocityX = Math.min(
-                (this.velocityX + this.accelerationX) * moveRight.value,
+                this.velocityX + (this.accelerationX * moveRight.value),
                 this.maximumVelocityX
             );
             this.shipSprite.texture = this.rightShipTexture;
@@ -132,14 +132,14 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveUp));
         if (moveUp) {
             this.velocityY = Math.max(
-                (this.velocityY - this.accelerationY) * moveUp.value,
+                this.velocityY - (this.accelerationY * moveUp.value),
                 this.maximumVelocityY * -1
             );
         }
         const moveDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveDown));
         if (moveDown) {
             this.velocityY = Math.min(
-                (this.velocityY + this.accelerationY) * moveDown.value,
+            this.velocityY + (this.accelerationY* moveDown.value),
                 this.maximumVelocityY
             );
         }
