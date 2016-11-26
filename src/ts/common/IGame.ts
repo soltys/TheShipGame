@@ -9,13 +9,15 @@ declare class Game {
     stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
+    gotoState(state: IGameState): void;
 
-    gameHeight:number;
-    gameWidth:number;
+    gameHeight: number;
+    gameWidth: number;
 }
 
-export interface IGameState{
-    handle(context: IGameContext ):void;
+export interface IGameState {
+    handle(context: IGameContext): void;
+    onLeave(context: IGameContext): void;
 }
 
 declare class Score {
@@ -63,20 +65,20 @@ export interface IPlayerActionData {
 }
 export interface IGameContext {
     inputs: IGameInput;
-    objects:IGameObjectCollection;
+    objects: IGameObjectCollection;
     game: Game;
-    
+
     state: IGameState;
 }
 export interface IGameInput {
-    keys: Object;
+    keys: {[index: number]: boolean};
     clicks: Object;
     mouse: IMousePosition;
     gamepad: IGamepadData;
 }
 
-export interface IGameObjectCollection{
-    all:  Array<IGameObject>;
+export interface IGameObjectCollection {
+    all: Array<IGameObject>;
     score: Score;
 }
 

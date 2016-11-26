@@ -4,9 +4,9 @@ import Coin from './../Coin';
 import FPSCounter from './../FPSCounter';
 import Score from './../Score';
 import GameBorder from './../GameBorder';
+import BaseState from './BaseState';
 
-
-export default class PlayState implements IGame.IGameState {
+export default class PlayState extends BaseState {
     handle(context: IGame.IGameContext) {
         const game = context.game;
         const coinAnimationFrames = createAnimation("coin", 7);

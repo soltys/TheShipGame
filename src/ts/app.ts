@@ -1,6 +1,7 @@
 import '../scss/main.scss';
 import 'pixi.js';
 import PlayState from './states/PlayState';
+//import MenuState from './states/MenuState';
 
 import Game from './Game';
 

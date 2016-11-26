@@ -1,5 +1,6 @@
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
+import InitState from './states/InitState';
 class Game {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
@@ -31,7 +32,7 @@ class Game {
                 "all": [],
                 "score": undefined
             },
-            "state": undefined,
+            "state": new InitState(),
             "game": this,
 
         };
@@ -82,6 +83,9 @@ class Game {
         element.appendChild(this.renderer.view);
     }
     public gotoState(state: IGame.IGameState){
+        if(this.context.state){
+            this.context.state.onLeave(this.context);
+        }
         this.context.state = state;
         this.context.state.handle(this.context);
     }
