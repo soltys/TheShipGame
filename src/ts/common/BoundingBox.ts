@@ -3,19 +3,16 @@ class BoundingBox {
     private rectangle: PIXI.Rectangle;
 
     collidesWith(gameObject: BoundingBox): boolean {
-        let edges = this.getEdges(this, gameObject);
-        
-
-        if (!(
-            edges.boxTop > edges.gameObjectBottom ||
-            edges.boxRight < edges.gameObjectLeft ||
-            edges.boxBottom < edges.gameObjectTop ||
-            edges.boxLeft > edges.gameObjectRight
-        )) {
-
+        if (this.rectangle.x < gameObject.x + gameObject.width &&
+            this.rectangle.x + this.rectangle.width > gameObject.x &&
+            this.rectangle.y < gameObject.y + gameObject.height &&
+            this.rectangle.height + this.rectangle.y > gameObject.y) {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
+
     }
 
     getEdges(box, gameObject) {
@@ -93,7 +90,7 @@ class BoundingBox {
     }
 
     update(state: Game.IGameContext) {
-       
+
     }
 
     clone(): BoundingBox {

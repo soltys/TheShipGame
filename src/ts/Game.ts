@@ -17,7 +17,11 @@ class Game {
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
-        this.context = {
+        this.context = this.createGameContext();
+    }
+
+    private createGameContext(): IGame.IGameContext {
+        return {
             inputs: {
                 "keys": {},
                 "clicks": {},
@@ -27,10 +31,10 @@ class Game {
                     axes: [],
                     isConnected: false
                 },
-                wheel:{
-                    deltaX:0,
-                    deltaY:0,
-                    deltaZ:0
+                wheel: {
+                    deltaX: 0,
+                    deltaY: 0,
+                    deltaZ: 0
                 }
             },
             "objects": {
@@ -40,9 +44,7 @@ class Game {
             },
             "state": new InitState(),
             "game": this,
-
         };
-
     }
 
     public removeObject(gameObject: IGame.IGameObject): void {
@@ -133,8 +135,7 @@ class Game {
 
         };
 
-        requestAnimationFrame(caller);
-
+        caller();
     }
 
     public addEventListenerToElement(element): void {
@@ -162,16 +163,15 @@ class Game {
             inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
             inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
-        element.addEventListener("wheel", (event)=>{
+
+        element.addEventListener("wheel", (event) => {
             event.preventDefault();
-            console.log(event);
             inputs.wheel = {
-                deltaX :event.deltaX,
-                deltaY :event.deltaY,
-                deltaZ :event.deltaZ,
+                deltaX: event.deltaX,
+                deltaY: event.deltaY,
+                deltaZ: event.deltaZ,
             };
         }, false);
-
     }
 }
 

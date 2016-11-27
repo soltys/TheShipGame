@@ -13,11 +13,8 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
         this.coinAnimation = coinAnimation;
 
         coinAnimation.position.set(posX, posY);
-        this.box = new BoundingBox(new PIXI.Rectangle(posX, posY, this.coinWidth, this.coinHeight));
-        coinAnimation.anchor.set(0.5);
+        this.box = new BoundingBox(new PIXI.Rectangle(posX, posY, this.coinWidth, this.coinHeight));        
         coinAnimation.animationSpeed = 0.2;
-
-
         coinAnimation.play();
 
     }
