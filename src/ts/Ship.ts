@@ -135,7 +135,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
         const drawBoundingBox = (box) => {
             this.graphics.drawRect(box.x, box.y, box.width, box.height);
-        }
+        };
         this.graphics.clear();
         this.graphics.beginFill(0xff0000);
         drawBoundingBox(this.boundingBoxWings);
