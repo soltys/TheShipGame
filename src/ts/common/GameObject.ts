@@ -1,4 +1,5 @@
 import BoundingBox from './BoundingBox';
+import * as IGame from './IGame';
 export default class GameObject implements IGame.IGameObject {
     init(state: IGame.IGameContext): void {
 

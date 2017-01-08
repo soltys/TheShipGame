@@ -1,5 +1,5 @@
 import GameObject from './common/GameObject';
-import Colors from './common/Colors';
+import * as IGame from './common/IGame';
 export default class FPSCounter extends GameObject implements IGame.IGameDisplayObject {
     private lastCalledTime: number;
     private counter: number;
@@ -18,8 +18,8 @@ export default class FPSCounter extends GameObject implements IGame.IGameDisplay
             fontFamily: 'Fira Sans',
             fontSize: '8px',
             fontWeight: 'bold',
-            fill: Colors.TextColor,
-            stroke: Colors.TextOutlineColor,
+            fill: IGame.Colors.TextColor,
+            stroke: IGame.Colors.TextOutlineColor,
             strokeThickness: 2
         };
         this.fpsDisplay = new PIXI.Text('0 FPS', this.textStyle);

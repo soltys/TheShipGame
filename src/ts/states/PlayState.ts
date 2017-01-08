@@ -1,3 +1,4 @@
+import * as IGame from './../common/IGame';
 import Ship from './../Ship';
 import Coin from './../Coin';
 import FPSCounter from './../FPSCounter';

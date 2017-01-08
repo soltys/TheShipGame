@@ -1,4 +1,6 @@
+import * as IGame from './../common/IGame';
 import BaseState from './BaseState';
+
 
 export default class InitState extends  BaseState {
     

@@ -1,7 +1,6 @@
 import GameObject from './common/GameObject';
 import BoundingBox from './common/BoundingBox';
-import Colors from './common/Colors';
-
+import * as IGame from './common/IGame';
 export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
 
     private border: BoundingBox;
@@ -33,7 +32,7 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
         if (!this.showBorders || this.wasDrawn) {
             return;
         }
-        this.graphics.beginFill(Colors.GameBorder, 1);
+        this.graphics.beginFill(IGame.Colors.GameBorder, 1);
         this.graphics.drawRect(this.border.x, this.border.y, this.border.width, this.border.height);
         this.graphics.endFill();
         this.wasDrawn = true;

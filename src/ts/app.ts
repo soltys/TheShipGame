@@ -22,7 +22,6 @@ PIXI.loader.add([
 
 function onAssetsLoaded(load, res) {
     game.gotoState(new PlayState());
-    
     game.addRendererToElement(document.getElementById("gameHost"));
     game.addEventListenerToElement(document.body);
     game.animate();

@@ -1,7 +1,7 @@
 import LinearConvert from './common/LinearConvert';
 import Keys from './common/Keys';
 import MouseButtons from './common/MouseButtons';
-
+import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 function getGamepadActivationPoint(): number {
     return 0.25;
