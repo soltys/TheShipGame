@@ -1,5 +1,4 @@
 import GameObject from './common/GameObject';
-import * as IGame from './common/IGame';
 import * as RS from './common/ResourceSupport';
 export default class Bullet extends GameObject implements IGame.IGameDisplayObject {
     private bulletAnimation: PIXI.extras.AnimatedSprite;

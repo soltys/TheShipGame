@@ -1,6 +1,6 @@
 import GameObject from './common/GameObject';
 import BoundingBox from './common/BoundingBox';
-import * as IGame from './common/IGame';
+
 
 export default class Coin extends GameObject implements IGame.IGameDisplayObject {
     private coinAnimation: PIXI.extras.AnimatedSprite;

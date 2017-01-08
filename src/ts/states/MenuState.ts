@@ -1,4 +1,3 @@
-import * as IGame from './../common/IGame';
 import BaseState from './BaseState';
 import Menu from './../Menu';
 

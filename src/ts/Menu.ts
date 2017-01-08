@@ -1,5 +1,5 @@
 import GameObject from './common/GameObject';
-import * as IGame from './common/IGame';
+import Colors from './common/Colors';
 import Keys from './common/Keys';
 import PlayState from './states/PlayState';
 export default class Menu extends GameObject implements IGame.IGameDisplayObject {
@@ -13,8 +13,8 @@ export default class Menu extends GameObject implements IGame.IGameDisplayObject
             fontFamily: 'Fira Sans',
             fontSize: '8px',
             fontWeight: 'bold',
-            fill: IGame.Colors.TextColor,
-            stroke: IGame.Colors.TextOutlineColor,
+            fill: Colors.TextColor,
+            stroke: Colors.TextOutlineColor,
             strokeThickness: 2
         };
         this.startDisplay = new PIXI.Text('Start', this.textStyle);

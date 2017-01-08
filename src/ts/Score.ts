@@ -1,5 +1,6 @@
 import GameObject from './common/GameObject';
-import * as IGame from './common/IGame';
+import Colors from './common/Colors';
+
 export default class Score extends GameObject implements IGame.IGameDisplayObject {
     private score: number;
     private scoreDisplay: PIXI.Text;
@@ -13,8 +14,8 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
             fontFamily: 'Fira Sans',
             fontSize: '8px',
             fontWeight: 'bold',
-            fill: IGame.Colors.TextColor,
-            stroke: IGame.Colors.TextOutlineColor,
+            fill: Colors.TextColor,
+            stroke: Colors.TextOutlineColor,
             strokeThickness: 2
         };
         this.scoreDisplay = new PIXI.Text('Score: 0000000', this.textStyle);

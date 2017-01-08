@@ -1,4 +1,4 @@
-import * as Game from './IGame';
+
 class BoundingBox {
     private rectangle: PIXI.Rectangle;
 
@@ -28,7 +28,7 @@ class BoundingBox {
         };
     }
 
-    collidesInDirection(box, gameObject): Game.CollisionDirection {
+    collidesInDirection(box, gameObject): IGame.CollisionDirection {
         let edges = this.getEdges(box, gameObject);
 
         let offsetLeft = edges.gameObjectRight - edges.boxLeft;
@@ -37,22 +37,22 @@ class BoundingBox {
         let offsetBottom = edges.boxBottom - edges.gameObjectTop;
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetTop) {
-            return Game.CollisionDirection.Down;
+            return IGame.CollisionDirection.Down;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetBottom) {
-            return Game.CollisionDirection.Up;
+            return IGame.CollisionDirection.Up;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetLeft) {
-            return Game.CollisionDirection.Right;
+            return IGame.CollisionDirection.Right;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetRight) {
-            return Game.CollisionDirection.Left;
+            return IGame.CollisionDirection.Left;
         }
 
-        return Game.CollisionDirection.Unknown;
+        return IGame.CollisionDirection.Unknown;
     }
     get x() {
         return this.rectangle.x;
@@ -89,7 +89,7 @@ class BoundingBox {
         this.rectangle = rectangle;
     }
 
-    update(state: Game.IGameContext) {
+    update(state: IGame.IGameContext) {
 
     }
 
