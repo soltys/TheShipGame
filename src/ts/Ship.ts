@@ -1,6 +1,7 @@
 import GameObject from './common/GameObject';
 import { GetPlayerAction } from './PlayerAction';
 import BoundingBox from './common/BoundingBox';
+import Bullet from './Bullet';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 
@@ -61,6 +62,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     init(state: IGame.IGameContext): void {
         this.graphics = new PIXI.Graphics();
         state.objects.ship = this;
+
+        setInterval(()=>{
+            state.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width/2),this.boundingBoxAll.y));
+        },800);
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
@@ -133,13 +138,13 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBoxAll.x += deltaX;
         this.boundingBoxAll.y += deltaY;
 
-        const drawBoundingBox = (box) => {
-            this.graphics.drawRect(box.x, box.y, box.width, box.height);
-        };
-        this.graphics.clear();
-        this.graphics.beginFill(0xff0000);
-        drawBoundingBox(this.boundingBoxWings);
-        this.graphics.endFill();
+        // const drawBoundingBox = (box) => {
+        //     this.graphics.drawRect(box.x, box.y, box.width, box.height);
+        // };
+        // this.graphics.clear();
+        // this.graphics.beginFill(0xff0000);
+        // drawBoundingBox(this.boundingBoxWings);
+        // this.graphics.endFill();
 
     }
 
@@ -224,7 +229,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     }
 
     get displayObjects() {
-        return [this.graphics, this.shipSprite];
+        return [this.shipSprite];
     }
 
 } 
