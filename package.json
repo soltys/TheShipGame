@@ -1,11 +1,9 @@
 {
-  "name": "typescript_boiler",
-  "version": "1.0.1",
-  "description": "A simple webpack boilerplate for front end projects using Typescript/Sass",
+  "name": "the-ship-game",
+  "version": "0.0.1",
+  "description": "The game with ship in it",
   "keywords": [
-    "typescript",
-    "sass",
-    "webpack"
+    "game"    
   ],
   "main": "index.js",
   "scripts": {
@@ -17,7 +15,8 @@
     "build": "webpack --progress --colors --display-modules",
     "tsd": "tsd"
   },
-  "author": "Ryan Ruan",
+  "private": true,
+  "author": "Pawel Soltysiak",
   "license": "MIT",
   "devDependencies": {
     "@types/assertion-error": "^1.0.30",
