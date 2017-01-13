@@ -1,6 +1,7 @@
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 import InitState from './states/InitState';
+import Colors from './common/Colors';
 class Game {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
@@ -80,7 +81,7 @@ class Game {
     private newRenderer() {
         return PIXI.autoDetectRenderer(this.gameWidth, this.gameHeight,
             {
-                backgroundColor: IGame.Colors.Background,
+                backgroundColor: Colors.Background,
                 antialias: true,
                 roundPixels: false,
                 resolution: this.scale,

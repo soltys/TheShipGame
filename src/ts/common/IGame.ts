@@ -1,3 +1,6 @@
+import CollisionDirection from './CollisionDirection';
+import PlayerAction from './PlayerAction';
+
 declare class BoundingBox {
     x: number;
     y: number;
@@ -15,8 +18,8 @@ declare class Game {
     gameWidth: number;
 }
 
-declare class Ship{
-    position:PIXI.Point;
+declare class Ship {
+    position: PIXI.Point;
 }
 
 export interface IGameState {
@@ -26,41 +29,6 @@ export interface IGameState {
 
 declare class Score {
     public addToScore(value: number): void;
-}
-export class Colors {
-    static get GameBorder(): number {
-        return 0xFF00BB;
-    }
-
-    static get Background(): number {
-        return 0x1099bb;
-    }
-
-    static get TextColor(): string {
-        return '#eee';
-    }
-
-    static get TextOutlineColor(): string {
-        return '#000';
-    }
-}
-
-export enum CollisionDirection {
-    Unknown,
-    Up,
-    Down,
-    Left,
-    Right
-}
-
-export enum PlayerAction {
-    MoveUp,
-    MoveDown,
-    MoveRight,
-    MoveLeft,
-
-    ScaleUp,
-    ScaleDown,
 }
 
 export interface IPlayerActionData {
@@ -75,10 +43,10 @@ export interface IGameContext {
     state: IGameState;
 }
 export interface IGameInput {
-    keys: {[index: number]: boolean};
-    clicks: {[index: number]:IMousePosition };
-    wheel:IMouseWheel;
-    mouse:  IMousePosition;    
+    keys: { [index: number]: boolean };
+    clicks: { [index: number]: IMousePosition };
+    wheel: IMouseWheel;
+    mouse: IMousePosition;
     gamepad: IGamepadData;
 }
 
@@ -132,5 +100,3 @@ export interface IDictionary {
     keys(): string[];
     values(): any[];
 }
-
-

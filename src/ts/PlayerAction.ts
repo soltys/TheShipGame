@@ -1,4 +1,5 @@
 import LinearConvert from './common/LinearConvert';
+import PA from './common/PlayerAction';
 import Keys from './common/Keys';
 import MouseButtons from './common/MouseButtons';
 import * as IGame from './common/IGame';
@@ -24,11 +25,11 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
     if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
         mouseSpeedFix(playerActions);
     } else {
-        const diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][] = [
-            [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveLeft],
-            [IGame.PlayerAction.MoveUp, IGame.PlayerAction.MoveRight],
-            [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveLeft],
-            [IGame.PlayerAction.MoveDown, IGame.PlayerAction.MoveRight],
+        const diagonalPairs: [PA, PA][] = [
+            [PA.MoveUp, PA.MoveLeft],
+            [PA.MoveUp, PA.MoveRight],
+            [PA.MoveDown, PA.MoveLeft],
+            [PA.MoveDown, PA.MoveRight],
         ];
         diagonalSpeedFix(playerActions, diagonalPairs);
     }
@@ -41,9 +42,9 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
  * Player should move at sqrt(1/2) 
  * 
  * @param {IGame.IPlayerActionData[]} data
- * @param {[IGame.PlayerAction, IGame.PlayerAction][]} diagonalPairs
+ * @param {[PA, PA][]} diagonalPairs
  */
-function diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [IGame.PlayerAction, IGame.PlayerAction][]): void {
+function diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [PA, PA][]): void {
     const speedFix: number = 0.707;
     diagonalPairs.forEach(pair => {
         const data1 = _.find(data, ['action', pair[0]]);
@@ -66,16 +67,16 @@ function mouseSpeedFix(data: IGame.IPlayerActionData[]) {
 
     for (const entry of data) {
         switch (entry.action) {
-            case IGame.PlayerAction.MoveUp:
+            case PA.MoveUp:
                 entry.value = deltaY / vectorLength;
                 break;
-            case IGame.PlayerAction.MoveDown:
+            case PA.MoveDown:
                 entry.value = deltaY / vectorLength;
                 break;
-            case IGame.PlayerAction.MoveLeft:
+            case PA.MoveLeft:
                 entry.value = deltaX / vectorLength;
                 break;
-            case IGame.PlayerAction.MoveRight:
+            case PA.MoveRight:
                 entry.value = deltaX / vectorLength;
                 break;
         }
@@ -87,7 +88,7 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
         if (leftStick < -getGamepadActivationPoint()) {
 
             data.push({
-                action: IGame.PlayerAction.MoveUp,
+                action: PA.MoveUp,
                 value: LinearConvert(-getGamepadActivationPoint(), -1, leftStick)
             });
             return;
@@ -97,7 +98,7 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
         const location = inputs.mouse;
         if (location.clientY < gameContext.objects.ship.position.y) {
             data.push({
-                action: IGame.PlayerAction.MoveUp,
+                action: PA.MoveUp,
                 value: 1
             });
         }
@@ -105,7 +106,7 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
     }
     if (inputs.keys[Keys.UP_ARROW]) {
         data.push({
-            action: IGame.PlayerAction.MoveUp,
+            action: PA.MoveUp,
             value: 1
         });
     }
@@ -116,7 +117,7 @@ function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         const leftStick = inputs.gamepad.axes[1];
         if (leftStick > getGamepadActivationPoint()) {
             data.push({
-                action: IGame.PlayerAction.MoveDown,
+                action: PA.MoveDown,
                 value: LinearConvert(getGamepadActivationPoint(), 1, leftStick)
             });
             return;
@@ -126,7 +127,7 @@ function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         const location = inputs.mouse;
         if (location.clientY > gameContext.objects.ship.position.y) {
             data.push({
-                action: IGame.PlayerAction.MoveDown,
+                action: PA.MoveDown,
                 value: 1
             });
         }
@@ -134,7 +135,7 @@ function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
     }
     if (inputs.keys[Keys.DOWN_ARROW]) {
         data.push({
-            action: IGame.PlayerAction.MoveDown,
+            action: PA.MoveDown,
             value: 1
         });
     }
@@ -145,7 +146,7 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         const button = inputs.gamepad.buttons;
         if (button && button[4] && button[4].pressed) {
             data.push({
-                action: IGame.PlayerAction.MoveLeft,
+                action: PA.MoveLeft,
                 value: button[4].value
             });
             return;
@@ -153,7 +154,7 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         const leftStick = inputs.gamepad.axes[0];
         if (leftStick < -getGamepadActivationPoint()) {
             data.push({
-                action: IGame.PlayerAction.MoveLeft,
+                action: PA.MoveLeft,
                 value: LinearConvert(-getGamepadActivationPoint(), -1, leftStick)
             });
             return;
@@ -164,7 +165,7 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         const location = inputs.mouse;
         if (location.clientX < gameContext.objects.ship.position.x) {
             data.push({
-                action: IGame.PlayerAction.MoveLeft,
+                action: PA.MoveLeft,
                 value: 1
             });
         }
@@ -173,7 +174,7 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
 
     if (inputs.keys[Keys.LEFT_ARROW]) {
         data.push({
-            action: IGame.PlayerAction.MoveLeft,
+            action: PA.MoveLeft,
             value: 1
         });
     }
@@ -184,7 +185,7 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         const button = inputs.gamepad.buttons;
         if (button && button[5] && button[5].pressed) {
             data.push({
-                action: IGame.PlayerAction.MoveRight,
+                action: PA.MoveRight,
                 value: button[5].value
             });
             return;
@@ -193,7 +194,7 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         const leftStick = inputs.gamepad.axes[0];
         if (leftStick > getGamepadActivationPoint()) {
             data.push({
-                action: IGame.PlayerAction.MoveRight,
+                action: PA.MoveRight,
                 value: LinearConvert(getGamepadActivationPoint(), 1, leftStick)
             });
             return;
@@ -204,7 +205,7 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         const location = inputs.mouse;
         if (location.clientX > gameContext.objects.ship.position.x) {
             data.push({
-                action: IGame.PlayerAction.MoveRight,
+                action: PA.MoveRight,
                 value: 1
             });
         }
@@ -213,7 +214,7 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
 
     if (inputs.keys[Keys.RIGHT_ARROW]) {
         data.push({
-            action: IGame.PlayerAction.MoveRight,
+            action: PA.MoveRight,
             value: 1
         });
     }
@@ -223,14 +224,14 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
         const button = inputs.gamepad.buttons;
         if (button && button[7] && button[7].pressed) {
             data.push({
-                action: IGame.PlayerAction.ScaleUp,
+                action: PA.ScaleUp,
                 value: button[7].value
             });
             return;
         }
         if (button && button[0] && button[0].pressed) {
             data.push({
-                action: IGame.PlayerAction.ScaleUp,
+                action: PA.ScaleUp,
                 value: 1
             });
             return;
@@ -238,7 +239,7 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
     }
     if (inputs.wheel &&inputs.wheel.deltaY < 0) {
         data.push({
-            action: IGame.PlayerAction.ScaleUp,
+            action: PA.ScaleUp,
             value: 1
         });
 
@@ -246,7 +247,7 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
     }
     if (inputs.keys[Keys.KEY_W]) {
         data.push({
-            action: IGame.PlayerAction.ScaleUp,
+            action: PA.ScaleUp,
             value: 1
         });
     }
@@ -257,14 +258,14 @@ function shouldScaleDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         const button = inputs.gamepad.buttons;
         if (button && button[6] && button[6].pressed) {
             data.push({
-                action: IGame.PlayerAction.ScaleDown,
+                action: PA.ScaleDown,
                 value: button[6].value
             });
             return;
         }
         if (button && button[1] && button[1].pressed) {
             data.push({
-                action: IGame.PlayerAction.ScaleDown,
+                action: PA.ScaleDown,
                 value: 1
             });
             return;
@@ -272,14 +273,14 @@ function shouldScaleDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
     }
     if (inputs.wheel && inputs.wheel.deltaY > 0) {
         data.push({
-            action: IGame.PlayerAction.ScaleDown,
+            action: PA.ScaleDown,
             value: 1
         });
         delete inputs.wheel;
     }
     if (inputs.keys[Keys.KEY_S]) {
         data.push({
-            action: IGame.PlayerAction.ScaleDown,
+            action: PA.ScaleDown,
             value: 1
         });
     }
