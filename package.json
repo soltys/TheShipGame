@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "The game with ship in it",
   "keywords": [
-    "game"    
+    "game"
   ],
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "enhanced-resolve": "^3.0.3",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.1",
     "karma": "^1.4.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.0.0",
@@ -53,8 +53,8 @@
     "tslint-eslint-rules": "^3.2.3",
     "tslint-loader": "^3.3.0",
     "typescript": "^2.1.5",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
