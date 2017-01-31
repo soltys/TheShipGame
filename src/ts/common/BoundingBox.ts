@@ -1,21 +1,19 @@
-import * as Game from './IGame';
-class BoundingBox {
+import * as IGame from './IGame';
+import CollisionDirection from './CollisionDirection';
+class BoundingBox implements IGame.IBoundingBox {
     private rectangle: PIXI.Rectangle;
 
     collidesWith(gameObject: BoundingBox): boolean {
-        let edges = this.getEdges(this, gameObject);
-        
-
-        if (!(
-            edges.boxTop > edges.gameObjectBottom ||
-            edges.boxRight < edges.gameObjectLeft ||
-            edges.boxBottom < edges.gameObjectTop ||
-            edges.boxLeft > edges.gameObjectRight
-        )) {
-
+        if (this.rectangle.x < gameObject.x + gameObject.width &&
+            this.rectangle.x + this.rectangle.width > gameObject.x &&
+            this.rectangle.y < gameObject.y + gameObject.height &&
+            this.rectangle.height + this.rectangle.y > gameObject.y) {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
+
     }
 
     getEdges(box, gameObject) {
@@ -31,7 +29,7 @@ class BoundingBox {
         };
     }
 
-    collidesInDirection(box, gameObject): Game.CollisionDirection {
+    collidesInDirection(box, gameObject): CollisionDirection {
         let edges = this.getEdges(box, gameObject);
 
         let offsetLeft = edges.gameObjectRight - edges.boxLeft;
@@ -40,25 +38,25 @@ class BoundingBox {
         let offsetBottom = edges.boxBottom - edges.gameObjectTop;
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetTop) {
-            return Game.CollisionDirection.Down;
+            return CollisionDirection.Down;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetBottom) {
-            return Game.CollisionDirection.Up
+            return CollisionDirection.Up;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetLeft) {
-            return Game.CollisionDirection.Right
+            return CollisionDirection.Right;
         }
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetRight) {
-            return Game.CollisionDirection.Left;
+            return CollisionDirection.Left;
         }
 
-        return Game.CollisionDirection.Unknown
+        return CollisionDirection.Unknown;
     }
     get x() {
-        return this.rectangle.x
+        return this.rectangle.x;
     }
 
     set x(value) {
@@ -66,7 +64,7 @@ class BoundingBox {
     }
 
     get y() {
-        return this.rectangle.y
+        return this.rectangle.y;
     }
 
     set y(value) {
@@ -74,7 +72,7 @@ class BoundingBox {
     }
 
     get width() {
-        return this.rectangle.width
+        return this.rectangle.width;
     }
 
     set width(value) {
@@ -92,8 +90,8 @@ class BoundingBox {
         this.rectangle = rectangle;
     }
 
-    update(state: Game.IGameContext) {
-       
+    update(state: IGame.IGameContext) {
+
     }
 
     clone(): BoundingBox {

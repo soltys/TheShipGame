@@ -1,19 +1,22 @@
 import GameObject from './common/GameObject';
+import CollisionDirection from './common/CollisionDirection';
 import { GetPlayerAction } from './PlayerAction';
+import PlayerAction from './common/PlayerAction';
 import BoundingBox from './common/BoundingBox';
+import Bullet from './Bullet';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 
-export default class Ship extends GameObject implements IGame.IGameDisplayObject {
+export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 
     private shipSprite: PIXI.Sprite;
     private normalShipTexture: PIXI.Texture;
     private leftShipTexture: PIXI.Texture;
     private rightShipTexture: PIXI.Texture;
 
-    private position: PIXI.Point;
-    private anchor: PIXI.ObservablePoint;
     private boundingBox: BoundingBox;
+    private boundingBoxWings: BoundingBox;
+    private boundingBoxAll: BoundingBox;
     private velocityX = 0;
     private maximumVelocityX = 10;
     private accelerationX = 1;
@@ -40,32 +43,55 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.rightShipTexture = textureToRight;
 
         this.shipSprite.position.set(200, 150);
-        this.boundingBox = new BoundingBox(new PIXI.Rectangle(
+        this.boundingBoxAll = new BoundingBox(new PIXI.Rectangle(
             200, 150, 32, 32
-        ))
+        ));
+
+        this.boundingBox = new BoundingBox(new PIXI.Rectangle(
+            210, 150, 12, 32
+        ));
+
+        this.boundingBoxWings = new BoundingBox(new PIXI.Rectangle(
+            200, 163, 32, 14
+        ));
 
 
 
     }
-
+    get position() {
+        return new PIXI.Point(this.shipSprite.position.x + this.shipSprite.width / 2, this.shipSprite.position.y + this.shipSprite.height / 2);
+    }
     init(state: IGame.IGameContext): void {
+        this.graphics = new PIXI.Graphics();
+        state.objects.ship = this;
 
+        setInterval(()=>{
+            state.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width/2),this.boundingBoxAll.y));
+        },800);
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        var data = super.checkCollision(this.boundingBox, boundingBox);
-        return {
-            name: this.constructor.name,
-            isColliding: data.isColliding,
-            direction: data.direction,
-            collisionBox: this.boundingBox
+        const data = super.checkCollision(this.boundingBox, boundingBox);
+        const dataWings = super.checkCollision(this.boundingBoxWings, boundingBox);
+        if (data.isColliding) {
+            return {
+                name: "Ship",
+                isColliding: data.isColliding,
+                direction: data.direction,
+                collisionBox: this.boundingBox
+            };
+        } else {
+            return {
+                name: "Ship",
+                isColliding: dataWings.isColliding,
+                direction: dataWings.direction,
+                collisionBox: this.boundingBoxWings
+            };
         }
+
     }
 
     update(timeDelta: number, context: IGame.IGameContext) {
-
-
-
         const playerActions = GetPlayerAction(context);
         this.playerInput(playerActions, timeDelta);
 
@@ -75,100 +101,131 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         let deltaX = this.velocityX * timeDelta;
         let deltaY = this.velocityY * timeDelta;
 
-        let tempBoundingBox = this.boundingBox.clone();
+        let tempBoundingBox = this.boundingBoxAll.clone();
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
 
-        let collisionData: IGame.ICollisionData = super.collideWith(this.boundingBox);
-        context.objects.forEach(gameObject => {
+
+        context.objects.all.forEach(gameObject => {
             if (this === gameObject) {
                 return;
             }
 
             //Future colision
-            collisionData = gameObject.collideWith(tempBoundingBox);
+            const collisionData = gameObject.collideWith(tempBoundingBox);
 
             if (collisionData.isColliding && collisionData.name === "GameBorder") {
 
-                if (collisionData.direction == IGame.CollisionDirection.Up) {
-                    deltaY = Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - this.boundingBox.y);
+                if (collisionData.direction === CollisionDirection.Up) {
+                    deltaY = -Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - this.boundingBoxAll.y);
                 }
-                if (collisionData.direction == IGame.CollisionDirection.Down) {
-                    deltaY = - Math.abs((collisionData.collisionBox.y - collisionData.collisionBox.height) - (this.boundingBox.y + this.boundingBox.height));
+                if (collisionData.direction === CollisionDirection.Down) {
+                    deltaY = Math.abs((collisionData.collisionBox.y) - (this.boundingBoxAll.y + this.boundingBoxAll.height));
                 }
-                if (collisionData.direction == IGame.CollisionDirection.Left) {
-                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - this.boundingBox.x);
+                if (collisionData.direction === CollisionDirection.Left) {
+                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - this.boundingBoxAll.x) * -1;
                 }
-                if (collisionData.direction == IGame.CollisionDirection.Right) {
-                    deltaX = -Math.abs((collisionData.collisionBox.x - collisionData.collisionBox.width) - (this.boundingBox.x + this.boundingBox.width));
+                if (collisionData.direction === CollisionDirection.Right) {
+                    deltaX = Math.abs((collisionData.collisionBox.x) - (this.boundingBoxAll.x + this.boundingBoxAll.width));
                 }
             }
-
-
         });
+
         this.shipSprite.x += deltaX;
         this.shipSprite.y += deltaY;
         this.boundingBox.x += deltaX;
         this.boundingBox.y += deltaY;
+        this.boundingBoxWings.x += deltaX;
+        this.boundingBoxWings.y += deltaY;
+        this.boundingBoxAll.x += deltaX;
+        this.boundingBoxAll.y += deltaY;
 
+        // const drawBoundingBox = (box) => {
+        //     this.graphics.drawRect(box.x, box.y, box.width, box.height);
+        // };
+        // this.graphics.clear();
+        // this.graphics.beginFill(0xff0000);
+        // drawBoundingBox(this.boundingBoxWings);
+        // this.graphics.endFill();
 
     }
 
     private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number) {
         this.shipSprite.texture = this.normalShipTexture;
-        let moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveLeft))
+        const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveLeft));
         if (moveLeft) {
             this.velocityX = Math.max(
-                (this.velocityX - this.accelerationX) * moveLeft.value,
+                this.velocityX - (this.accelerationX * moveLeft.value),
                 this.maximumVelocityX * -1
             );
-             this.shipSprite.texture = this.leftShipTexture;
+            this.shipSprite.texture = this.leftShipTexture;
         }
 
-        if (_.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveRight))) {
+        const moveRight: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveRight));
+        if (moveRight) {
             this.velocityX = Math.min(
-                this.velocityX + this.accelerationX,
+                this.velocityX + (this.accelerationX * moveRight.value),
                 this.maximumVelocityX
             );
             this.shipSprite.texture = this.rightShipTexture;
         }
-        const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveUp))
+        const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveUp));
         if (moveUp) {
             this.velocityY = Math.max(
-                (this.velocityY - this.accelerationY) * moveUp.value,
+                this.velocityY - (this.accelerationY * moveUp.value),
                 this.maximumVelocityY * -1
             );
         }
-        const moveDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.MoveDown))
+        const moveDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveDown));
         if (moveDown) {
             this.velocityY = Math.min(
-                (this.velocityY + this.accelerationY) * moveDown.value,
+                this.velocityY + (this.accelerationY * moveDown.value),
                 this.maximumVelocityY
             );
         }
 
-        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleUp))
+        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
         if (scaleUp) {
+            const scaleUpFunc = (baseWidth, baseHeight, updateThis: any[]) => {
+                const newWidth = baseWidth + this.scaleFactor * timeDelta * scaleUp.value;
+                const newHeight = baseHeight + this.scaleFactor * timeDelta * scaleUp.value;
+                for (const update of updateThis) {
+                    update.width = newWidth;
+                    update.height = newHeight;
+                }
+            };
             const newWidth = this.shipSprite.width + this.scaleFactor * timeDelta * scaleUp.value;
             const newHeight = this.shipSprite.height + this.scaleFactor * timeDelta * scaleUp.value;
 
             if (newHeight < this.maxHeight || newWidth < this.maxWidth) {
-                this.shipSprite.width = newWidth
-                this.shipSprite.height = newHeight;
-                this.boundingBox.width = newWidth
-                this.boundingBox.height = newHeight;
+                scaleUpFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
+                scaleUpFunc(this.boundingBoxWings.width, this.boundingBoxWings.height, [this.boundingBoxWings]);
+                scaleUpFunc(this.shipSprite.width, this.shipSprite.height, [this.shipSprite, this.boundingBoxAll]);
+                //scaleUpFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
+
+
+
             }
         }
-        const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', IGame.PlayerAction.ScaleDown))
+        const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
         if (scaleDown) {
+
+            const scaleDownFunc = (baseWidth, baseHeight, updateThis: any[]) => {
+                const newWidth = baseWidth + -this.scaleFactor * timeDelta * scaleDown.value;
+                const newHeight = baseHeight + -this.scaleFactor * timeDelta * scaleDown.value;
+                for (const update of updateThis) {
+                    update.width = newWidth;
+                    update.height = newHeight;
+                }
+            };
             const newWidth = this.shipSprite.width + -this.scaleFactor * timeDelta * scaleDown.value;
             const newHeight = this.shipSprite.height + -this.scaleFactor * timeDelta * scaleDown.value;
 
             if (newHeight > this.minHeight || newWidth > this.minWidth) {
-                this.shipSprite.width = newWidth
-                this.shipSprite.height = newHeight;
-                this.boundingBox.width = newWidth
-                this.boundingBox.height = newHeight;
+                scaleDownFunc(this.shipSprite.width, this.shipSprite.height, [this.shipSprite, this.boundingBoxAll]);
+                scaleDownFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
+                scaleDownFunc(this.boundingBoxWings.width, this.boundingBoxWings.height, [this.boundingBoxWings]);
+
             }
         }
     }

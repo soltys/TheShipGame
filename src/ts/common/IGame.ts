@@ -1,52 +1,34 @@
-declare class BoundingBox {
+import CollisionDirection from './CollisionDirection';
+import PlayerAction from './PlayerAction';
+
+export interface IBoundingBox {
     x: number;
     y: number;
     width: number;
     height: number;
 }
 
-declare class Game {
-    stage: PIXI.Container
-    removeObject(gameObject: IGameObject): void ;
-    addObject(gameObject: IGameObject): void 
-}
-declare class Score{
-    public addToScore(value:number):void;
-}
-export class Colors {
-    static get GameBorder(): number {
-        return 0xFF00BB;
-    }
+export interface IGameHost {
+    stage: PIXI.Container;
+    removeObject(gameObject: IGameObject): void;
+    addObject(gameObject: IGameObject): void;
+    gotoState(state: IGameState): void;
 
-    static get Background(): number {
-        return 0x1099bb;
-    }
-
-    static get TextColor(): string {
-        return '#eee';
-    }
-
-    static get TextOutlineColor(): string {
-        return '#000';
-    }
+    gameHeight: number;
+    gameWidth: number;
 }
 
-export enum CollisionDirection {
-    Unknown,
-    Up,
-    Down,
-    Left,
-    Right
+export interface IShip {
+    position: PIXI.Point;
 }
 
-export enum PlayerAction {
-    MoveUp,
-    MoveDown,
-    MoveRight,
-    MoveLeft,
+export interface IGameState {
+    handle(context: IGameContext): void;
+    onLeave(context: IGameContext): void;
+}
 
-    ScaleUp,
-    ScaleDown,
+export interface IScore {
+    addToScore(value: number): void;
 }
 
 export interface IPlayerActionData {
@@ -54,20 +36,37 @@ export interface IPlayerActionData {
     value: number;
 }
 export interface IGameContext {
-    keys: Object;
-    clicks: Object;
+    inputs: IGameInput;
+    objects: IGameObjectCollection;
+    game: IGameHost;
+
+    state: IGameState;
+}
+export interface IGameInput {
+    keys: { [index: number]: boolean };
+    clicks: { [index: number]: IMousePosition };
+    wheel: IMouseWheel;
     mouse: IMousePosition;
-    objects: Array<IGameObject>;
     gamepad: IGamepadData;
-    game: Game;
-    score: Score;
 }
 
+export interface IGameObjectCollection {
+    all: Array<IGameObject>;
+    score: IScore;
+    ship: IShip;
+}
 
 
 export interface IMousePosition {
     clientX: number;
     clientY: number;
+}
+
+
+export interface IMouseWheel {
+    deltaX: number;
+    deltaY: number;
+    deltaZ: number;
 }
 
 export interface IGamepadData {
@@ -78,20 +77,20 @@ export interface IGamepadData {
 }
 
 export interface ICollisionData {
-    name: string,
-    isColliding: boolean,
-    direction: CollisionDirection,
-    collisionBox: BoundingBox,
+    name: string;
+    isColliding: boolean;
+    direction: CollisionDirection;
+    collisionBox: IBoundingBox;
 }
 
 export interface IGameObject {
     init(state: IGameContext): void;
     update(delta: number, state: IGameContext): void;
-    collideWith(boundingBox: BoundingBox): ICollisionData;
+    collideWith(boundingBox: IBoundingBox): ICollisionData;
 }
 
 export interface IGameDisplayObject extends IGameObject {
-    readonly displayObjects: PIXI.DisplayObject[]
+    readonly displayObjects: PIXI.DisplayObject[];
 }
 
 export interface IDictionary {
@@ -101,5 +100,3 @@ export interface IDictionary {
     keys(): string[];
     values(): any[];
 }
-
-

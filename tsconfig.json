@@ -2,8 +2,13 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",        
-    "sourceMap": true
-    
+    "sourceMap": true,
+     "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "noUnusedLocals": true,    
+    "inlineSources": true,
+    "noImplicitReturns": true    
   },
   "exclude": [
     "node_modules"    

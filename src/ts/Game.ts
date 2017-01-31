@@ -1,54 +1,70 @@
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
-class Game {
+import InitState from './states/InitState';
+import Colors from './common/Colors';
+class Game implements IGame.IGameHost{
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private readonly state: IGame.IGameContext;
+    private readonly context: IGame.IGameContext;
     private gamepads: Gamepad[];
-    private gameWidth = 0;
-    private gameHeight = 0;
+    public gameWidth = 0;
+    public gameHeight = 0;
+    private scale = 2;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
-        this.stage = this.newStage()
+        this.stage = this.newStage();
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
+        this.context = this.createGameContext();
+    }
 
-        this.state = {
-            "keys": {},
-            "clicks": {},
-            "mouse": { clientX: 0, clientY: 0 },
-            "gamepad": {
-                buttons: [],
-                axes: [],
-                isConnected: false
+    private createGameContext(): IGame.IGameContext {
+        return {
+            inputs: {
+                "keys": {},
+                "clicks": {},
+                "mouse": { clientX: 0, clientY: 0 },
+                "gamepad": {
+                    buttons: [],
+                    axes: [],
+                    isConnected: false
+                },
+                wheel: {
+                    deltaX: 0,
+                    deltaY: 0,
+                    deltaZ: 0
+                }
             },
-            "objects": [],
+            "objects": {
+                "all": [],
+                "score": undefined,
+                "ship": undefined,
+            },
+            "state": new InitState(),
             "game": this,
-            "score": null
         };
-
     }
 
     public removeObject(gameObject: IGame.IGameObject): void {
         const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
         if (displayObjects) {
-            for (const displayObject of displayObjects)
+            for (const displayObject of displayObjects) {
                 this.stage.removeChild(displayObject);
+            }
+
         }
 
-        var index = _.indexOf(this.state.objects, gameObject);
-        this.state.objects.splice(index, 1);
-
-
+        const index = _.indexOf(this.context.objects.all, gameObject);
+        this.context.objects.all.splice(index, 1);
     }
 
     public addObject(gameObject: IGame.IGameObject): void {
-        gameObject.init(this.state);
+        gameObject.init(this.context);
 
-        this.state.objects.push(gameObject);
+        this.context.objects.all.push(gameObject);
         const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
         if (displayObjects) {
             for (const displayObject of displayObjects) {
@@ -65,17 +81,23 @@ class Game {
     private newRenderer() {
         return PIXI.autoDetectRenderer(this.gameWidth, this.gameHeight,
             {
-                backgroundColor: IGame.Colors.Background,
+                backgroundColor: Colors.Background,
                 antialias: true,
                 roundPixels: false,
-                resolution: 2,
+                resolution: this.scale,
             });
     }
 
     public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
     }
-
+    public gotoState(state: IGame.IGameState) {
+        if (this.context.state) {
+            this.context.state.onLeave(this.context);
+        }
+        this.context.state = state;
+        this.context.state.handle(this.context);
+    }
     public animate() {
         //Set the frame rate
         const fps = 60;
@@ -83,13 +105,12 @@ class Game {
         let start = Date.now();
         //Set the frame duration in milliseconds
         const frameDuration = 1000 / fps;
-        //Initialize the lag offset
-        let lag = 0;
 
-        var caller = () => {
+
+        const caller = () => {
             requestAnimationFrame(caller);
 
-            var current = Date.now(),
+            const current = Date.now(),
                 elapsed = current - start;
             start = current;
             //Add the elapsed time to the lag counter
@@ -97,53 +118,61 @@ class Game {
             let lagOffset = elapsed / frameDuration;
             this.gamepads = navigator.getGamepads() || [];
 
-            this.state.gamepad.isConnected = false;
-            for (let i = 0; i < this.gamepads.length; i++) {
-                const gamepad = this.gamepads[i];
+            const inputs = this.context.inputs;
+            inputs.gamepad.isConnected = false;
+            for (const gamepad of this.gamepads) {
                 if (gamepad) {
-                    this.state.gamepad.isConnected = true;
-                    this.state.gamepad.axes = gamepad.axes;
-                    this.state.gamepad.buttons = gamepad.buttons;
+                    inputs.gamepad.isConnected = true;
+                    inputs.gamepad.axes = gamepad.axes;
+                    inputs.gamepad.buttons = gamepad.buttons;
                 }
             }
 
-            this.state.objects.forEach((object) => {
-                object.update(lagOffset, this.state);
+            this.context.objects.all.forEach((object) => {
+                object.update(lagOffset, this.context);
             });
 
             this.renderer.render(this.stage);
 
         };
 
-        requestAnimationFrame(caller);
-
+        caller();
     }
 
     public addEventListenerToElement(element): void {
+        const inputs = this.context.inputs;
         element.addEventListener("keydown", (event) => {
-            this.state.keys[event.keyCode] = true;
+            inputs.keys[event.keyCode] = true;
         });
 
         element.addEventListener("keyup", (event) => {
-            this.state.keys[event.keyCode] = false;
+            inputs.keys[event.keyCode] = false;
         });
 
         element.addEventListener("mousedown", (event) => {
-            this.state.clicks[event.which] = {
+            inputs.clicks[event.which] = {
                 "clientX": event.clientX,
                 "clientY": event.clientY
             };
         });
 
         element.addEventListener("mouseup", (event) => {
-            this.state.clicks[event.which] = false;
+            delete inputs.clicks[event.which];
         });
 
         element.addEventListener("mousemove", (event) => {
-            this.state.mouse.clientX = event.clientX;
-            this.state.mouse.clientY = event.clientY;
+            inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
+            inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
 
+        element.addEventListener("wheel", (event) => {
+            event.preventDefault();
+            inputs.wheel = {
+                deltaX: event.deltaX,
+                deltaY: event.deltaY,
+                deltaZ: event.deltaZ,
+            };
+        }, false);
     }
 }
 

@@ -6,4 +6,4 @@ enum CollisionDirection{
     Right
 }
 
-export default CollisionDirection
+export default CollisionDirection;
