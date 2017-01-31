@@ -8,11 +8,15 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
     private graphics: PIXI.Graphics;
     private wasDrawn: boolean = false;
     private showBorders: boolean = true;
-
-    constructor(rect: PIXI.Rectangle) {
+    private tilingSprite: PIXI.extras.TilingSprite;
+    constructor(rect: PIXI.Rectangle, texture:PIXI.Texture) {
         super();
         this.border = new BoundingBox(rect);
-
+        
+        this.tilingSprite = new PIXI.extras.TilingSprite(texture,rect.width,rect.height);
+        this.tilingSprite.x = rect.x;
+        this.tilingSprite.y = rect.y;
+        
         if (this.showBorders) {
             this.graphics = new PIXI.Graphics();
         }
@@ -40,6 +44,6 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
     }
 
     get displayObjects(): PIXI.DisplayObject[] {
-        return [this.graphics];
+        return [this.graphics, this.tilingSprite];
     }
 }

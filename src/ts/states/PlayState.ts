@@ -36,19 +36,27 @@ function getGameBorders(gameWidth: number, gameHeight: number): GameBorder[] {
     const gameBorders: GameBorder[] = [];
     //up
     gameBorders.push(new GameBorder(
-        new PIXI.Rectangle(0, 0, gameWidth, borderSize)
+        new PIXI.Rectangle(0, 0, gameWidth, borderSize),
+        getBorderTexture('top')
     ));
     //down
     gameBorders.push(new GameBorder(
-        new PIXI.Rectangle(0, gameHeight - borderSize, gameWidth, borderSize)
+        new PIXI.Rectangle(0, gameHeight - borderSize, gameWidth, borderSize),
+        getBorderTexture('bottom')
     ));
     //left
     gameBorders.push(new GameBorder(
-        new PIXI.Rectangle(0, 0, borderSize, gameHeight)
+        new PIXI.Rectangle(0, 0, borderSize, gameHeight),
+        getBorderTexture('left')
     ));
     gameBorders.push(new GameBorder(
-        new PIXI.Rectangle(gameWidth - borderSize, 0, borderSize, gameHeight)
+        new PIXI.Rectangle(gameWidth - borderSize, 0, borderSize, gameHeight),
+        getBorderTexture('right')
     ));
 
     return gameBorders;
+}
+
+function getBorderTexture(name: string): PIXI.Texture {
+    return PIXI.Texture.fromImage(`assets/borders/${name}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
 }

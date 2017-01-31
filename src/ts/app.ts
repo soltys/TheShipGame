@@ -14,7 +14,11 @@ PIXI.loader.add([
     'assets/animation/bullet.json',
     'assets/ship_to_left.png',
     'assets/ship_to_right.png',
-    'assets/ship.png'
+    'assets/ship.png',
+    'assets/borders/top.png',
+    'assets/borders/bottom.png',
+    'assets/borders/left.png',
+    'assets/borders/right.png',
 ])
     //.on("progress", loadProgressHandler)
     .load(onAssetsLoaded);

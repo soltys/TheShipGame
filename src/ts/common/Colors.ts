@@ -4,7 +4,7 @@ class Colors {
     }
 
     static get Background(): number {
-        return 0x1099bb;
+        return 0x546e7a;
     }
 
     static get TextColor(): string {
