@@ -15,36 +15,36 @@ module.exports = {
     output: {
         path: outputPath,
         filename: '[name].js',
-        publicPath: 'build/'        
+        publicPath: 'build/'
     },
     resolve: {
         modules: [
             path.join(__dirname, 'node_modules'),
         ],
-        extensions: [ '.ts', '.webpack.js', '.web.js', '.js']
+        extensions: ['.ts', '.webpack.js', '.web.js', '.js']
     },
-    devtool: 'source-map',    
+    devtool: 'source-map',
     module: {
-        rules:[
-        {
-            test: /\.ts$/,
-            enforce: "pre",
-            loader: 'tslint-loader'
-        },
-        {
-            test: /\.ts$/,
-            loader: 'awesome-typescript-loader'            
-        },
-        {
-            test: /\.scss$/,          
-            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
-        }]
+        rules: [
+            {
+                test: /\.ts$/,
+                enforce: "pre",
+                loader: 'tslint-loader'
+            },
+            {
+                test: /\.ts$/,
+                loader: 'awesome-typescript-loader'
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
+            }]
     },
     plugins: [
         new ExtractTextPlugin('[name].css'),
         new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
         new webpack.LoaderOptionsPlugin({
-            debug:true,         
+            debug: true,
             options: {
                 postcss: [autoprefixer({
                     browsers: ['> 1%']
