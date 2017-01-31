@@ -1,6 +1,6 @@
-import * as Game from './IGame';
+import * as IGame from './IGame';
 import CollisionDirection from './CollisionDirection';
-class BoundingBox {
+class BoundingBox implements IGame.IBoundingBox {
     private rectangle: PIXI.Rectangle;
 
     collidesWith(gameObject: BoundingBox): boolean {
@@ -90,7 +90,7 @@ class BoundingBox {
         this.rectangle = rectangle;
     }
 
-    update(state: Game.IGameContext) {
+    update(state: IGame.IGameContext) {
 
     }
 

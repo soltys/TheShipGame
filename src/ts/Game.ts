@@ -2,7 +2,7 @@ import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 import InitState from './states/InitState';
 import Colors from './common/Colors';
-class Game {
+class Game implements IGame.IGameHost{
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly context: IGame.IGameContext;

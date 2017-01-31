@@ -1,14 +1,14 @@
 import CollisionDirection from './CollisionDirection';
 import PlayerAction from './PlayerAction';
 
-declare class BoundingBox {
+export interface IBoundingBox {
     x: number;
     y: number;
     width: number;
     height: number;
 }
 
-declare class Game {
+export interface IGameHost {
     stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
@@ -18,7 +18,7 @@ declare class Game {
     gameWidth: number;
 }
 
-declare class Ship {
+export interface IShip {
     position: PIXI.Point;
 }
 
@@ -27,8 +27,8 @@ export interface IGameState {
     onLeave(context: IGameContext): void;
 }
 
-declare class Score {
-    public addToScore(value: number): void;
+export interface IScore {
+    addToScore(value: number): void;
 }
 
 export interface IPlayerActionData {
@@ -38,7 +38,7 @@ export interface IPlayerActionData {
 export interface IGameContext {
     inputs: IGameInput;
     objects: IGameObjectCollection;
-    game: Game;
+    game: IGameHost;
 
     state: IGameState;
 }
@@ -52,8 +52,8 @@ export interface IGameInput {
 
 export interface IGameObjectCollection {
     all: Array<IGameObject>;
-    score: Score;
-    ship: Ship;
+    score: IScore;
+    ship: IShip;
 }
 
 
@@ -80,13 +80,13 @@ export interface ICollisionData {
     name: string;
     isColliding: boolean;
     direction: CollisionDirection;
-    collisionBox: BoundingBox;
+    collisionBox: IBoundingBox;
 }
 
 export interface IGameObject {
     init(state: IGameContext): void;
     update(delta: number, state: IGameContext): void;
-    collideWith(boundingBox: BoundingBox): ICollisionData;
+    collideWith(boundingBox: IBoundingBox): ICollisionData;
 }
 
 export interface IGameDisplayObject extends IGameObject {

@@ -7,7 +7,7 @@ import Bullet from './Bullet';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 
-export default class Ship extends GameObject implements IGame.IGameDisplayObject {
+export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 
     private shipSprite: PIXI.Sprite;
     private normalShipTexture: PIXI.Texture;
