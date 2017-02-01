@@ -19,6 +19,11 @@ PIXI.loader.add([
     'assets/borders/bottom.png',
     'assets/borders/left.png',
     'assets/borders/right.png',
+    'assets/borders/corner_right_top.png',
+    'assets/borders/corner_left_top.png',
+    'assets/borders/corner_right_bottom.png',
+    'assets/borders/corner_left_bottom.png',
+
 ])
     //.on("progress", loadProgressHandler)
     .load(onAssetsLoaded);
