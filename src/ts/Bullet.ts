@@ -15,6 +15,10 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
 
     update(timeDelta: number, context: IGame.IGameContext) {
         this.bulletAnimation.y -= 1;
+
+        if (this.bulletAnimation.y < 0){
+            context.game.removeObject(this);
+        }
     }
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.graphics, this.bulletAnimation];
