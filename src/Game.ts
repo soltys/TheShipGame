@@ -2,13 +2,14 @@ import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 import InitState from './states/InitState';
 import Colors from './common/Colors';
-class Game implements IGame.IGameHost{
+class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly context: IGame.IGameContext;
     private gamepads: Gamepad[];
     public gameWidth = 0;
     public gameHeight = 0;
+    public config: IGame.IConfig;
     private scale = 2;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
@@ -19,6 +20,10 @@ class Game implements IGame.IGameHost{
         this.renderer = this.newRenderer();
         this.gamepads = [];
         this.context = this.createGameContext();
+
+        this.config = {
+            isMouseEnabled: false
+        };
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -150,6 +155,9 @@ class Game implements IGame.IGameHost{
         });
 
         element.addEventListener("mousedown", (event) => {
+            if (!this.config.isMouseEnabled) {
+                return;
+            }
             inputs.clicks[event.which] = {
                 "clientX": event.clientX,
                 "clientY": event.clientY
@@ -157,16 +165,25 @@ class Game implements IGame.IGameHost{
         });
 
         element.addEventListener("mouseup", (event) => {
+            if (!this.config.isMouseEnabled) {
+                return;
+            }
             delete inputs.clicks[event.which];
         });
 
         element.addEventListener("mousemove", (event) => {
+            if (!this.config.isMouseEnabled) {
+                return;
+            }
             inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
             inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
 
         element.addEventListener("wheel", (event) => {
             event.preventDefault();
+            if (!this.config.isMouseEnabled) {
+                return;
+            }
             inputs.wheel = {
                 deltaX: event.deltaX,
                 deltaY: event.deltaY,

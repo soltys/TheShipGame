@@ -63,7 +63,7 @@ module.exports = {
                 tslint: {
                     emitErrors: false,
                     failOnHint: false,
-                    resourcePath: 'src/ts'
+                    resourcePath: 'src'
                 }
             }
         })

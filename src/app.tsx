@@ -4,7 +4,7 @@ import PlayState from './states/PlayState';
 //import MenuState from './states/MenuState';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Hello } from "./components/Hello";
+import { Options } from "./components/Options";
 
 import Game from './Game';
 
@@ -33,8 +33,8 @@ PIXI.loader.add([
 
 
 ReactDOM.render(
-    <Hello compiler="TypeScript" framework="React" />,
-    document.getElementById("example")
+    <Options gameConfig={game.config} />,
+    document.getElementById("options")
 );
 
 function onAssetsLoaded(load, res) {

@@ -82,7 +82,7 @@ export default class PlayState extends BaseState {
         ));
         corners.push(new GameCorner(
             new PIXI.Rectangle(gameWidth - this.borderSize, gameHeight - this.borderSize, this.borderSize, this.borderSize),
-            this.getCornerTexture("left", 'bottom')
+            this.getCornerTexture("right", 'bottom')
         ));
 
         return corners;

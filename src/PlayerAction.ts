@@ -237,7 +237,7 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
             return;
         }
     }
-    if (inputs.wheel &&inputs.wheel.deltaY < 0) {
+    if (inputs.wheel && inputs.wheel.deltaY < 0) {
         data.push({
             action: PA.ScaleUp,
             value: 1
