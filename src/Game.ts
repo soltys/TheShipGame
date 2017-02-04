@@ -9,7 +9,7 @@ class Game implements IGame.IHost {
     private gamepads: Gamepad[];
     public gameWidth = 0;
     public gameHeight = 0;
-    public config: IGame.IConfig;
+    public readonly  config: IGame.IConfig;
     private scale = 2;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;

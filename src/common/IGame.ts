@@ -18,7 +18,7 @@ export interface IHost {
     gameWidth: number;
 }
 
-export interface IConfig{
+export interface IConfig {
     isMouseEnabled: boolean;
 }
 

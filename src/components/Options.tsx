@@ -2,8 +2,6 @@ import * as React from "react";
 import * as IGame from '../common/IGame';
 export interface OptionsProps { gameConfig: IGame.IConfig; }
 
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
 export class Options extends React.Component<OptionsProps, IGame.IConfig> {
     /**
      *
@@ -11,8 +9,21 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
     constructor(props) {
         super(props);
         this.state = {
-            isMouseEnabled: this.props.gameConfig.isMouseEnabled
+            isMouseEnabled: false,
         };
+
+        this.setGameOptionsConfig = this.setGameOptionsConfig.bind(this);
+    }
+
+    componentDidMount() {
+        this.setGameOptionsConfig();
+    }
+
+    setGameOptionsConfig() {
+        const isMouseEnabled = this.props.gameConfig.isMouseEnabled;
+        this.setState({
+            isMouseEnabled
+        });
     }
 
     handleInputChange(event) {
@@ -24,8 +35,6 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
         }, () => {
             this.props.gameConfig[name] = value;
         });
-
-
     }
 
     render() {
