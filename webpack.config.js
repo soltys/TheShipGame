@@ -9,7 +9,7 @@ module.exports = {
     entry: {
         app: [
             'webpack-dev-server/client?http://localhost:8080/',
-            './src/ts/app.tsx'
+            './src/app.tsx'
         ]
     },
     output: {
