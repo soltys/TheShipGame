@@ -12,7 +12,7 @@
     "stylelint": "stylelint",
     "server": "webpack-dev-server -d  --inline  --content-base --client-log-level warning --env.dev",
     "start": "npm run server",
-    "build": "webpack --progress --colors --display-modules",
+    "build": "webpack --progress --colors --display-modules --env.production",
     "tsd": "tsd"
   },
   "private": true,
@@ -28,7 +28,10 @@
     "@types/pixi.js": "^4.3.1",
     "@types/webpack": "^2.2.4",
     "autoprefixer": "^6.7.2",
+    "@types/react": "^15.0.6",
+    "@types/react-dom": "^0.14.22",
     "awesome-typescript-loader": "^3.0.0-beta.18",
+    "babel-core": "^6.22.1",
     "chai": "^3.5.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
@@ -59,8 +62,6 @@
     "webpack-dev-server": "^2.2.1"
   },
   "dependencies": {
-    "@types/react": "^15.0.6",
-    "@types/react-dom": "^0.14.22",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",
     "normalize-scss": "^6.0.0",
