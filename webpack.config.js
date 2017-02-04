@@ -9,7 +9,7 @@ module.exports = {
     entry: {
         app: [
             'webpack-dev-server/client?http://localhost:8080/',
-            './src/ts/app.ts'
+            './src/ts/app.tsx'
         ]
     },
     output: {
@@ -21,7 +21,7 @@ module.exports = {
         modules: [
             path.join(__dirname, 'node_modules'),
         ],
-        extensions: ['.ts', '.webpack.js', '.web.js', '.js']
+        extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
     },
     devtool: 'source-map',
     module: {
@@ -32,8 +32,13 @@ module.exports = {
                 loader: 'tslint-loader'
             },
             {
-                test: /\.ts$/,
-                loader: 'awesome-typescript-loader'
+                test: /\.js$/,
+                enforce: "pre",
+                loader: 'source-map-loader'
+            },
+            {
+                test: /\.tsx?$/,
+                loader: "awesome-typescript-loader"
             },
             {
                 test: /\.scss$/,
@@ -62,5 +67,10 @@ module.exports = {
                 }
             }
         })
-    ]
+    ],
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "pixi.js": "PIXI"
+    },
 }
