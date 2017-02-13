@@ -18,6 +18,7 @@ h2 {
 body {
     font-family: "Roboto";
      color: $color-primary;
+     margin:0;
 }
 #header {
     text-align: center;
@@ -42,7 +43,7 @@ body {
     display: none;
 }
 #gameHost {
-    padding:20px;
+    padding:0px;
     order: 3;
     flex-basis: 100%;
     text-align: center;
@@ -58,6 +59,8 @@ body {
     }
     #gameHost {
         flex-basis: 1;
+        padding:20px;
+        
         flex-basis: 100%;
         order: 2;
     }

@@ -8,7 +8,7 @@ import { Options } from "./components/Options";
 
 import Game from './Game';
 
-const gameWidth = 300;
+const gameWidth = 320;
 const gameHeight = 350;
 const game = new Game(gameWidth, gameHeight);
 

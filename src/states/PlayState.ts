@@ -13,7 +13,7 @@ type TopOrBottom = "top"  | "bottom";
 type Directions = Sides|TopOrBottom;
 
 export default class PlayState extends BaseState {
-    private borderSize = 3;
+    private borderSize = 16;
 
     handle(context: IGame.IGameContext) {
         const game = context.game;
