@@ -11,7 +11,7 @@ class Game implements IGame.IHost {
     public gameWidth = 0;
     public gameHeight = 0;
     public readonly config: IGame.IConfig;
-    private scale = 2;
+    private scale = 1;
     private stats: Stats;
     private requestAnimationFrameId: number;
     constructor(gameWidth: number, gameHeight: number) {
@@ -113,7 +113,7 @@ class Game implements IGame.IHost {
         this.context.state = state;
         this.context.state.handle(this.context);
     }
-    
+
     public pause() {
         cancelAnimationFrame(this.requestAnimationFrameId);
     }

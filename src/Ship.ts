@@ -28,31 +28,33 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     private scaleFactor = 2;
 
-    private minWidth = 10;
-    private minHeight = 10;
+    private minWidth = 20;
+    private minHeight = 20;
 
-    private maxWidth = 75;
-    private maxHeight = 75;
+    private maxWidth = 150;
+    private maxHeight = 150;
 
     private graphics: PIXI.Graphics;
     constructor(texture: PIXI.Texture, textureToLeft: PIXI.Texture, textureToRight: PIXI.Texture) {
         super();
         this.shipSprite = new PIXI.Sprite(texture);
+        this.shipSprite.height = 64;
+        this.shipSprite.width = 64;
         this.normalShipTexture = texture;
         this.leftShipTexture = textureToLeft;
         this.rightShipTexture = textureToRight;
 
         this.shipSprite.position.set(200, 150);
         this.boundingBoxAll = new BoundingBox(new PIXI.Rectangle(
-            200, 150, 32, 32
+            200, 150, 64, 64
         ));
 
         this.boundingBox = new BoundingBox(new PIXI.Rectangle(
-            210, 150, 12, 32
+            210, 150, 24, 64
         ));
 
         this.boundingBoxWings = new BoundingBox(new PIXI.Rectangle(
-            200, 163, 32, 14
+            200, 163, 64, 28
         ));
 
 
@@ -65,9 +67,9 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.graphics = new PIXI.Graphics();
         state.objects.ship = this;
 
-        setInterval(()=>{
-            state.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width/2),this.boundingBoxAll.y));
-        },800);
+        setInterval(() => {
+            state.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width / 2), this.boundingBoxAll.y));
+        }, 800);
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {

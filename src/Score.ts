@@ -12,7 +12,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
 
         this.textStyle = {
             fontFamily: 'Fira Sans',
-            fontSize: '8px',
+            fontSize: '16px',
             fontWeight: 'bold',
             fill: Colors.TextColor,
             stroke: Colors.TextOutlineColor,
