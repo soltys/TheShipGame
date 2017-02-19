@@ -9,7 +9,7 @@ import { Options } from "./components/Options";
 import Game from './Game';
 
 const gameWidth = 640;
-const gameHeight = 700;
+const gameHeight = 704;
 const game = new Game(gameWidth, gameHeight);
 
 PIXI.loader.add([
