@@ -6,9 +6,9 @@ import GameCorner from './../GameCorner';
 import BaseState from './BaseState';
 import * as RS from './../common/ResourceSupport';
 
-type Sides = "left" |  "right";  
-type TopOrBottom = "top"  | "bottom";
-type Directions = Sides|TopOrBottom;
+type Sides = "left" | "right";
+type TopOrBottom = "top" | "bottom";
+type Directions = Sides | TopOrBottom;
 
 export default class PlayState extends BaseState {
     private borderSize = 16;
@@ -25,10 +25,22 @@ export default class PlayState extends BaseState {
         }
 
         game.addObject(new Ship(RS.createTexture('ship.png'), RS.createTexture('ship_to_left.png'), RS.createTexture('ship_to_right.png')));
-        game.addObject(new Score(game.gameWidth));        
+        game.addObject(new Score(game.gameWidth));
         /*setInterval(function () {
             game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), getRandomInt(20, game.gameWidth - 20), getRandomInt(20, game.gameHeight - 20)));
         }, 1000);*/
+
+        document.addEventListener("visibilitychange", () => this.onVisibilityChange(game), false);
+    }
+
+    onVisibilityChange(game: IGame.IHost) {
+        if (document["hidden"]) {
+            //pause game           
+            game.pause();
+        } else {
+            //resume     
+            game.animate();      
+        }
     }
 
     getGameBorders(gameWidth: number, gameHeight: number): GameBorder[] {
@@ -88,7 +100,7 @@ export default class PlayState extends BaseState {
         return PIXI.Texture.fromImage(`assets/borders/${name}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
     }
 
-    getCornerTexture(leftOrRight: Sides , topOrBottom: TopOrBottom): PIXI.Texture {
+    getCornerTexture(leftOrRight: Sides, topOrBottom: TopOrBottom): PIXI.Texture {
         return PIXI.Texture.fromImage(`assets/borders/corner_${leftOrRight}_${topOrBottom}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
     }
 }

@@ -13,6 +13,7 @@ class Game implements IGame.IHost {
     public readonly config: IGame.IConfig;
     private scale = 2;
     private stats: Stats;
+    private requestAnimationFrameId: number;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
@@ -112,6 +113,11 @@ class Game implements IGame.IHost {
         this.context.state = state;
         this.context.state.handle(this.context);
     }
+    
+    public pause() {
+        cancelAnimationFrame(this.requestAnimationFrameId);
+    }
+
     public animate() {
         //Set the frame rate
         const fps = 60;
@@ -121,9 +127,9 @@ class Game implements IGame.IHost {
         const frameDuration = 1000 / fps;
 
 
-        const caller = () => {  
-            requestAnimationFrame(caller);
-                      
+        const caller = () => {
+            this.requestAnimationFrameId = requestAnimationFrame(caller);
+
             this.stats.begin();
             const current = Date.now();
             const elapsed = current - start;
@@ -143,9 +149,9 @@ class Game implements IGame.IHost {
 
             this.renderer.render(this.stage);
             this.stats.end();
-            
+
         };
-        
+
         caller();
     }
 

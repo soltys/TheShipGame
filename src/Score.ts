@@ -19,7 +19,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
             strokeThickness: 2
         };
         this.scoreDisplay = new PIXI.Text('Score: 0000000', this.textStyle);
-        this.scoreDisplay.y = 10;
+        this.scoreDisplay.y = 1;
         this.scoreDisplay.x = gameWidth / 2 - this.scoreDisplay.width / 2;
     }
 

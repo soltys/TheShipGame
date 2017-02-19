@@ -13,6 +13,8 @@ export interface IHost {
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
     gotoState(state: IGameState): void;
+    animate():void;
+    pause():void;
 
     gameHeight: number;
     gameWidth: number;
