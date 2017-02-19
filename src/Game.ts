@@ -2,6 +2,7 @@ import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 import InitState from './states/InitState';
 import Colors from './common/Colors';
+import Stats from './common/Stats';
 class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
@@ -9,8 +10,9 @@ class Game implements IGame.IHost {
     private gamepads: Gamepad[];
     public gameWidth = 0;
     public gameHeight = 0;
-    public readonly  config: IGame.IConfig;
+    public readonly config: IGame.IConfig;
     private scale = 2;
+    private stats: Stats;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
@@ -20,6 +22,8 @@ class Game implements IGame.IHost {
         this.renderer = this.newRenderer();
         this.gamepads = [];
         this.context = this.createGameContext();
+
+        this.stats = new Stats();
 
         this.config = {
             isMouseEnabled: false
@@ -96,6 +100,11 @@ class Game implements IGame.IHost {
     public addRendererToElement(element: HTMLElement): void {
         element.appendChild(this.renderer.view);
     }
+
+    public addFPSCounter(element: HTMLElement): void {
+        element.appendChild(this.stats.container);
+    }
+
     public gotoState(state: IGame.IGameState) {
         if (this.context.state) {
             this.context.state.onLeave(this.context);
@@ -112,25 +121,20 @@ class Game implements IGame.IHost {
         const frameDuration = 1000 / fps;
 
 
-        const caller = () => {
+        const caller = () => {  
             requestAnimationFrame(caller);
-
-            const current = Date.now(),
-                elapsed = current - start;
+                      
+            this.stats.begin();
+            const current = Date.now();
+            const elapsed = current - start;
             start = current;
             //Add the elapsed time to the lag counter
+            const lagOffset = elapsed / frameDuration;
 
-            let lagOffset = elapsed / frameDuration;
+
             this.gamepads = navigator.getGamepads() || [];
-
-            const inputs = this.context.inputs;
-            inputs.gamepad.isConnected = false;
-            for (const gamepad of this.gamepads) {
-                if (gamepad) {
-                    inputs.gamepad.isConnected = true;
-                    inputs.gamepad.axes = gamepad.axes;
-                    inputs.gamepad.buttons = gamepad.buttons;
-                }
+            if (this.gamepads.length > 0) {
+                this.updateGamepadInputs();
             }
 
             this.context.objects.all.forEach((object) => {
@@ -138,10 +142,24 @@ class Game implements IGame.IHost {
             });
 
             this.renderer.render(this.stage);
-
+            this.stats.end();
+            
         };
-
+        
         caller();
+    }
+
+    private updateGamepadInputs(): void {
+        const inputs = this.context.inputs;
+
+        inputs.gamepad.isConnected = false;
+        for (const gamepad of this.gamepads) {
+            if (gamepad) {
+                inputs.gamepad.isConnected = true;
+                inputs.gamepad.axes = gamepad.axes;
+                inputs.gamepad.buttons = gamepad.buttons;
+            }
+        }
     }
 
     public addEventListenerToElement(element): void {

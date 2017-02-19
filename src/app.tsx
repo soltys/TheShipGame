@@ -1,5 +1,5 @@
 import './styles/main.scss';
-import 'pixi.js';
+import * as PIXI from 'pixi.js';
 import PlayState from './states/PlayState';
 //import MenuState from './states/MenuState';
 import * as React from "react";
@@ -40,6 +40,7 @@ ReactDOM.render(
 function onAssetsLoaded(load, res) {
     game.gotoState(new PlayState());
     game.addRendererToElement(document.getElementById("gameHost"));
+    game.addFPSCounter(document.getElementById("fps-counter"));
     game.addEventListenerToElement(document.body);
     game.animate();
 }

@@ -1,7 +1,5 @@
 import * as IGame from './../common/IGame';
 import Ship from './../Ship';
-//import Coin from './../Coin';
-import FPSCounter from './../FPSCounter';
 import Score from './../Score';
 import GameBorder from './../GameBorder';
 import GameCorner from './../GameCorner';
@@ -17,9 +15,7 @@ export default class PlayState extends BaseState {
 
     handle(context: IGame.IGameContext) {
         const game = context.game;
-        //const coinAnimationFrames = RS.createAnimation("coin", 7);
-
-        game.addObject(new FPSCounter());
+        //const coinAnimationFrames = RS.createAnimation("coin", 7);        
         for (const border of this.getGameBorders(game.gameWidth, game.gameHeight)) {
             game.addObject(border);
         }
@@ -29,8 +25,7 @@ export default class PlayState extends BaseState {
         }
 
         game.addObject(new Ship(RS.createTexture('ship.png'), RS.createTexture('ship_to_left.png'), RS.createTexture('ship_to_right.png')));
-        game.addObject(new Score(game.gameWidth));
-
+        game.addObject(new Score(game.gameWidth));        
         /*setInterval(function () {
             game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), getRandomInt(20, game.gameWidth - 20), getRandomInt(20, game.gameHeight - 20)));
         }, 1000);*/
@@ -75,11 +70,12 @@ export default class PlayState extends BaseState {
             new PIXI.Rectangle(0, gameHeight - this.borderSize, this.borderSize, this.borderSize),
             this.getCornerTexture("left", 'bottom')
         ));
-
+        //right-top
         corners.push(new GameCorner(
             new PIXI.Rectangle(gameWidth - this.borderSize, 0, this.borderSize, this.borderSize),
             this.getCornerTexture("right", 'top')
         ));
+        //right-bottom
         corners.push(new GameCorner(
             new PIXI.Rectangle(gameWidth - this.borderSize, gameHeight - this.borderSize, this.borderSize, this.borderSize),
             this.getCornerTexture("right", 'bottom')
