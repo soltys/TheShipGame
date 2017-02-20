@@ -34,7 +34,8 @@ class Game implements IGame.IHost {
         this.stats = new Stats();
 
         this.config = {
-            isMouseEnabled: false
+            isMouseEnabled: false,
+            showFPSCounter:true,
         };
 
         

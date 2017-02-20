@@ -22,6 +22,7 @@ export interface IHost {
 
 export interface IConfig {
     isMouseEnabled: boolean;
+    showFPSCounter: boolean;
 }
 
 export interface IShip {

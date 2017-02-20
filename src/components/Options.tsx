@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ToggleOption } from './ToggleOption';
 import * as IGame from '../common/IGame';
 export interface OptionsProps { gameConfig: IGame.IConfig; }
 
@@ -10,6 +11,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
         super(props);
         this.state = {
             isMouseEnabled: false,
+            showFPSCounter: true,
         };
 
         this.setGameOptionsConfig = this.setGameOptionsConfig.bind(this);
@@ -20,16 +22,13 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
     }
 
     setGameOptionsConfig() {
-        const isMouseEnabled = this.props.gameConfig.isMouseEnabled;
-        this.setState({
-            isMouseEnabled
+        this.setState((prevState,props)=>{
+            return this.props.gameConfig;
         });
+
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+    updateGameConfig(name, value) {
         this.setState({
             [name]: value
         }, () => {
@@ -41,11 +40,10 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
         return (
             <div>
                 <h2>Options</h2>
-                <div>
-                    <input className="tgl tgl-ios" id="cb2" type="checkbox" name="isMouseEnabled" checked={this.state.isMouseEnabled} onChange={(event) => this.handleInputChange(event)} />
-                    <label className="tgl-btn" htmlFor="cb2"></label>
-                    Enable mouse
-                </div>
+                <ul>
+                    <li><ToggleOption id="isMouseEnabled" label='Enable mouse' value={this.state.isMouseEnabled} onChange={(val) => this.updateGameConfig('isMouseEnabled', val)} /></li>
+                    <li><ToggleOption id='showFPSCounter' label='Show FPS counter' value={this.state.showFPSCounter} onChange={(val) => this.updateGameConfig('showFPSCounter', val)} /></li>
+                </ul>
             </div>
         );
     }
