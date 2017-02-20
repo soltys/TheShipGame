@@ -12,7 +12,7 @@ type Directions = Sides | TopOrBottom;
 
 export default class PlayState extends BaseState {
     private borderSize = 32;
-
+    private onVisibilityChangedProxy: EventListener;
     handle(context: IGame.IGameContext) {
         const game = context.game;
         //const coinAnimationFrames = RS.createAnimation("coin", 7);        
@@ -29,17 +29,22 @@ export default class PlayState extends BaseState {
         /*setInterval(function () {
             game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), getRandomInt(20, game.gameWidth - 20), getRandomInt(20, game.gameHeight - 20)));
         }, 1000);*/
+        this.onVisibilityChangedProxy = () => this.onVisibilityChange(game);
 
-        document.addEventListener("visibilitychange", () => this.onVisibilityChange(game), false);
+        document.addEventListener("visibilitychange", this.onVisibilityChangedProxy, false);
     }
 
+    onLeave(context: IGame.IGameContext) {
+        document.removeEventListener('visibilitychange', this.onVisibilityChangedProxy);
+    }
+    
     onVisibilityChange(game: IGame.IHost) {
         if (document["hidden"]) {
             //pause game           
             game.pause();
         } else {
             //resume     
-            game.animate();      
+            game.animate();
         }
     }
 
