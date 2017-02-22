@@ -8,14 +8,20 @@ export interface IBoundingBox {
     height: number;
 }
 
-export interface IGameHost {
+export interface IHost {
     stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
     gotoState(state: IGameState): void;
+    animate():void;
+    pause():void;
 
     gameHeight: number;
     gameWidth: number;
+}
+
+export interface IConfig {
+    isMouseEnabled: boolean;
 }
 
 export interface IShip {
@@ -38,7 +44,7 @@ export interface IPlayerActionData {
 export interface IGameContext {
     inputs: IGameInput;
     objects: IGameObjectCollection;
-    game: IGameHost;
+    game: IHost;
 
     state: IGameState;
 }

@@ -20,8 +20,6 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
     shouldScaleUp(inputs, playerActions);
     shouldScaleDown(inputs, playerActions);
 
-
-
     if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
         mouseSpeedFix(playerActions);
     } else {
@@ -38,8 +36,8 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
 }
 
 /**
- * When player moves diaognal with speed of 1 in both directions, then player moves at sqrt(2). To limit that
- * Player should move at sqrt(1/2) 
+ * When player moves diagonal with speed of 1 in both directions, then player moves at sqrt(2). To limit that
+ * Player should move at sqrt(1/2) ~= 0.70710678118
  * 
  * @param {IGame.IPlayerActionData[]} data
  * @param {[PA, PA][]} diagonalPairs
@@ -82,11 +80,11 @@ function mouseSpeedFix(data: IGame.IPlayerActionData[]) {
         }
     }
 }
+
 function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const leftStick = inputs.gamepad.axes[1];
         if (leftStick < -getGamepadActivationPoint()) {
-
             data.push({
                 action: PA.MoveUp,
                 value: LinearConvert(-getGamepadActivationPoint(), -1, leftStick)
@@ -102,8 +100,8 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
                 value: 1
             });
         }
-
     }
+
     if (inputs.keys[Keys.UP_ARROW]) {
         data.push({
             action: PA.MoveUp,
@@ -237,7 +235,7 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
             return;
         }
     }
-    if (inputs.wheel &&inputs.wheel.deltaY < 0) {
+    if (inputs.wheel && inputs.wheel.deltaY < 0) {
         data.push({
             action: PA.ScaleUp,
             value: 1

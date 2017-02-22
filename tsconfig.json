@@ -1,23 +1,28 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",        
+    "target": "es2015",
+    "module": "commonjs",
+    "jsx": "react",
     "sourceMap": true,
-     "typeRoots": [
+    "typeRoots": [
       "./node_modules/@types"
     ],
-    "noUnusedLocals": true,    
+    "noUnusedLocals": true,
     "inlineSources": true,
-    "noImplicitReturns": true    
+    "noImplicitReturns": true
   },
   "exclude": [
-    "node_modules"    
+    "node_modules"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
-    "useWebpackText": true
+    "useWebpackText": true,    
+    "useCache": true,
+    "useBabel":true
   },
   "compileOnSave": false,
   "buildOnSave": false,
-  "atom": { "rewriteTsconfig": false }
+  "atom": {
+    "rewriteTsconfig": false
+  }
 }

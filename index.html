@@ -9,8 +9,6 @@
   <link rel='stylesheet' id='wpex-google-font-fira-sans-css' href='//fonts.googleapis.com/css?family=Fira+Sans%3A100%2C200%2C300%2C400%2C500%2C600%2C700%2C800%2C900100italic%2C200italic%2C300italic%2C400italic%2C500italic%2C600italic%2C700italic%2C800italic%2C900italic&#038;subset=latin&#038;ver=4.6.1'
     type='text/css' media='all' />
   <meta name="viewport" content="width=600,height=750">
-
-
   <link rel="stylesheet" href="build/app.css" media="screen" title="no title">
 </head>
 
@@ -20,25 +18,32 @@
   </div>
   <div id="row">
     <div id="left-side">
+      <div id="fps-counter"></div>
       <h2>Controls (⌨ keyboard)</h2>
       <p><kbd>	&larr;</kbd> <kbd>&uarr;</kbd> <kbd>	&darr;</kbd> <kbd>&rarr;</kbd> - Controls your ship</p>
       <p><kbd>W</kbd> - Grow your ship</p>
       <p><kbd>S</kbd> - Shrink your ship</p>
       <h2>Controls (🎮 gamepad - tested only with Xbox 360)</h2>
       <p class="xbox-row"><img src="assets/site/stick.png" /> <span class="xbox-description">Left stick movement</span></p>
-      <p class="xbox-row"> <img src="assets/site/lb_button.png" /> <img src="assets/site/rb_button.png" />  <span class="xbox-description">Strafe left/right movement</span></p>
+      <p class="xbox-row"> <img src="assets/site/lb_button.png" /> <img src="assets/site/rb_button.png" /> <span class="xbox-description">Strafe left/right movement</span></p>
       <p class="xbox-row"><span class="xbox-button xbox-button-green">A</span> <span class="xbox-description"> Grow your ship</span></p>
       <p class="xbox-row"><span class="xbox-button xbox-button-red">B</span> <span class="xbox-description"> Shrink your ship</span></p>
 
     </div>
     <div id="gameHost"></div>
     <div id="right-side">
-      
+      <div id="options"></div>
     </div>
   </div>
   <div id="footer">
     <p><a href="http://blog.soltysiak.it" title="blog">📓 Paweł Sołtysiak</a> - 2016-2017</p>
   </div>
+  <!-- Dependencies -->
+  <script src="./node_modules/react/dist/react.js"></script>
+  <script src="./node_modules/react-dom/dist/react-dom.js"></script>
+  <script src="./node_modules/pixi.js/dist/pixi.min.js"></script>
+
+  <!-- Main -->
   <script src='build/app.js'></script>
 </body>
 

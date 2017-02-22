@@ -5,62 +5,83 @@ var sassPath = path.resolve(__dirname, 'src/scss');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
-module.exports = {
-    entry: {
-        app: [
-            'webpack-dev-server/client?http://localhost:8080/',
-            './src/ts/app.ts'
-        ]
-    },
-    output: {
-        path: outputPath,
-        filename: '[name].js',
-        publicPath: 'build/'
-    },
-    resolve: {
-        modules: [
-            path.join(__dirname, 'node_modules'),
-        ],
-        extensions: ['.ts', '.webpack.js', '.web.js', '.js']
-    },
-    devtool: 'source-map',
-    module: {
-        rules: [
-            {
-                test: /\.ts$/,
-                enforce: "pre",
-                loader: 'tslint-loader'
-            },
-            {
-                test: /\.ts$/,
-                loader: 'awesome-typescript-loader'
-            },
-            {
-                test: /\.scss$/,
-                loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
-            }]
-    },
-    plugins: [
-        new ExtractTextPlugin('[name].css'),
-        new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
-        new webpack.LoaderOptionsPlugin({
-            debug: true,
-            options: {
-                postcss: [autoprefixer({
-                    browsers: ['> 1%']
-                })],
-                sassLoader: {
-                    includePaths: [
-                        sassPath,
-                        'node_modules/normalize-scss/sass'
-                    ]
+
+
+function getAppSettings(env) {
+    const app = [];    
+    if (!env.production) {
+        app.push('webpack-dev-server/client?http://localhost:8080/');
+    }
+    app.push('./src/app.tsx');
+    return app;
+}
+
+module.exports = function (env) {
+    return {
+        entry: {
+            app: getAppSettings(env)
+        },
+        output: {
+            path: outputPath,
+            filename: '[name].js',
+            publicPath: 'build/'
+        },
+        resolve: {
+            modules: [
+                path.join(__dirname, 'node_modules'),
+            ],
+            extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
+        },
+        devtool: 'source-map',
+        module: {
+            rules: [
+                {
+                    test: /\.ts$/,
+                    enforce: "pre",
+                    loader: 'tslint-loader'
                 },
-                tslint: {
-                    emitErrors: false,
-                    failOnHint: false,
-                    resourcePath: 'src/ts'
+                {
+                    test: /\.js$/,
+                    enforce: "pre",
+                    loader: 'source-map-loader'
+                },
+                {
+                    test: /\.tsx?$/,
+                    loader: "awesome-typescript-loader",
+                    exclude: [/\.(spec|e2e|d)\.ts$/]
+                },
+                {
+                    test: /\.scss$/,
+                    loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
+                }]
+        },
+        plugins: [
+            new ExtractTextPlugin('[name].css'),
+            new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),            
+            new webpack.LoaderOptionsPlugin({
+                debug: true,
+                options: {
+                    postcss: [autoprefixer({
+                        browsers: ['> 1%']
+                    })],
+                    sassLoader: {
+                        includePaths: [
+                            sassPath,
+                            'node_modules/normalize-scss/sass'
+                        ]
+                    },
+                    tslint: {
+                        emitErrors: false,
+                        failOnHint: false,
+                        resourcePath: 'src'
+                    }
                 }
-            }
-        })
-    ]
+            })
+        ],
+        externals: {
+            "react": "React",
+            "react-dom": "ReactDOM",
+            "pixi.js": "PIXI"
+        },
+    }
 }
