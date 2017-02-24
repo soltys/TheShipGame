@@ -13,10 +13,10 @@ export default class TimerService {
         this._timerList.push(timer);
     }
 
-    public update(curremtTime: number) {
+    public update(currentTime: number) {
         for(const timer of this._timerList){
-            if(curremtTime > timer.nextFireTime){
-                timer.triggerAction(curremtTime);                
+            if(currentTime > timer.nextFireTime){
+                timer.triggerAction(currentTime);                
             }
         }
     }
