@@ -13,8 +13,8 @@ export interface IHost {
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
     gotoState(state: IGameState): void;
-    animate():void;
-    pause():void;
+    animate(): void;
+    pause(): void;
 
     gameHeight: number;
     gameWidth: number;
@@ -47,6 +47,7 @@ export interface IGameContext {
     game: IHost;
 
     state: IGameState;
+    timerService:ITimerService;
 }
 export interface IGameInput {
     keys: { [index: number]: boolean };
@@ -105,4 +106,41 @@ export interface IDictionary {
     containsKey(key: string): boolean;
     keys(): string[];
     values(): any[];
+}
+
+export interface ITimerService {
+    /**
+     * Adds new timer to checking
+     * 
+     * @param {ITimer} timer 
+     * 
+     * @memberOf ITimerService
+     */
+    add(timer: ITimer);
+}
+export interface ITimer {
+    /**
+     * current time `
+     * 
+     * @type {number}
+     * @memberOf ITimer
+     */
+    tick: number;
+
+    /**
+     * Time when should next action accour, if you want as soon  
+     * 
+     * @type {number}
+     * @memberOf ITimer
+     */
+    nextFireTime: number;
+
+    /**
+     * Launches action specified in timer
+     * 
+     * @param {number} currentTime 
+     * 
+     * @memberOf ITimer
+     */
+    triggerAction(currentTime: number);
 }

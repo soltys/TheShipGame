@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import InitState from './states/InitState';
 import Colors from './common/Colors';
 import Stats from './common/Stats';
+import TimerService from './common/TimerService';
 class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
@@ -15,6 +16,8 @@ class Game implements IGame.IHost {
     private scale = 1;
     private stats: Stats;
     private requestAnimationFrameId: number;
+
+    private timerService: TimerService;
     constructor(gameWidth: number, gameHeight: number) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
@@ -30,6 +33,8 @@ class Game implements IGame.IHost {
         this.config = {
             isMouseEnabled: false
         };
+
+        this.timerService = new TimerService();
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -56,6 +61,7 @@ class Game implements IGame.IHost {
             },
             "state": new InitState(),
             "game": this,
+            "timerService": this.timerService
         };
     }
 
