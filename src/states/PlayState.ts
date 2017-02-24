@@ -5,7 +5,7 @@ import GameBorder from './../GameBorder';
 import GameCorner from './../GameCorner';
 import BaseState from './BaseState';
 import * as RS from './../common/ResourceSupport';
-
+import * as PIXI from 'pixi.js';
 type Sides = "left" | "right";
 type TopOrBottom = "top" | "bottom";
 type Directions = Sides | TopOrBottom;

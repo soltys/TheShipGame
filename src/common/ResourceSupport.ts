@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 export function createTexture(name: string) {
     const t = PIXI.loader.resources[`assets/${name}`].texture;
     t.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;

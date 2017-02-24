@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import GameObject from './common/GameObject';
 import CollisionDirection from './common/CollisionDirection';
 import { GetPlayerAction } from './PlayerAction';

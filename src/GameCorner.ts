@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 export default class GameCorner extends GameObject implements IGame.IGameDisplayObject {

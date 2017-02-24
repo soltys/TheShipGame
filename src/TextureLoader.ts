@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import Dictionary from './common/Dictionary';
 class TextureLoader {
     private textureDictionry: Dictionary;

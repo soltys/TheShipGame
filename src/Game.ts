@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 import InitState from './states/InitState';
