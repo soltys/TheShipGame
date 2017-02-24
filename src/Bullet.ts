@@ -15,9 +15,9 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
     }
 
     update(timeDelta: number, context: IGame.IGameContext) {
-        this.bulletAnimation.y -= 1;
+        this.bulletAnimation.y -= 8;
 
-        if (this.bulletAnimation.y < 0){
+        if (this.bulletAnimation.y < 30){
             context.game.removeObject(this);
         }
     }

@@ -26,6 +26,9 @@ class Game implements IGame.IHost {
         this.stage.interactive = true;
         this.renderer = this.newRenderer();
         this.gamepads = [];
+
+        this.timerService = new TimerService();
+
         this.context = this.createGameContext();
 
         this.stats = new Stats();
@@ -34,7 +37,7 @@ class Game implements IGame.IHost {
             isMouseEnabled: false
         };
 
-        this.timerService = new TimerService();
+        
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -134,11 +137,11 @@ class Game implements IGame.IHost {
         const frameDuration = 1000 / fps;
 
 
-        const caller = () => {
+        const caller = (currentTime) => {
             this.requestAnimationFrameId = requestAnimationFrame(caller);
 
             this.stats.begin();
-            const current = Date.now();
+            const current = performance.now();
             const elapsed = current - start;
             start = current;
             //Add the elapsed time to the lag counter
@@ -149,7 +152,7 @@ class Game implements IGame.IHost {
             if (this.gamepads.length > 0) {
                 this.updateGamepadInputs();
             }
-
+            this.timerService.update(currentTime);
             this.context.objects.all.forEach((object) => {
                 object.update(lagOffset, this.context);
             });
@@ -159,7 +162,7 @@ class Game implements IGame.IHost {
 
         };
 
-        caller();
+        caller(0);
     }
 
     private updateGamepadInputs(): void {

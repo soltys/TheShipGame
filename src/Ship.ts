@@ -5,6 +5,7 @@ import { GetPlayerAction } from './PlayerAction';
 import PlayerAction from './common/PlayerAction';
 import BoundingBox from './common/BoundingBox';
 import Bullet from './Bullet';
+import Timer from './common/Timer';
 import * as IGame from './common/IGame';
 import * as _ from 'lodash';
 
@@ -68,9 +69,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.graphics = new PIXI.Graphics();
         state.objects.ship = this;
 
-        setInterval(() => {
+        state.timerService.add(Timer.create(100, () => {
             state.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width / 2), this.boundingBoxAll.y));
-        }, 800);
+        }));
+
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {

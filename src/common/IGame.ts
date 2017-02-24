@@ -47,7 +47,7 @@ export interface IGameContext {
     game: IHost;
 
     state: IGameState;
-    timerService:ITimerService;
+    timerService: ITimerService;
 }
 export interface IGameInput {
     keys: { [index: number]: boolean };
@@ -120,19 +120,11 @@ export interface ITimerService {
 }
 export interface ITimer {
     /**
-     * current time `
-     * 
-     * @type {number}
-     * @memberOf ITimer
-     */
-    tick: number;
-
-    /**
-     * Time when should next action accour, if you want as soon  
-     * 
-     * @type {number}
-     * @memberOf ITimer
-     */
+    * Time when should next action accour, if you want as soon  
+    * 
+    * @type {number}
+    * @memberOf ITimer
+    */
     nextFireTime: number;
 
     /**
