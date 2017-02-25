@@ -27,7 +27,7 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
             [PA.MoveUp, PA.MoveLeft],
             [PA.MoveUp, PA.MoveRight],
             [PA.MoveDown, PA.MoveLeft],
-            [PA.MoveDown, PA.MoveRight],
+            [PA.MoveDown, PA.MoveRight]
         ];
         diagonalSpeedFix(playerActions, diagonalPairs);
     }

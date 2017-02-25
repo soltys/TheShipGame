@@ -7,5 +7,10 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/.awcache":true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true
     }
+    
 }

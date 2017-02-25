@@ -35,7 +35,7 @@ class Game implements IGame.IHost {
 
         this.config = {
             isMouseEnabled: false,
-            showFPSCounter:true,
+            showFPSCounter:true
         };
 
         
@@ -61,7 +61,7 @@ class Game implements IGame.IHost {
             "objects": {
                 "all": [],
                 "score": undefined,
-                "ship": undefined,
+                "ship": undefined
             },
             "state": new InitState(),
             "game": this,
@@ -105,7 +105,7 @@ class Game implements IGame.IHost {
                 backgroundColor: Colors.Background,
                 antialias: true,
                 roundPixels: false,
-                resolution: this.scale,
+                resolution: this.scale
             });
     }
 
@@ -222,7 +222,7 @@ class Game implements IGame.IHost {
             inputs.wheel = {
                 deltaX: event.deltaX,
                 deltaY: event.deltaY,
-                deltaZ: event.deltaZ,
+                deltaZ: event.deltaZ
             };
         }, false);
     }
