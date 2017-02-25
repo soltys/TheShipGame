@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
-import GameObject from './common/GameObject';
 import BoundingBox from './common/BoundingBox';
+import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
 

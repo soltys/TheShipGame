@@ -1,10 +1,10 @@
-import * as PIXI from 'pixi.js';
-import * as IGame from './common/IGame';
 import * as _ from 'lodash';
-import InitState from './states/InitState';
+import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
+import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
+import InitState from './states/InitState';
 class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;

@@ -1,9 +1,9 @@
-import LinearConvert from './common/LinearConvert';
-import PA from './common/PlayerAction';
-import Keys from './common/Keys';
-import MouseButtons from './common/MouseButtons';
-import * as IGame from './common/IGame';
 import * as _ from 'lodash';
+import * as IGame from './common/IGame';
+import Keys from './common/Keys';
+import LinearConvert from './common/LinearConvert';
+import MouseButtons from './common/MouseButtons';
+import PA from './common/PlayerAction';
 function getGamepadActivationPoint(): number {
     return 0.25;
 }

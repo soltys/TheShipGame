@@ -1,13 +1,13 @@
-import * as PIXI from 'pixi.js';
-import GameObject from './common/GameObject';
-import CollisionDirection from './common/CollisionDirection';
-import { GetPlayerAction } from './PlayerAction';
-import PlayerAction from './common/PlayerAction';
-import BoundingBox from './common/BoundingBox';
-import Bullet from './Bullet';
-import Timer from './common/Timer';
-import * as IGame from './common/IGame';
 import * as _ from 'lodash';
+import * as PIXI from 'pixi.js';
+import Bullet from './Bullet';
+import BoundingBox from './common/BoundingBox';
+import CollisionDirection from './common/CollisionDirection';
+import GameObject from './common/GameObject';
+import * as IGame from './common/IGame';
+import PlayerAction from './common/PlayerAction';
+import Timer from './common/Timer';
+import { GetPlayerAction } from './PlayerAction';
 
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 

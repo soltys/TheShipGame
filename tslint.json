@@ -6,6 +6,7 @@
     "node_modules/tslint-microsoft-contrib"
   ],
   "rules": {
+    "ordered-imports": true,
     "no-eval": true,
     "radix": true,
     "use-isnan": true,
@@ -17,6 +18,7 @@
     "no-duplicate-case": true,
     "no-unused-expression": true,
     "no-duplicate-variable": true,
+    "no-magic-numbers":true,
     "no-var-keyword": true,
     "no-var-self": true,
     "no-document-write": true,
