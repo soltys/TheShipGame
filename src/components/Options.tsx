@@ -1,6 +1,6 @@
-import * as React from "react";
-import { ToggleOption } from './ToggleOption';
+import * as React from 'react';
 import * as IGame from '../common/IGame';
+import { ToggleOption } from './ToggleOption';
 export interface OptionsProps { gameConfig: IGame.IConfig; }
 
 export class Options extends React.Component<OptionsProps, IGame.IConfig> {
@@ -11,7 +11,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
         super(props);
         this.state = {
             isMouseEnabled: false,
-            showFPSCounter: true,
+            showFPSCounter: true
         };
 
         this.setGameOptionsConfig = this.setGameOptionsConfig.bind(this);
@@ -22,7 +22,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
     }
 
     setGameOptionsConfig() {
-        this.setState((prevState,props)=>{
+        this.setState((prevState, props) => {
             return this.props.gameConfig;
         });
 
@@ -40,9 +40,9 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
         return (
             <div>
                 <h2>Options</h2>
-                <ul>
-                    <li><ToggleOption id="isMouseEnabled" label='Enable mouse' value={this.state.isMouseEnabled} onChange={(val) => this.updateGameConfig('isMouseEnabled', val)} /></li>
-                    <li><ToggleOption id='showFPSCounter' label='Show FPS counter' value={this.state.showFPSCounter} onChange={(val) => this.updateGameConfig('showFPSCounter', val)} /></li>
+                <ul className='options-list'>
+                    <li><ToggleOption id='isMouseEnabled' label='Enable mouse' value={ this.state.isMouseEnabled } onChange={ (val) => this.updateGameConfig('isMouseEnabled', val) } /></li>
+                    <li><ToggleOption id='showFPSCounter' label='Show FPS counter' value={ this.state.showFPSCounter } onChange={ (val) => this.updateGameConfig('showFPSCounter', val) } /></li>
                 </ul>
             </div>
         );

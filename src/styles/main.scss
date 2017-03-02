@@ -17,11 +17,12 @@ h2 {
 }
 body {
     font-family: "Roboto";
-     color: $color-primary;
-     margin:0;
+    color: $color-primary;
+    margin:0;
 }
 #header {
     text-align: center;
+    display: none;
 }
 #row {
     display: flex;
@@ -43,10 +44,39 @@ body {
     display: none;
 }
 #gameHost {
-    padding:0px;
+    padding:10px;
     order: 3;
     flex-basis: 100%;
     text-align: center;
+}
+#footer {
+    display: none;
+}
+
+#footer p {
+    text-align: center;
+    color: #888;
+}
+#footer a {
+    text-decoration: underline;
+    color: #f88;
+}
+
+ul.options-list  {
+    margin:0;
+    padding:0;
+}
+.options-list  li{
+ padding:5px 0px;   
+}
+@media screen and (min-height:860px){
+    #header {        
+        display: block;
+    }
+
+    #footer{
+        display: block;
+    }
 }
 @media screen and (min-width: 1000px) {
     #row {
@@ -69,12 +99,4 @@ body {
         order: 3;
         display: block;
     }
-}
-#footer p {
-    text-align: center;
-    color: #888;
-}
-#footer a {
-    text-decoration: underline;
-    color: #f88;
 }
