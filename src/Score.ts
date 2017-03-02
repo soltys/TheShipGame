@@ -85,9 +85,8 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
             // similar to finding a value in binary search tree, hence O(log(n))
             if (len) {
                 ch += ch;
-            }
-            // `len` is 0, exit the loop
-            else {
+            } else {
+                // `len` is 0, exit the loop
                 break;
             }
         }

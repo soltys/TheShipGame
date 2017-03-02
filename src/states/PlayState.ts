@@ -1,13 +1,13 @@
+import * as PIXI from 'pixi.js';
 import * as IGame from './../common/IGame';
-import Ship from './../Ship';
-import Score from './../Score';
+import * as RS from './../common/ResourceSupport';
 import GameBorder from './../GameBorder';
 import GameCorner from './../GameCorner';
+import Score from './../Score';
+import Ship from './../Ship';
 import BaseState from './BaseState';
-import * as RS from './../common/ResourceSupport';
-import * as PIXI from 'pixi.js';
-type Sides = "left" | "right";
-type TopOrBottom = "top" | "bottom";
+type Sides = 'left' | 'right';
+type TopOrBottom = 'top' | 'bottom';
 type Directions = Sides | TopOrBottom;
 
 export default class PlayState extends BaseState {
@@ -31,7 +31,7 @@ export default class PlayState extends BaseState {
         }, 1000);*/
         this.onVisibilityChangedProxy = () => this.onVisibilityChange(game);
 
-        document.addEventListener("visibilitychange", this.onVisibilityChangedProxy, false);
+        document.addEventListener('visibilitychange', this.onVisibilityChangedProxy, false);
     }
 
     onLeave(context: IGame.IGameContext) {
@@ -39,7 +39,7 @@ export default class PlayState extends BaseState {
     }
     
     onVisibilityChange(game: IGame.IHost) {
-        if (document["hidden"]) {
+        if (document['hidden']) {
             //pause game           
             game.pause();
         } else {
@@ -80,22 +80,22 @@ export default class PlayState extends BaseState {
         //left-top
         corners.push(new GameCorner(
             new PIXI.Rectangle(0, 0, this.borderSize, this.borderSize),
-            this.getCornerTexture("left", 'top')
+            this.getCornerTexture('left', 'top')
         ));
         //left-bottom
         corners.push(new GameCorner(
             new PIXI.Rectangle(0, gameHeight - this.borderSize, this.borderSize, this.borderSize),
-            this.getCornerTexture("left", 'bottom')
+            this.getCornerTexture('left', 'bottom')
         ));
         //right-top
         corners.push(new GameCorner(
             new PIXI.Rectangle(gameWidth - this.borderSize, 0, this.borderSize, this.borderSize),
-            this.getCornerTexture("right", 'top')
+            this.getCornerTexture('right', 'top')
         ));
         //right-bottom
         corners.push(new GameCorner(
             new PIXI.Rectangle(gameWidth - this.borderSize, gameHeight - this.borderSize, this.borderSize, this.borderSize),
-            this.getCornerTexture("right", 'bottom')
+            this.getCornerTexture('right', 'bottom')
         ));
 
         return corners;

@@ -17,8 +17,7 @@
     "triple-equals": true,
     "no-duplicate-case": true,
     "no-unused-expression": true,
-    "no-duplicate-variable": true,
-    "no-magic-numbers":true,
+    "no-duplicate-variable": true,    
     "no-var-keyword": true,
     "no-var-self": true,
     "no-document-write": true,
@@ -34,13 +33,7 @@
     /**
          * Whitespace related rules. The only recommended whitespace strategy is to pick a single format and
          * be consistent.
-         */
-    "align": [
-      true,
-      "parameters",
-      "arguments",
-      "statements"
-    ],
+         */  
     "curly": true,
     "eofline": true,
     "import-spacing": true,
@@ -48,10 +41,9 @@
       true,
       "spaces"
     ],    
-    "no-consecutive-blank-lines": true,
+    "no-consecutive-blank-lines": [true, 3],
     "no-empty-line-after-opening-brace": false,
-    "no-single-line-block-comment": true,
-    "no-trailing-whitespace": true,
+    "no-single-line-block-comment": true,    
     "no-unnecessary-semicolons": true,
     "object-literal-key-quotes": [
       true,

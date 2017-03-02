@@ -19,7 +19,7 @@ export default class Stats {
     private memPanel: IPanel;
     constructor() {
         this.mode = 0;
-        this.container = document.createElement('div');        
+        this.container = document.createElement('div');
         this.container.className = 'fps-counter';
         this.container.addEventListener('click', (event) => {
             event.preventDefault();

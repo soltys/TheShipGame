@@ -1,5 +1,5 @@
-import * as IGame from './IGame';
 import CollisionDirection from './CollisionDirection';
+import * as IGame from './IGame';
 class BoundingBox implements IGame.IBoundingBox {
     private rectangle: PIXI.Rectangle;
 
@@ -9,8 +9,7 @@ class BoundingBox implements IGame.IBoundingBox {
             this.rectangle.y < gameObject.y + gameObject.height &&
             this.rectangle.height + this.rectangle.y > gameObject.y) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -18,14 +17,14 @@ class BoundingBox implements IGame.IBoundingBox {
 
     getEdges(box, gameObject) {
         return {
-            "boxLeft": box.rectangle.x,
-            "boxRight": box.rectangle.x + box.rectangle.width,
-            "boxTop": box.rectangle.y,
-            "boxBottom": box.rectangle.y + box.rectangle.height,
-            "gameObjectLeft": gameObject.rectangle.x,
-            "gameObjectRight": gameObject.rectangle.x + gameObject.rectangle.width,
-            "gameObjectTop": gameObject.rectangle.y,
-            "gameObjectBottom": gameObject.rectangle.y + gameObject.rectangle.height
+            boxLeft: box.rectangle.x,
+            boxRight: box.rectangle.x + box.rectangle.width,
+            boxTop: box.rectangle.y,
+            boxBottom: box.rectangle.y + box.rectangle.height,
+            gameObjectLeft: gameObject.rectangle.x,
+            gameObjectRight: gameObject.rectangle.x + gameObject.rectangle.width,
+            gameObjectTop: gameObject.rectangle.y,
+            gameObjectBottom: gameObject.rectangle.y + gameObject.rectangle.height
         };
     }
 

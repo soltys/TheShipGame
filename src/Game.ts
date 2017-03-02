@@ -35,19 +35,17 @@ class Game implements IGame.IHost {
 
         this.config = {
             isMouseEnabled: false,
-            showFPSCounter:true
-        };
-
-        
+            showFPSCounter: true
+        };        
     }
 
     private createGameContext(): IGame.IGameContext {
         return {
             inputs: {
-                "keys": {},
-                "clicks": {},
-                "mouse": { clientX: 0, clientY: 0 },
-                "gamepad": {
+                keys: {},
+                clicks: {},
+                mouse: { clientX: 0, clientY: 0 },
+                gamepad: {
                     buttons: [],
                     axes: [],
                     isConnected: false
@@ -58,14 +56,14 @@ class Game implements IGame.IHost {
                     deltaZ: 0
                 }
             },
-            "objects": {
-                "all": [],
-                "score": undefined,
-                "ship": undefined
+            objects: {
+                all: [],
+                score: undefined,
+                ship: undefined
             },
-            "state": new InitState(),
-            "game": this,
-            "timerService": this.timerService
+            state: new InitState(),
+            game: this,
+            timerService: this.timerService
         };
     }
 
@@ -101,7 +99,7 @@ class Game implements IGame.IHost {
 
     private newRenderer() {
         return PIXI.autoDetectRenderer(this.gameWidth, this.gameHeight,
-            {
+                                       {
                 backgroundColor: Colors.Background,
                 antialias: true,
                 roundPixels: false,
@@ -181,32 +179,32 @@ class Game implements IGame.IHost {
 
     public addEventListenerToElement(element): void {
         const inputs = this.context.inputs;
-        element.addEventListener("keydown", (event) => {
+        element.addEventListener('keydown', (event) => {
             inputs.keys[event.keyCode] = true;
         });
 
-        element.addEventListener("keyup", (event) => {
+        element.addEventListener('keyup', (event) => {
             inputs.keys[event.keyCode] = false;
         });
 
-        element.addEventListener("mousedown", (event) => {
+        element.addEventListener('mousedown', (event) => {
             if (!this.config.isMouseEnabled) {
                 return;
             }
             inputs.clicks[event.which] = {
-                "clientX": event.clientX,
-                "clientY": event.clientY
+                clientX: event.clientX,
+                clientY: event.clientY
             };
         });
 
-        element.addEventListener("mouseup", (event) => {
+        element.addEventListener('mouseup', (event) => {
             if (!this.config.isMouseEnabled) {
                 return;
             }
             delete inputs.clicks[event.which];
         });
 
-        element.addEventListener("mousemove", (event) => {
+        element.addEventListener('mousemove', (event) => {
             if (!this.config.isMouseEnabled) {
                 return;
             }
@@ -214,7 +212,7 @@ class Game implements IGame.IHost {
             inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
 
-        element.addEventListener("wheel", (event) => {
+        element.addEventListener('wheel', (event) => {
             event.preventDefault();
             if (!this.config.isMouseEnabled) {
                 return;
@@ -224,7 +222,7 @@ class Game implements IGame.IHost {
                 deltaY: event.deltaY,
                 deltaZ: event.deltaZ
             };
-        }, false);
+        },                       false);
     }
 }
 

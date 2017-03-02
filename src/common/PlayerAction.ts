@@ -5,7 +5,7 @@ enum PlayerAction {
     MoveLeft,
 
     ScaleUp,
-    ScaleDown,
+    ScaleDown
 }
 
 export default PlayerAction;

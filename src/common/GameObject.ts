@@ -12,7 +12,7 @@ export default class GameObject implements IGame.IGameObject {
         const data: IGame.ICollisionData = {
             isColliding: false,
             direction: CollisionDirection.Unknown,
-            name: "",
+            name: '',
             collisionBox: null
         };
         return data;

@@ -80,14 +80,14 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         const dataWings = super.checkCollision(this.boundingBoxWings, boundingBox);
         if (data.isColliding) {
             return {
-                name: "Ship",
+                name: 'Ship',
                 isColliding: data.isColliding,
                 direction: data.direction,
                 collisionBox: this.boundingBox
             };
         } else {
             return {
-                name: "Ship",
+                name: 'Ship',
                 isColliding: dataWings.isColliding,
                 direction: dataWings.direction,
                 collisionBox: this.boundingBoxWings
@@ -119,7 +119,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             //Future colision
             const collisionData = gameObject.collideWith(tempBoundingBox);
 
-            if (collisionData.isColliding && collisionData.name === "GameBorder") {
+            if (collisionData.isColliding && collisionData.name === 'GameBorder') {
 
                 if (collisionData.direction === CollisionDirection.Up) {
                     deltaY = -Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - this.boundingBoxAll.y);

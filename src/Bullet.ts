@@ -17,7 +17,7 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
     update(timeDelta: number, context: IGame.IGameContext) {
         this.bulletAnimation.y -= 8;
 
-        if (this.bulletAnimation.y < 30){
+        if (this.bulletAnimation.y < 30) {
             context.game.removeObject(this);
         }
     }
@@ -27,7 +27,7 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
 
     static bulletAnimationFrames;
     static create(posX: number, posY: number): Bullet {
-        this.bulletAnimationFrames = RS.createAnimation("bullet", 2);
+        this.bulletAnimationFrames = RS.createAnimation('bullet', 2);
         return new Bullet(new PIXI.extras.AnimatedSprite(this.bulletAnimationFrames), posX, posY);
     }
 

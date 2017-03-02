@@ -4,9 +4,8 @@ import Keys from './common/Keys';
 import LinearConvert from './common/LinearConvert';
 import MouseButtons from './common/MouseButtons';
 import PA from './common/PlayerAction';
-function getGamepadActivationPoint(): number {
-    return 0.25;
-}
+
+const gamepadActivationPoint = 0.25;
 
 let gameContext: IGame.IGameContext;
 export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActionData[] {
@@ -84,10 +83,10 @@ function mouseSpeedFix(data: IGame.IPlayerActionData[]) {
 function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const leftStick = inputs.gamepad.axes[1];
-        if (leftStick < -getGamepadActivationPoint()) {
+        if (leftStick < -gamepadActivationPoint) {
             data.push({
                 action: PA.MoveUp,
-                value: LinearConvert(-getGamepadActivationPoint(), -1, leftStick)
+                value: LinearConvert(-gamepadActivationPoint, -1, leftStick)
             });
             return;
         }
@@ -113,10 +112,10 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
 function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const leftStick = inputs.gamepad.axes[1];
-        if (leftStick > getGamepadActivationPoint()) {
+        if (leftStick > gamepadActivationPoint) {
             data.push({
                 action: PA.MoveDown,
-                value: LinearConvert(getGamepadActivationPoint(), 1, leftStick)
+                value: LinearConvert(gamepadActivationPoint, 1, leftStick)
             });
             return;
         }
@@ -150,10 +149,10 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
             return;
         }
         const leftStick = inputs.gamepad.axes[0];
-        if (leftStick < -getGamepadActivationPoint()) {
+        if (leftStick < -gamepadActivationPoint) {
             data.push({
                 action: PA.MoveLeft,
-                value: LinearConvert(-getGamepadActivationPoint(), -1, leftStick)
+                value: LinearConvert(-gamepadActivationPoint, -1, leftStick)
             });
             return;
         }
@@ -190,10 +189,10 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         }
 
         const leftStick = inputs.gamepad.axes[0];
-        if (leftStick > getGamepadActivationPoint()) {
+        if (leftStick > gamepadActivationPoint) {
             data.push({
                 action: PA.MoveRight,
-                value: LinearConvert(getGamepadActivationPoint(), 1, leftStick)
+                value: LinearConvert(gamepadActivationPoint, 1, leftStick)
             });
             return;
         }

@@ -6,7 +6,7 @@ export default class TimerService {
      *
      */
     constructor() {
-        this._timerList = [];        
+        this._timerList = [];
     }
 
     public add(timer: IGame.ITimer) {
@@ -14,9 +14,9 @@ export default class TimerService {
     }
 
     public update(currentTime: number) {
-        for(const timer of this._timerList){
-            if(currentTime > timer.nextFireTime){
-                timer.triggerAction(currentTime);                
+        for (const timer of this._timerList) {
+            if (currentTime > timer.nextFireTime) {
+                timer.triggerAction(currentTime);
             }
         }
     }
