@@ -131,21 +131,17 @@ class Game implements IGame.IHost {
         //Set the frame rate
         const fps = 60;
         //Get the start time
-        let start = Date.now();
+        let start = performance.now();
         //Set the frame duration in milliseconds
         const frameDuration = 1000 / fps;
 
-
-        const caller = (currentTime) => {
-            this.requestAnimationFrameId = requestAnimationFrame(caller);
+        const caller = (currentTime) => {           
 
             this.stats.begin();
-            const current = performance.now();
-            const elapsed = current - start;
-            start = current;
+            const elapsed = currentTime - start;
+            start = currentTime;
             //Add the elapsed time to the lag counter
             const lagOffset = elapsed / frameDuration;
-
 
             this.gamepads = navigator.getGamepads() || [];
             if (this.gamepads.length > 0) {
@@ -159,9 +155,10 @@ class Game implements IGame.IHost {
             this.renderer.render(this.stage);
             this.stats.end();
 
+            this.requestAnimationFrameId = requestAnimationFrame(caller);
         };
 
-        caller(0);
+        caller(start);
     }
 
     private updateGamepadInputs(): void {

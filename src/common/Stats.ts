@@ -129,5 +129,3 @@ export default class Stats {
         };
     }
 }
-
-

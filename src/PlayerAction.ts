@@ -282,5 +282,3 @@ function shouldScaleDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         });
     }
 }
-
-

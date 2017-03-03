@@ -1,10 +1,10 @@
-import './styles/main.scss';
 import * as PIXI from 'pixi.js';
-import PlayState from './states/PlayState';
 //import MenuState from './states/MenuState';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Options } from "./components/Options";
+import PlayState from './states/PlayState';
+import './styles/main.scss';
 
 import Game from './Game';
 

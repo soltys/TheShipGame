@@ -41,7 +41,7 @@
       true,
       "spaces"
     ],    
-    "no-consecutive-blank-lines": [true, 3],
+    "no-consecutive-blank-lines": [true, 2],
     "no-empty-line-after-opening-brace": false,
     "no-single-line-block-comment": true,    
     "no-unnecessary-semicolons": true,
