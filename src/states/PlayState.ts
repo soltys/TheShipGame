@@ -1,6 +1,9 @@
+import { random } from 'lodash';
 import * as PIXI from 'pixi.js';
+import Coin from './../Coin';
 import * as IGame from './../common/IGame';
 import * as RS from './../common/ResourceSupport';
+import Timer from './../common/Timer';
 import GameBorder from './../GameBorder';
 import GameCorner from './../GameCorner';
 import Score from './../Score';
@@ -15,20 +18,23 @@ export default class PlayState extends BaseState {
     private onVisibilityChangedProxy: EventListener;
     handle(context: IGame.IGameContext) {
         const game = context.game;
-        //const coinAnimationFrames = RS.createAnimation("coin", 7);        
+        const coinAnimationFrames = RS.createAnimation('coin', 7);
         for (const border of this.getGameBorders(game.gameWidth, game.gameHeight)) {
             game.addObject(border);
+            context.objects.borders.push(border);
         }
+        
 
         for (const corner of this.getCorners(game.gameWidth, game.gameHeight)) {
             game.addObject(corner);
         }
 
-        game.addObject(new Ship(RS.createTexture('ship.png'), RS.createTexture('ship_to_left.png'), RS.createTexture('ship_to_right.png')));
+        game.addObject(new Ship(RS.createTexture('ship2.png'), RS.createTexture('ship2_to_left.png'), RS.createTexture('ship2_to_right.png')));
         game.addObject(new Score(game.gameWidth));
-        /*setInterval(function () {
-            game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), getRandomInt(20, game.gameWidth - 20), getRandomInt(20, game.gameHeight - 20)));
-        }, 1000);*/
+        context.timerService.add(Timer.create(1, () => {
+            game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), random(64, game.gameWidth - 64), random(64, game.gameHeight - 64)));
+        }));
+
         this.onVisibilityChangedProxy = () => this.onVisibilityChange(game);
 
         document.addEventListener('visibilitychange', this.onVisibilityChangedProxy, false);
@@ -37,7 +43,7 @@ export default class PlayState extends BaseState {
     onLeave(context: IGame.IGameContext) {
         document.removeEventListener('visibilitychange', this.onVisibilityChangedProxy);
     }
-    
+
     onVisibilityChange(game: IGame.IHost) {
         if (document['hidden']) {
             //pause game           

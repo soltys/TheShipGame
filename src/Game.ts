@@ -36,7 +36,7 @@ class Game implements IGame.IHost {
         this.config = {
             isMouseEnabled: false,
             showFPSCounter: true
-        };        
+        };
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -59,7 +59,8 @@ class Game implements IGame.IHost {
             objects: {
                 all: [],
                 score: undefined,
-                ship: undefined
+                ship: undefined,
+                borders: []
             },
             state: new InitState(),
             game: this,
@@ -99,7 +100,7 @@ class Game implements IGame.IHost {
 
     private newRenderer() {
         return PIXI.autoDetectRenderer(this.gameWidth, this.gameHeight,
-                                       {
+            {
                 backgroundColor: Colors.Background,
                 antialias: true,
                 roundPixels: false,
@@ -140,6 +141,7 @@ class Game implements IGame.IHost {
             this.requestAnimationFrameId = requestAnimationFrame(caller);
 
             this.stats.begin();
+
             const current = performance.now();
             const elapsed = current - start;
             start = current;
@@ -222,7 +224,7 @@ class Game implements IGame.IHost {
                 deltaY: event.deltaY,
                 deltaZ: event.deltaZ
             };
-        },                       false);
+        }, false);
     }
 }
 

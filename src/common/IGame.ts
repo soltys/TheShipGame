@@ -25,7 +25,7 @@ export interface IConfig {
     showFPSCounter: boolean;
 }
 
-export interface IShip {
+export interface IShip extends IGameObject {
     position: PIXI.Point;
 }
 
@@ -62,6 +62,7 @@ export interface IGameObjectCollection {
     all: Array<IGameObject>;
     score: IScore;
     ship: IShip;
+    borders: IGameObject[];
 }
 
 
