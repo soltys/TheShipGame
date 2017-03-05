@@ -8,7 +8,7 @@ var webpack = require('webpack');
 
 
 function getAppSettings(env) {
-    const app = [];    
+    const app = [];
     if (!env.production) {
         app.push('webpack-dev-server/client?http://localhost:8080/');
     }
@@ -47,7 +47,7 @@ module.exports = function (env) {
                 },
                 {
                     test: /\.tsx?$/,
-                    loader: "awesome-typescript-loader",
+                    loader: ['babel-loader', 'awesome-typescript-loader'],
                     exclude: [/\.(spec|e2e|d)\.ts$/]
                 },
                 {
@@ -57,7 +57,7 @@ module.exports = function (env) {
         },
         plugins: [
             new ExtractTextPlugin('[name].css'),
-            new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),            
+            new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
             new webpack.LoaderOptionsPlugin({
                 debug: true,
                 options: {
