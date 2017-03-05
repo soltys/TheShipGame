@@ -31,7 +31,7 @@ export default class PlayState extends BaseState {
 
         game.addObject(new Ship(RS.createTexture('ship2.png'), RS.createTexture('ship2_to_left.png'), RS.createTexture('ship2_to_right.png')));
         game.addObject(new Score(game.gameWidth));
-        context.timerService.add(Timer.create(1, () => {
+        context.timerService.add(Timer.create(1000, () => {
             game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), random(64, game.gameWidth - 64), random(64, game.gameHeight - 64)));
         }));
 
