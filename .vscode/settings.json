@@ -1,4 +1,16 @@
 {
     "typescript.tsdk": "./node_modules/typescript/lib",
-    "vsicons.presets.angular": false
+    "vsicons.presets.angular": false,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/.awcache":true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true
+    }
+    
 }

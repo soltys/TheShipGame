@@ -1,0 +1,102 @@
+@import "keys";
+@import "mixins";
+@import "config";
+@import "xbox";
+@import "togglebutton";
+// Main Components
+h1,
+h2 {
+    font-family: "Fira Sans";
+    color: $color-primary;
+}
+h1 {
+    font-size: 24px;
+}
+h2 {
+    font-size: 16px;
+}
+body {
+    font-family: "Roboto";
+    color: $color-primary;
+    margin:0;
+}
+#header {
+    text-align: center;
+    display: none;
+}
+#row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+#left-side {
+    padding:20px;
+    order: 1;
+    flex-basis: 100%;
+    display: none;
+}
+#right-side {
+    padding:20px;
+    order: 2;
+    flex-basis: 100%;
+    display: none;
+}
+#gameHost {
+    padding:10px;
+    order: 3;
+    flex-basis: 100%;
+    text-align: center;
+}
+#footer {
+    display: none;
+}
+
+#footer p {
+    text-align: center;
+    color: #888;
+}
+#footer a {
+    text-decoration: underline;
+    color: #f88;
+}
+
+ul.options-list  {
+    margin:0;
+    padding:0;
+}
+.options-list  li{
+ padding:5px 0px;   
+}
+@media screen and (min-height:860px){
+    #header {        
+        display: block;
+    }
+
+    #footer{
+        display: block;
+    }
+}
+@media screen and (min-width: 1000px) {
+    #row {
+        flex-wrap: nowrap;
+    }
+    #left-side {
+        flex-basis: 50%;
+        order: 1;
+        display: block;
+    }
+    #gameHost {
+        flex-basis: 1;
+        padding:20px;
+        
+        flex-basis: 100%;
+        order: 2;
+    }
+    #right-side {
+        flex-basis: 50%;
+        order: 3;
+        display: block;
+    }
+}

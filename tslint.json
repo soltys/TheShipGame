@@ -1,24 +1,26 @@
+//https://github.com/Microsoft/tslint-microsoft-contrib/blob/master/recommended_ruleset.js
 {
   "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules"
+    "node_modules/tslint/lib/rules",
+    "node_modules/tslint-eslint-rules/dist/rules",
+    "node_modules/tslint-microsoft-contrib"
   ],
   "rules": {
+    "ordered-imports": true,
     "no-eval": true,
     "radix": true,
-    "no-duplicate-case": true,
-    "use-isnan": true,    
+    "use-isnan": true,
     "valid-typeof": true,
-    "no-unused-expression": true,
-    "no-duplicate-variable": true,
-    "curly": true,
     "class-name": true,
     "no-reference": true,
     "prefer-for-of": true,
-    "semicolon": [
-      "always"
-    ],
     "triple-equals": true,
+    "no-duplicate-case": true,
+    "no-unused-expression": true,
+    "no-duplicate-variable": true,    
     "no-var-keyword": true,
+    "no-var-self": true,
+    "no-document-write": true,
     "no-console": [
       true,
       "debug",
@@ -27,6 +29,56 @@
       "time",
       "timeEnd",
       "trace"
+    ],
+    /**
+         * Whitespace related rules. The only recommended whitespace strategy is to pick a single format and
+         * be consistent.
+         */  
+    "curly": true,
+    "eofline": true,
+    "import-spacing": true,
+    "indent": [
+      true,
+      "spaces"
+    ],    
+    "no-consecutive-blank-lines": [true, 3],
+    "no-empty-line-after-opening-brace": false,
+    "no-single-line-block-comment": true,    
+    "no-unnecessary-semicolons": true,
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "one-line": [
+      true,
+      "check-open-brace",
+      "check-catch",
+      "check-else",
+      "check-whitespace"
+    ],
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "react-tsx-curly-spacing": true,
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": "never"
+      }
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type"
     ]
   }
 }
