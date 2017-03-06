@@ -15,9 +15,9 @@ const game = new Game(gameWidth, gameHeight);
 PIXI.loader.add([
     'assets/animation/coin.json',
     'assets/animation/bullet.json',
-    'assets/ship_to_left.png',
-    'assets/ship_to_right.png',
-    'assets/ship.png',
+    'assets/ship2_to_left.png',
+    'assets/ship2_to_right.png',
+    'assets/ship2.png',
     'assets/borders/top.png',
     'assets/borders/bottom.png',
     'assets/borders/left.png',

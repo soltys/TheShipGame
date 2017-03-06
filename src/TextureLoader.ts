@@ -20,8 +20,7 @@ class TextureLoader {
     public addOrGet(name: string) {
         if (this.textureDictionry.containsKey(name)) {
             return this.textureDictionry["name"];
-        }
-        else {
+        } else {
             const texture = PIXI.Texture.fromImage(`assets/${name}`, undefined, PIXI.SCALE_MODES.NEAREST);
             this.textureDictionry.add(name, texture);
             return texture;
