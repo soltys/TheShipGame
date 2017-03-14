@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 //import MenuState from './states/MenuState';
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Options } from "./components/Options";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Options } from './components/Options';
 import PlayState from './states/PlayState';
 import './styles/main.scss';
 
@@ -25,7 +25,7 @@ PIXI.loader.add([
     'assets/borders/corner_right_top.png',
     'assets/borders/corner_left_top.png',
     'assets/borders/corner_right_bottom.png',
-    'assets/borders/corner_left_bottom.png',
+    'assets/borders/corner_left_bottom.png'
 
 ])
     //.on("progress", loadProgressHandler)
@@ -33,14 +33,14 @@ PIXI.loader.add([
 
 
 ReactDOM.render(
-    <Options gameConfig={game.config} />,
-    document.getElementById("options")
+    <Options gameConfig={ game.config } />,
+    document.getElementById('options')
 );
 
 function onAssetsLoaded(load, res) {
     game.gotoState(new PlayState());
-    game.addRendererToElement(document.getElementById("gameHost"));
-    game.addFPSCounter(document.getElementById("fps-counter"));
+    game.addRendererToElement(document.getElementById('gameHost'));
+    game.addFPSCounter(document.getElementById('fps-counter'));
     game.addEventListenerToElement(document.body);
     game.animate();
 }

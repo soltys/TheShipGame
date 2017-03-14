@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 export interface ToggleProps {
     onChange: (newValue: boolean) => void;
     value: boolean;
@@ -16,7 +16,7 @@ export class ToggleOption extends React.Component<ToggleProps, ToggleState> {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false,
+            checked: false
         };
 
         this.setInitialToggleOption = this.setInitialToggleOption.bind(this);
@@ -46,9 +46,9 @@ export class ToggleOption extends React.Component<ToggleProps, ToggleState> {
     render() {
         return (
             <div>
-                <input className="tgl tgl-ios" id={this.props.id} type="checkbox" checked={this.state.checked} onChange={(event) => this.handleInputChange(event)} />
-                <label className="tgl-btn" htmlFor={this.props.id}></label>
-                {this.props.label}
+                <input className='tgl tgl-ios' id={ this.props.id } type='checkbox' checked={ this.state.checked } onChange={ (event) => this.handleInputChange(event) } />
+                <label className='tgl-btn' htmlFor={ this.props.id }></label>
+                { this.props.label } 
             </div>
         );                                                                                                                                                             
     }
