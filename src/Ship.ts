@@ -104,7 +104,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         let deltaX = this.velocityX * timeDelta;
         let deltaY = this.velocityY * timeDelta;
 
-        let tempBoundingBox = this.boundingBoxAll.clone();
+        const tempBoundingBox = this.boundingBoxAll.clone();
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
 

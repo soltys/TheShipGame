@@ -23,7 +23,8 @@ export default class Stats {
         this.container.className = 'fps-counter';
         this.container.addEventListener('click', (event) => {
             event.preventDefault();
-            this.showPanel(++this.mode % this.container.children.length);
+            this.mode += 1;
+            this.showPanel(this.mode % this.container.children.length);
         }, false);
         const performance = window.performance;
         this.beginTime = (performance || Date).now();
@@ -45,7 +46,7 @@ export default class Stats {
     }
 
     public showPanel(id: number) {
-        for (let i = 0; i < this.container.children.length; i++) {
+        for (let i = 0; i < this.container.children.length; i += 1) {
             (<any>this.container.children[i]).style.display = i === id ? 'block' : 'none';
         }
         this.mode = id;
@@ -57,7 +58,7 @@ export default class Stats {
 
 
     public end() {
-        this.frames++;
+        this.frames += 1;
         const time = (performance || Date).now();
         this.msPanel.update(time - this.beginTime, 200);
         if (time > this.prevTime + 1000) {
@@ -77,7 +78,9 @@ export default class Stats {
     }
 
     private Panel(name, fg, bg): IPanel {
-        let min = Infinity, max = 0, round = Math.round;
+        let min = Infinity;
+        let max = 0;
+        const round = Math.round;
         const PR = round(window.devicePixelRatio || 1);
 
         const WIDTH = 80 * PR, HEIGHT = 48 * PR,

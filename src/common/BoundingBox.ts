@@ -29,12 +29,12 @@ class BoundingBox implements IGame.IBoundingBox {
     }
 
     collidesInDirection(box, gameObject): CollisionDirection {
-        let edges = this.getEdges(box, gameObject);
+        const edges = this.getEdges(box, gameObject);
 
-        let offsetLeft = edges.gameObjectRight - edges.boxLeft;
-        let offsetRight = edges.boxRight - edges.gameObjectLeft;
-        let offsetTop = edges.gameObjectBottom - edges.boxTop;
-        let offsetBottom = edges.boxBottom - edges.gameObjectTop;
+        const offsetLeft = edges.gameObjectRight - edges.boxLeft;
+        const offsetRight = edges.boxRight - edges.gameObjectLeft;
+        const offsetTop = edges.gameObjectBottom - edges.boxTop;
+        const offsetBottom = edges.boxBottom - edges.gameObjectTop;
 
         if (Math.min(offsetLeft, offsetRight, offsetTop, offsetBottom) === offsetTop) {
             return CollisionDirection.Down;

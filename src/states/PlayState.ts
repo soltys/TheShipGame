@@ -23,7 +23,7 @@ export default class PlayState extends BaseState {
             game.addObject(border);
             context.objects.borders.push(border);
         }
-        
+
 
         for (const corner of this.getCorners(game.gameWidth, game.gameHeight)) {
             game.addObject(corner);
