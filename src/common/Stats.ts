@@ -1,6 +1,4 @@
-/**
- * @author mrdoob / http://mrdoob.com/
- */
+import * as IGame from './IGame';
 interface IPanel {
     dom: HTMLCanvasElement;
     update(value: any, maxValue: any);
@@ -26,6 +24,20 @@ export default class Stats {
             this.mode += 1;
             this.showPanel(this.mode % this.container.children.length);
         }, false);
+
+        document.addEventListener('configUpdated', (event: CustomEvent) => {
+            event.preventDefault();
+            const eventData = <IGame.IConfigUpdated>event.detail;
+            if (eventData.key === 'showFPSCounter') {
+                if (eventData.newValue) {
+                    this.mode = 0;
+                    this.showPanel(0);
+                } else {
+                    this.mode = -1;
+                    this.showPanel(-1);
+                }
+            }
+        });
         const performance = window.performance;
         this.beginTime = (performance || Date).now();
         this.prevTime = this.beginTime;

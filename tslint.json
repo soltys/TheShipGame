@@ -105,7 +105,6 @@
       true,
       "single"
     ],
-    "react-tsx-curly-spacing": true,
     "trailing-comma": [
       true,
       {

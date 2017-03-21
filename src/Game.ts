@@ -4,6 +4,7 @@ import Colors from './common/Colors';
 import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
+import GameConfig from './GameConfig';
 import InitState from './states/InitState';
 class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
@@ -12,7 +13,7 @@ class Game implements IGame.IHost {
     private gamepads: Gamepad[];
     public gameWidth = 0;
     public gameHeight = 0;
-    public readonly config: IGame.IConfig;
+    public readonly config: GameConfig;
     private scale = 1;
     private stats: Stats;
     private requestAnimationFrameId: number;
@@ -33,10 +34,7 @@ class Game implements IGame.IHost {
 
         this.stats = new Stats();
 
-        this.config = {
-            isMouseEnabled: false,
-            showFPSCounter: true
-        };
+       this.config = new GameConfig();
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -186,7 +184,7 @@ class Game implements IGame.IHost {
         });
 
         element.addEventListener('mousedown', (event) => {
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             inputs.clicks[event.which] = {
@@ -195,15 +193,15 @@ class Game implements IGame.IHost {
             };
         });
 
-        element.addEventListener('mouseup', (event) => {
-            if (!this.config.isMouseEnabled) {
+        element.addEventListener('mouseup', (event) => {            
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             delete inputs.clicks[event.which];
         });
 
         element.addEventListener('mousemove', (event) => {
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
@@ -212,7 +210,7 @@ class Game implements IGame.IHost {
 
         element.addEventListener('wheel', (event) => {
             event.preventDefault();
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             inputs.wheel = {

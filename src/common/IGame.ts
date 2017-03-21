@@ -21,8 +21,8 @@ export interface IHost {
 }
 
 export interface IConfig {
-    isMouseEnabled: boolean;
-    showFPSCounter: boolean;
+    readonly isMouseEnabled: boolean;
+    readonly showFPSCounter: boolean;
 }
 
 export interface IShip extends IGameObject {
@@ -137,4 +137,10 @@ export interface ITimer {
      * @memberOf ITimer
      */
     triggerAction(currentTime: number);
+}
+
+export interface IConfigUpdated {
+    key: string;
+    newValue: any;
+    oldValue: any;
 }
