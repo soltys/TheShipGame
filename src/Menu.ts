@@ -33,10 +33,4 @@ export default class Menu extends GameObject implements IGame.IGameDisplayObject
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.startDisplay];
     }
-
-
 }
-
-
-
-
