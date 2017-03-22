@@ -1,18 +1,22 @@
+import * as _ from 'lodash';
 import * as IGame from './common/IGame';
+import { IStorage } from './common/IStorage';
+import LocalStorageFascade from './common/LocalStorageFacade';
 export default class GameConfig {
 
     private config: IGame.IConfig;
+    private localStorage: IStorage;
 
-    /**
-     *
-     */
     constructor() {
-        this.config = this.getInitConfig();
+
+        this.localStorage = new LocalStorageFascade();
+
+        const factoryDefault = this.getFactoryDefaultConfig();
+        const localStorageConfig = this.localStorage.get('gameconfig');
+        this.config = _.assign(factoryDefault, localStorageConfig);
     }
-    /**
-     * GetInitConfig
-     */
-    getInitConfig(): IGame.IConfig {
+
+    getFactoryDefaultConfig(): IGame.IConfig {
         return {
             isMouseEnabled: false,
             showFPSCounter: true
@@ -22,6 +26,7 @@ export default class GameConfig {
     update(configKey, newValue) {
         const oldValue = this.config[configKey];
         this.config[configKey] = newValue;
+        this.localStorage.set('gameconfig', this.config);
         const configUpdated = new CustomEvent('configUpdated', {
             detail: {
                 key: configKey,
@@ -30,10 +35,14 @@ export default class GameConfig {
             }
         });
         document.dispatchEvent(configUpdated);
-        
+
     }
 
     public get(configKey) {
-        return this.config[configKey]; 
+        return this.config[configKey];
+    }
+
+    public getAll() {
+        return this.config;
     }
 }

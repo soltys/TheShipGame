@@ -15,7 +15,7 @@ export default class Stats {
     private fpsPanel: IPanel;
     private msPanel: IPanel;
     private memPanel: IPanel;
-    constructor() {
+    constructor(showAfterCreating: any) {
         this.mode = 0;
         this.container = document.createElement('div');
         this.container.className = 'fps-counter';
@@ -49,7 +49,13 @@ export default class Stats {
 
         }
 
-        this.showPanel(0);
+        if (showAfterCreating) {
+            this.mode = 0;
+            this.showPanel(0);
+        } else {
+            this.mode = -1;
+            this.showPanel(-1);
+        }
     }
 
     public addPanel(panel: IPanel): IPanel {

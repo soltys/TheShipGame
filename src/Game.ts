@@ -32,9 +32,9 @@ class Game implements IGame.IHost {
 
         this.context = this.createGameContext();
 
-        this.stats = new Stats();
+        this.config = new GameConfig();
 
-       this.config = new GameConfig();
+        this.stats = new Stats(this.config.get('showFPSCounter'));
     }
 
     private createGameContext(): IGame.IGameContext {

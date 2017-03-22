@@ -10,11 +10,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
      */
     constructor(props) {
         super(props);
-        this.state = {
-            isMouseEnabled: false,
-            showFPSCounter: true
-        };
-
+        this.state = this.props.gameConfig.getAll();
         this.setGameOptionsConfig = this.setGameOptionsConfig.bind(this);
     }
 
@@ -24,7 +20,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
 
     setGameOptionsConfig() {
         this.setState((prevState, props) => {
-            return this.props.gameConfig;
+            return this.props.gameConfig.getAll();
         });
 
     }
