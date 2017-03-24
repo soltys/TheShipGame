@@ -1,46 +1,15 @@
-import * as _ from 'lodash';
-import { IStorage } from './IStorage';
+import StorageFacade from './StorageFacade';
 let instance = undefined;
-export default class LocalStorageFacade implements IStorage {
-
+export default class LocalStorageFacade extends StorageFacade {
     /**
      * Creates instance or gets one which exists already
      */
     constructor() {
+        super(localStorage);
         if (!instance) {
             instance = this;
         }
-
         return instance;
-    }
-
-    remove(key: string) {
-        localStorage.removeItem(key);
-    }
-    clear() {
-        localStorage.clear();
-    }
-
-    get(key: string): {} {
-        const localStorageValue = localStorage.getItem(key);
-        if (_.isEmpty(localStorage)) {
-            return undefined;
-        } else {
-            try {
-                const jsonValue = JSON.parse(localStorageValue);
-                // tslint:disable-next-line:no-null-keyword
-                if (jsonValue === null) {
-                    return undefined;
-                }
-                return jsonValue;
-            } catch (e) {
-                return undefined;
-            }
-        }
-
-    }
-    set(key: string, value: {}) {
-        localStorage.setItem(key, JSON.stringify(value));
     }
 }
 
