@@ -1,5 +1,5 @@
 export interface IStorage {
-    
+
     /**
      * Gets value at given key
      * 
@@ -18,7 +18,7 @@ export interface IStorage {
      * 
      * @memberOf IStorage
      */
-    set(key: string, value: {});
+    set(key: string, value: {}): void;
 
     /**
      * Removes value at given key
@@ -27,10 +27,10 @@ export interface IStorage {
      * 
      * @memberOf IStorage
      */
-    remove(key: string);
+    remove(key: string): void;
 
     /**
      * Clears whole storage from data
      */
-    clear(key: string);
+    clear(key: string): void;
 }

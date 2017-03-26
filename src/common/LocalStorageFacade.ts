@@ -12,4 +12,3 @@ export default class LocalStorageFacade extends StorageFacade {
         return instance;
     }
 }
-

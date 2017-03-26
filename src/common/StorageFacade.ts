@@ -2,9 +2,7 @@ import * as _ from 'lodash';
 import { IStorage } from './IStorage';
 export default class StorageFacade implements IStorage {
     private storage: Storage;
-    /**
-     * Creates instance or gets one which exists already
-     */
+    
     constructor(storage: Storage) {
         this.storage = storage;
     }
@@ -18,13 +16,12 @@ export default class StorageFacade implements IStorage {
 
     get(key: string): {} {
         const storageValue = this.storage.getItem(key);
-        if (_.isEmpty(localStorage)) {
+        if (_.isEmpty(storageValue)) {
             return undefined;
         } else {
             try {
                 const jsonValue = JSON.parse(storageValue);
-                // tslint:disable-next-line:no-null-keyword
-                if (jsonValue === null) {
+                if (_.isNull(jsonValue)) {
                     return undefined;
                 }
                 return jsonValue;
@@ -33,8 +30,7 @@ export default class StorageFacade implements IStorage {
             }
         }
     }
-    set(key: string, value: {}) {
+    set(key: string, value: {}): void {
         this.storage.setItem(key, JSON.stringify(value));
     }
 }
-
