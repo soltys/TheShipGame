@@ -11,7 +11,13 @@ let gameContext: IGame.IGameContext;
 export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActionData[] {
     gameContext = context;
     const playerActions: IGame.IPlayerActionData[] = [];
-    const inputs = context.inputs;
+    const inputs = _.cloneDeep(context.inputs);
+
+    if (inputs.touches.length > 0) {
+        inputs.mouse = inputs.touches[0];
+        inputs.clicks[MouseButtons.LEFT_BUTTON] = inputs.touches[0];
+    }
+
     shouldMoveUp(inputs, playerActions);
     shouldMoveDown(inputs, playerActions);
     shouldMoveRight(inputs, playerActions);

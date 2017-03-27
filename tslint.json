@@ -6,8 +6,8 @@
     "node_modules/tslint-microsoft-contrib"
   ],
   "rules": {
-    
-    "class-name": true,    
+
+    "class-name": true,
     "indent": [
       true,
       "spaces"
@@ -40,8 +40,8 @@
         "property-declaration": "nospace",
         "variable-declaration": "nospace"
       }
-    ],  
-    "no-internal-module": true,    
+    ],
+    "no-internal-module": true,
     "no-inferrable-types": [
       true
     ],
@@ -60,7 +60,6 @@
     "use-isnan": true,
     "valid-typeof": true,
     "no-reference": true,
-    "prefer-for-of": true,
     "triple-equals": true,
     "no-duplicate-case": true,
     "no-unused-expression": true,

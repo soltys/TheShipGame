@@ -43,6 +43,7 @@ class Game implements IGame.IHost {
                 keys: {},
                 clicks: {},
                 mouse: { clientX: 0, clientY: 0 },
+                touches: [],
                 gamepad: {
                     buttons: [],
                     axes: [],
@@ -193,7 +194,7 @@ class Game implements IGame.IHost {
             };
         });
 
-        element.addEventListener('mouseup', (event) => {            
+        element.addEventListener('mouseup', (event) => {
             if (!this.config.get('isMouseEnabled')) {
                 return;
             }
@@ -219,7 +220,51 @@ class Game implements IGame.IHost {
                 deltaZ: event.deltaZ
             };
         }, false);
+        const touchStart = (event: TouchEvent) => {
+            event.preventDefault();
+            const touches = event.changedTouches;
+            const inputs = this.context.inputs;
+            for (let i = 0; i < touches.length; i += 1) {
+                const touch = touches[i];
+                inputs.touches.push({
+                    id: touch.identifier,
+                    clientX: touch.pageX,
+                    clientY: touch.pageY
+                });
+            }
+        };
+
+        const touchMove = (event: TouchEvent) => {
+            event.preventDefault();
+            const touches = event.changedTouches;
+            const inputs = this.context.inputs;
+
+            for (let i = 0; i < touches.length; i += 1) {
+                const touch = touches[i];
+                const touchPoint = _.find(inputs.touches, (t) => t.id === touch.identifier);
+                if (touchPoint) {
+                    touchPoint.clientX = touch.pageX;
+                    touchPoint.clientY = touch.pageY;
+                }
+            }
+        };
+
+        const touchEnd = (event: TouchEvent) => {
+            event.preventDefault();
+            const touches = event.changedTouches;
+            const inputs = this.context.inputs;
+
+            for (let i = 0; i < touches.length; i += 1) {
+                const touch = touches[i];
+                _.remove(inputs.touches, (t) => t.id === touch.identifier);
+            }
+        };
+        element.addEventListener('touchstart', touchStart, false);
+        element.addEventListener('touchend', touchEnd, false);
+        element.addEventListener('touchcancel', touchEnd, false);
+        element.addEventListener('touchmove', touchMove, false);
     }
+
 }
 
 export default Game;
