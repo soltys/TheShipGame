@@ -9,7 +9,7 @@ export function createTexture(name: string) {
 export function createAnimation(name: string, frameNumber: number): any[] {
     const frames = [];
 
-    for (let i = 0; i < frameNumber; i++) {
+    for (let i = 0; i < frameNumber; i += 1) {
         const val = i.toString();
 
         // magically works since the spritesheet was loaded with the pixi loader

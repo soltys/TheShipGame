@@ -34,7 +34,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
     }
 
     private updateScoreDisplay() {
-        let score = this.leftPad(this.score, 7, '0');
+        const score = this.leftPad(this.score, 7, '0');
         this.scoreDisplay.text = `Score: ${score}`;
     }
 

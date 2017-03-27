@@ -4,6 +4,7 @@ import Colors from './common/Colors';
 import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
+import GameConfig from './GameConfig';
 import InitState from './states/InitState';
 class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
@@ -12,7 +13,7 @@ class Game implements IGame.IHost {
     private gamepads: Gamepad[];
     public gameWidth = 0;
     public gameHeight = 0;
-    public readonly config: IGame.IConfig;
+    public readonly config: GameConfig;
     private scale = 1;
     private stats: Stats;
     private requestAnimationFrameId: number;
@@ -31,12 +32,9 @@ class Game implements IGame.IHost {
 
         this.context = this.createGameContext();
 
-        this.stats = new Stats();
+        this.config = new GameConfig();
 
-        this.config = {
-            isMouseEnabled: false,
-            showFPSCounter: true
-        };
+        this.stats = new Stats(this.config.get('showFPSCounter'));
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -45,6 +43,7 @@ class Game implements IGame.IHost {
                 keys: {},
                 clicks: {},
                 mouse: { clientX: 0, clientY: 0 },
+                touches: [],
                 gamepad: {
                     buttons: [],
                     axes: [],
@@ -132,22 +131,17 @@ class Game implements IGame.IHost {
         //Set the frame rate
         const fps = 60;
         //Get the start time
-        let start = Date.now();
+        let start = performance.now();
         //Set the frame duration in milliseconds
         const frameDuration = 1000 / fps;
 
-
         const caller = (currentTime) => {
-            this.requestAnimationFrameId = requestAnimationFrame(caller);
 
             this.stats.begin();
-
-            const current = performance.now();
-            const elapsed = current - start;
-            start = current;
+            const elapsed = currentTime - start;
+            start = currentTime;
             //Add the elapsed time to the lag counter
             const lagOffset = elapsed / frameDuration;
-
 
             this.gamepads = navigator.getGamepads() || [];
             if (this.gamepads.length > 0) {
@@ -161,9 +155,10 @@ class Game implements IGame.IHost {
             this.renderer.render(this.stage);
             this.stats.end();
 
+            this.requestAnimationFrameId = requestAnimationFrame(caller);
         };
 
-        caller(0);
+        caller(start);
     }
 
     private updateGamepadInputs(): void {
@@ -190,7 +185,7 @@ class Game implements IGame.IHost {
         });
 
         element.addEventListener('mousedown', (event) => {
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             inputs.clicks[event.which] = {
@@ -200,14 +195,14 @@ class Game implements IGame.IHost {
         });
 
         element.addEventListener('mouseup', (event) => {
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             delete inputs.clicks[event.which];
         });
 
         element.addEventListener('mousemove', (event) => {
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
@@ -216,7 +211,7 @@ class Game implements IGame.IHost {
 
         element.addEventListener('wheel', (event) => {
             event.preventDefault();
-            if (!this.config.isMouseEnabled) {
+            if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             inputs.wheel = {
@@ -225,7 +220,51 @@ class Game implements IGame.IHost {
                 deltaZ: event.deltaZ
             };
         }, false);
+        const touchStart = (event: TouchEvent) => {
+            event.preventDefault();
+            const touches = event.changedTouches;
+            const inputs = this.context.inputs;
+            for (let i = 0; i < touches.length; i += 1) {
+                const touch = touches[i];
+                inputs.touches.push({
+                    id: touch.identifier,
+                    clientX: touch.pageX,
+                    clientY: touch.pageY
+                });
+            }
+        };
+
+        const touchMove = (event: TouchEvent) => {
+            event.preventDefault();
+            const touches = event.changedTouches;
+            const inputs = this.context.inputs;
+
+            for (let i = 0; i < touches.length; i += 1) {
+                const touch = touches[i];
+                const touchPoint = _.find(inputs.touches, (t) => t.id === touch.identifier);
+                if (touchPoint) {
+                    touchPoint.clientX = touch.pageX;
+                    touchPoint.clientY = touch.pageY;
+                }
+            }
+        };
+
+        const touchEnd = (event: TouchEvent) => {
+            event.preventDefault();
+            const touches = event.changedTouches;
+            const inputs = this.context.inputs;
+
+            for (let i = 0; i < touches.length; i += 1) {
+                const touch = touches[i];
+                _.remove(inputs.touches, (t) => t.id === touch.identifier);
+            }
+        };
+        element.addEventListener('touchstart', touchStart, false);
+        element.addEventListener('touchend', touchEnd, false);
+        element.addEventListener('touchcancel', touchEnd, false);
+        element.addEventListener('touchmove', touchMove, false);
     }
+
 }
 
 export default Game;

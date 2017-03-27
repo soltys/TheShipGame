@@ -31,4 +31,4 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
         return new Bullet(new PIXI.extras.AnimatedSprite(this.bulletAnimationFrames), posX, posY);
     }
 
-} 
+}

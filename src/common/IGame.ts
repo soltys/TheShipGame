@@ -21,8 +21,8 @@ export interface IHost {
 }
 
 export interface IConfig {
-    isMouseEnabled: boolean;
-    showFPSCounter: boolean;
+    readonly isMouseEnabled: boolean;
+    readonly showFPSCounter: boolean;
 }
 
 export interface IShip extends IGameObject {
@@ -52,10 +52,14 @@ export interface IGameContext {
 }
 export interface IGameInput {
     keys: { [index: number]: boolean };
-    clicks: { [index: number]: IMousePosition };
+    clicks: { [index: number]: IPosition };
     wheel: IMouseWheel;
-    mouse: IMousePosition;
+    mouse: IPosition;
+    touches: ITouch[];
     gamepad: IGamepadData;
+}
+export interface ITouch extends IPosition {
+    id: number;
 }
 
 export interface IGameObjectCollection {
@@ -66,7 +70,7 @@ export interface IGameObjectCollection {
 }
 
 
-export interface IMousePosition {
+export interface IPosition {
     clientX: number;
     clientY: number;
 }
@@ -113,17 +117,17 @@ export interface IDictionary {
 export interface ITimerService {
     /**
      * Adds new timer to checking
-     * 
-     * @param {ITimer} timer 
-     * 
+     *
+     * @param {ITimer} timer
+     *
      * @memberOf ITimerService
      */
     add(timer: ITimer);
 }
 export interface ITimer {
     /**
-    * Time when should next action accour, if you want as soon  
-    * 
+    * Time when should next action accour, if you want as soon
+    *
     * @type {number}
     * @memberOf ITimer
     */
@@ -131,10 +135,16 @@ export interface ITimer {
 
     /**
      * Launches action specified in timer
-     * 
-     * @param {number} currentTime 
-     * 
+     *
+     * @param {number} currentTime
+     *
      * @memberOf ITimer
      */
     triggerAction(currentTime: number);
+}
+
+export interface IConfigUpdated {
+    key: string;
+    newValue: any;
+    oldValue: any;
 }

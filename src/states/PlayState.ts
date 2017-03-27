@@ -23,7 +23,7 @@ export default class PlayState extends BaseState {
             game.addObject(border);
             context.objects.borders.push(border);
         }
-        
+
 
         for (const corner of this.getCorners(game.gameWidth, game.gameHeight)) {
             game.addObject(corner);
@@ -115,5 +115,3 @@ export default class PlayState extends BaseState {
         return PIXI.Texture.fromImage(`assets/borders/corner_${leftOrRight}_${topOrBottom}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
     }
 }
-
-

@@ -1,6 +1,4 @@
-/**
- * @author mrdoob / http://mrdoob.com/
- */
+import * as IGame from './IGame';
 interface IPanel {
     dom: HTMLCanvasElement;
     update(value: any, maxValue: any);
@@ -17,14 +15,29 @@ export default class Stats {
     private fpsPanel: IPanel;
     private msPanel: IPanel;
     private memPanel: IPanel;
-    constructor() {
+    constructor(showAfterCreating: any) {
         this.mode = 0;
         this.container = document.createElement('div');
         this.container.className = 'fps-counter';
         this.container.addEventListener('click', (event) => {
             event.preventDefault();
-            this.showPanel(++this.mode % this.container.children.length);
+            this.mode += 1;
+            this.showPanel(this.mode % this.container.children.length);
         }, false);
+
+        document.addEventListener('configUpdated', (event: CustomEvent) => {
+            event.preventDefault();
+            const eventData = <IGame.IConfigUpdated>event.detail;
+            if (eventData.key === 'showFPSCounter') {
+                if (eventData.newValue) {
+                    this.mode = 0;
+                    this.showPanel(0);
+                } else {
+                    this.mode = -1;
+                    this.showPanel(-1);
+                }
+            }
+        });
         const performance = window.performance;
         this.beginTime = (performance || Date).now();
         this.prevTime = this.beginTime;
@@ -36,7 +49,13 @@ export default class Stats {
 
         }
 
-        this.showPanel(0);
+        if (showAfterCreating) {
+            this.mode = 0;
+            this.showPanel(0);
+        } else {
+            this.mode = -1;
+            this.showPanel(-1);
+        }
     }
 
     public addPanel(panel: IPanel): IPanel {
@@ -45,7 +64,7 @@ export default class Stats {
     }
 
     public showPanel(id: number) {
-        for (let i = 0; i < this.container.children.length; i++) {
+        for (let i = 0; i < this.container.children.length; i += 1) {
             (<any>this.container.children[i]).style.display = i === id ? 'block' : 'none';
         }
         this.mode = id;
@@ -57,7 +76,7 @@ export default class Stats {
 
 
     public end() {
-        this.frames++;
+        this.frames += 1;
         const time = (performance || Date).now();
         this.msPanel.update(time - this.beginTime, 200);
         if (time > this.prevTime + 1000) {
@@ -77,7 +96,9 @@ export default class Stats {
     }
 
     private Panel(name, fg, bg): IPanel {
-        let min = Infinity, max = 0, round = Math.round;
+        let min = Infinity;
+        let max = 0;
+        const round = Math.round;
         const PR = round(window.devicePixelRatio || 1);
 
         const WIDTH = 80 * PR, HEIGHT = 48 * PR,
@@ -129,5 +150,3 @@ export default class Stats {
         };
     }
 }
-
-
