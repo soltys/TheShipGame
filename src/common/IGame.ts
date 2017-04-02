@@ -2,17 +2,17 @@ import CollisionDirection from './CollisionDirection';
 import PlayerAction from './PlayerAction';
 
 export interface IBoundingBox {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
+    readonly x: number;
+    readonly y: number;
+    readonly width: number;
+    readonly height: number;
 
     collidesWith(box: IBoundingBox);
     collidesInDirection(other: IBoundingBox)
 }
 
 export interface IHost {
-    stage: PIXI.Container;
+    readonly stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
     gotoState(state: IGameState): void;
@@ -34,7 +34,7 @@ export interface IConfig {
 }
 
 export interface IShip extends IGameObject {
-    position: PIXI.Point;
+    readonly position: PIXI.Point;
 }
 
 export interface IGameState {
@@ -67,7 +67,7 @@ export interface IGameInput {
     gamepad: IGamepadData;
 }
 export interface ITouch extends IPosition {
-    id: number;
+    readonly id: number;
 }
 
 export interface IGameObjectCollection {
