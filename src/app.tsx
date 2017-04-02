@@ -2,8 +2,8 @@ import * as PIXI from 'pixi.js';
 //import MenuState from './states/MenuState';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Options } from './components/Options';
-import PlayState from './states/PlayState';
+import { Options } from './component/Options';
+import PlayState from './state/PlayState';
 import './styles/main.scss';
 
 import Game from './Game';

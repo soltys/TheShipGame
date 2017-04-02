@@ -1,17 +1,17 @@
 import * as IGame from './../common/IGame';
 import BaseState from './BaseState';
-import Menu from './../Menu';
+import MenuGameObject from './../Menu';
 
-export default class MenuState extends BaseState {
+export default class Menu extends BaseState {
 
     constructor() {
         super();
 
     }
-    private menu: Menu;
+    private menu: MenuGameObject;
     handle(context: IGame.IGameContext) {
         const game = context.game;
-        this.menu = new Menu(game.gameWidth, game.gameHeight);
+        this.menu = new MenuGameObject(game.gameWidth, game.gameHeight);
         game.addObject(this.menu);
     }
 

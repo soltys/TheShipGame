@@ -5,7 +5,7 @@ import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
 import GameConfig from './GameConfig';
-import InitState from './states/InitState';
+import InitState from './state/InitState';
 class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;

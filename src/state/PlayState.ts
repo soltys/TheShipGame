@@ -8,12 +8,12 @@ import GameBorder from './../GameBorder';
 import GameCorner from './../GameCorner';
 import Score from './../Score';
 import Ship from './../Ship';
-import BaseState from './BaseState';
+import Base from './BaseState';
 type Sides = 'left' | 'right';
 type TopOrBottom = 'top' | 'bottom';
 type Directions = Sides | TopOrBottom;
 
-export default class PlayState extends BaseState {
+export default class Play extends Base {
     private borderSize = 32;
     private onVisibilityChangedProxy: EventListener;
     handle(context: IGame.IGameContext) {
