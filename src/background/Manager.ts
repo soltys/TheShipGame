@@ -26,8 +26,6 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
         return [this.graphics];
     }
 
-
-
     init(state: IGame.IGameContext): void {
         this.graphics = new PIXI.Graphics();
         this.offsetVertical = 0;
@@ -37,18 +35,16 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
 
         g.clear();
         g.beginFill(0xff0000);
-        for (let line = 32; line < state.game.gameWidth; line += 64) {
-            g.drawRect(line, 0, 1, state.game.gameHeight);
+        for (let line = 32; line < state.game.width; line += 64) {
+            g.drawRect(line, 0, 1, state.game.height);
         }
 
-        for (let line = this.offsetVertical; line < state.game.gameHeight; line += 64) {
-            g.drawRect(0, line + this.offsetVertical, state.game.gameWidth, 1);
+        for (let line = this.offsetVertical; line < state.game.height; line += 64) {
+            g.drawRect(0, line + this.offsetVertical, state.game.width, 1);
         }
         g.endFill();
 
         this.offsetVertical = (this.offsetVertical + 1) % 32;
     }
-
-
 
 }

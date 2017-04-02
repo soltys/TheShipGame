@@ -19,8 +19,8 @@ export interface IHost {
     animate(): void;
     pause(): void;
 
-    readonly gameHeight: number;
-    readonly gameWidth: number;
+    readonly height: number;
+    readonly width: number;
 
     addRendererToElement(element: HTMLElement);
     addFPSCounter(element: HTMLElement);

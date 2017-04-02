@@ -6,13 +6,13 @@ import Stats from './common/Stats';
 import TimerService from './common/TimerService';
 import GameConfig from './GameConfig';
 import InitState from './state/InitState';
-class Game implements IGame.IHost {
+export default class Game implements IGame.IHost {
     public readonly stage: PIXI.Container;
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly context: IGame.IGameContext;
     private gamepads: Gamepad[];
-    public gameWidth = 0;
-    public gameHeight = 0;
+    public width = 0;
+    public height = 0;
     public readonly config: GameConfig;
     private scale = 1;
     private stats: Stats;
@@ -20,8 +20,8 @@ class Game implements IGame.IHost {
 
     private timerService: TimerService;
     constructor(gameWidth: number, gameHeight: number) {
-        this.gameWidth = gameWidth;
-        this.gameHeight = gameHeight;
+        this.width = gameWidth;
+        this.height = gameHeight;
 
         this.stage = this.newStage();
         this.stage.interactive = true;
@@ -98,7 +98,7 @@ class Game implements IGame.IHost {
     }
 
     private newRenderer() {
-        return PIXI.autoDetectRenderer(this.gameWidth, this.gameHeight,
+        return PIXI.autoDetectRenderer(this.width, this.height,
             {
                 backgroundColor: Colors.Background,
                 antialias: true,
@@ -266,5 +266,3 @@ class Game implements IGame.IHost {
     }
 
 }
-
-export default Game;

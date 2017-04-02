@@ -11,7 +11,7 @@ export default class Menu extends BaseState {
     private menu: MenuGameObject;
     handle(context: IGame.IGameContext) {
         const game = context.game;
-        this.menu = new MenuGameObject(game.gameWidth, game.gameHeight);
+        this.menu = new MenuGameObject(game.width, game.height);
         game.addObject(this.menu);
     }
 
