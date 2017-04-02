@@ -151,7 +151,7 @@ export interface ITimer {
     triggerAction(currentTime: number);
 }
 
-export interface IConfigUpdated {
+export interface IConfigUpdatedEvent {
     key: string;
     newValue: any;
     oldValue: any;

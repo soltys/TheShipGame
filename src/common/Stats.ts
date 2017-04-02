@@ -27,7 +27,7 @@ export default class Stats {
 
         document.addEventListener('configUpdated', (event: CustomEvent) => {
             event.preventDefault();
-            const eventData = <IGame.IConfigUpdated>event.detail;
+            const eventData = <IGame.IConfigUpdatedEvent>event.detail;
             if (eventData.key === 'showFPSCounter') {
                 if (eventData.newValue) {
                     this.mode = 0;

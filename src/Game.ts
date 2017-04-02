@@ -176,15 +176,15 @@ export default class Game implements IGame.IHost {
 
     public addEventListenerToElement(element): void {
         const inputs = this.context.inputs;
-        element.addEventListener('keydown', (event) => {
+        element.addEventListener('keydown', (event: KeyboardEvent) => {
             inputs.keys[event.keyCode] = true;
         });
 
-        element.addEventListener('keyup', (event) => {
+        element.addEventListener('keyup', (event: KeyboardEvent) => {
             inputs.keys[event.keyCode] = false;
         });
 
-        element.addEventListener('mousedown', (event) => {
+        element.addEventListener('mousedown', (event: MouseEvent) => {
             if (!this.config.get('isMouseEnabled')) {
                 return;
             }
@@ -194,14 +194,14 @@ export default class Game implements IGame.IHost {
             };
         });
 
-        element.addEventListener('mouseup', (event) => {
+        element.addEventListener('mouseup', (event: MouseEvent) => {
             if (!this.config.get('isMouseEnabled')) {
                 return;
             }
             delete inputs.clicks[event.which];
         });
 
-        element.addEventListener('mousemove', (event) => {
+        element.addEventListener('mousemove', (event: MouseEvent) => {
             if (!this.config.get('isMouseEnabled')) {
                 return;
             }
@@ -209,7 +209,7 @@ export default class Game implements IGame.IHost {
             inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
 
-        element.addEventListener('wheel', (event) => {
+        element.addEventListener('wheel', (event: WheelEvent) => {
             event.preventDefault();
             if (!this.config.get('isMouseEnabled')) {
                 return;
