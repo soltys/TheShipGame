@@ -1,3 +1,6 @@
+/**
+ * My own interface to talk with Storage object in JavaScript, like localStorage or sessionStorage
+ */
 export interface IStorage {
 
     /**

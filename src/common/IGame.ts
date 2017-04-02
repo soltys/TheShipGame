@@ -25,7 +25,6 @@ export interface IHost {
     addRendererToElement(element: HTMLElement);
     addFPSCounter(element: HTMLElement);
     addEventListenerToElement(element: HTMLElement);
-
 }
 
 export interface IConfig {
@@ -54,7 +53,6 @@ export interface IGameContext {
     inputs: IGameInput;
     objects: IGameObjectCollection;
     game: IHost;
-
     state: IGameState;
     timerService: ITimerService;
 }
@@ -94,7 +92,6 @@ export interface IGamepadData {
     buttons: GamepadButton[];
     isConnected: boolean;
     axes: number[];
-
 }
 
 export interface ICollisionData {
