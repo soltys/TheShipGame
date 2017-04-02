@@ -13,7 +13,6 @@ export interface IBoundingBox {
 }
 
 export interface IHost {
-    readonly stage: PIXI.Container;
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
     gotoState(state: IGameState): void;
