@@ -1,5 +1,6 @@
 import { random } from 'lodash';
 import * as PIXI from 'pixi.js';
+import Background from './../background/Manager';
 import Coin from './../Coin';
 import * as IGame from './../common/IGame';
 import * as RS from './../common/ResourceSupport';
@@ -28,7 +29,7 @@ export default class Play extends Base {
         for (const corner of this.getCorners(game.gameWidth, game.gameHeight)) {
             game.addObject(corner);
         }
-
+        game.addObject(new Background());
         game.addObject(new Ship(RS.createTexture('ship2.png'), RS.createTexture('ship2_to_left.png'), RS.createTexture('ship2_to_right.png')));
         game.addObject(new Score(game.gameWidth));
         context.timerService.add(Timer.create(1000, () => {
