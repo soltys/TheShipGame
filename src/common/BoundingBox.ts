@@ -2,6 +2,10 @@ import CollisionDirection from './CollisionDirection';
 import * as IGame from './IGame';
 class BoundingBox implements IGame.IBoundingBox {
     private rectangle: PIXI.Rectangle;
+    private sprite: PIXI.Sprite;
+    linkSprite(sprite: PIXI.Sprite) {
+        this.sprite = sprite;
+    }
 
     collidesWith(gameObject: BoundingBox): boolean {
         if (this.rectangle.x < gameObject.x + gameObject.width &&
@@ -60,6 +64,9 @@ class BoundingBox implements IGame.IBoundingBox {
 
     set x(value) {
         this.rectangle.x = value;
+        if (this.sprite) {
+            this.sprite.x = value;
+        }
     }
 
     get y() {
@@ -68,6 +75,9 @@ class BoundingBox implements IGame.IBoundingBox {
 
     set y(value) {
         this.rectangle.y = value;
+        if (this.sprite) {
+            this.sprite.y = value;
+        }
     }
 
     get width() {
@@ -76,6 +86,9 @@ class BoundingBox implements IGame.IBoundingBox {
 
     set width(value) {
         this.rectangle.width = value;
+        if (this.sprite) {
+            this.sprite.width = value;
+        }
     }
 
     get height() {
@@ -84,14 +97,14 @@ class BoundingBox implements IGame.IBoundingBox {
 
     set height(value) {
         this.rectangle.height = value;
+        if (this.sprite) {
+            this.sprite.height = value;
+        }
     }
     constructor(rectangle: PIXI.Rectangle) {
         this.rectangle = rectangle;
     }
 
-    update(state: IGame.IGameContext) {
-
-    }
 
     clone(): BoundingBox {
         return new BoundingBox(this.rectangle.clone());

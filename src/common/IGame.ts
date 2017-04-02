@@ -1,6 +1,6 @@
 import CollisionDirection from './CollisionDirection';
 import PlayerAction from './PlayerAction';
-
+import * as PIXI from 'pixi.js';
 export interface IBoundingBox {
     readonly x: number;
     readonly y: number;
@@ -8,7 +8,8 @@ export interface IBoundingBox {
     readonly height: number;
 
     collidesWith(box: IBoundingBox);
-    collidesInDirection(other: IBoundingBox)
+    collidesInDirection(other: IBoundingBox);
+    linkSprite(sprite: PIXI.Sprite);
 }
 
 export interface IHost {
