@@ -16,8 +16,13 @@ export interface IHost {
     animate(): void;
     pause(): void;
 
-    gameHeight: number;
-    gameWidth: number;
+    readonly gameHeight: number;
+    readonly gameWidth: number;
+
+    addRendererToElement(element: HTMLElement);
+    addFPSCounter(element: HTMLElement);
+    addEventListenerToElement(element: HTMLElement);
+
 }
 
 export interface IConfig {
