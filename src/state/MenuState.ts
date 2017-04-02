@@ -19,6 +19,3 @@ export default class Menu extends BaseState {
         context.game.removeObject(this.menu);
     }
 }
-
-
-
