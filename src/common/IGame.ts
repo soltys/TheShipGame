@@ -6,6 +6,9 @@ export interface IBoundingBox {
     y: number;
     width: number;
     height: number;
+
+    collidesWith(box: IBoundingBox);
+    collidesInDirection(other: IBoundingBox)
 }
 
 export interface IHost {

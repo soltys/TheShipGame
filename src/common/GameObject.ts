@@ -8,7 +8,7 @@ export default class GameObject implements IGame.IGameObject {
     update(delta: number, state: IGame.IGameContext): void {
 
     }
-    collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
+    collideWith(boundingBox: IGame.IBoundingBox): IGame.ICollisionData {
         const data: IGame.ICollisionData = {
             isColliding: false,
             direction: CollisionDirection.Unknown,
@@ -18,10 +18,10 @@ export default class GameObject implements IGame.IGameObject {
         return data;
     }
 
-    checkCollision(me: BoundingBox, boundingBox: BoundingBox): { isColliding: boolean; direction: CollisionDirection; collisionBox: BoundingBox } {
+    checkCollision(me: IGame.IBoundingBox, boundingBox: IGame.IBoundingBox): { isColliding: boolean; direction: CollisionDirection; collisionBox: BoundingBox } {
         const data = { isColliding: false, direction: CollisionDirection.Unknown, collisionBox: undefined };
         if (me.collidesWith(boundingBox)) {
-            data.direction = me.collidesInDirection(me, boundingBox);
+            data.direction = me.collidesInDirection(boundingBox);
             data.isColliding = true;
             data.collisionBox = me;
             return data;

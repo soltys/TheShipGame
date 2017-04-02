@@ -28,8 +28,8 @@ class BoundingBox implements IGame.IBoundingBox {
         };
     }
 
-    collidesInDirection(box, gameObject): CollisionDirection {
-        const edges = this.getEdges(box, gameObject);
+    collidesInDirection(gameObject): CollisionDirection {
+        const edges = this.getEdges(this, gameObject);
 
         const offsetLeft = edges.gameObjectRight - edges.boxLeft;
         const offsetRight = edges.boxRight - edges.gameObjectLeft;
