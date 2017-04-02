@@ -15,9 +15,11 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
      */
     private graphics: PIXI.Graphics;
     private offsetVertical: number;
+    private offsetHorizontal: number;
     constructor() {
         super();
     }
+
     collideWith(boundingBox: IGame.IBoundingBox): IGame.ICollisionData {
         return super.collideWith(boundingBox);
     }
@@ -29,14 +31,16 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
     init(state: IGame.IGameContext): void {
         this.graphics = new PIXI.Graphics();
         this.offsetVertical = 0;
+        this.offsetHorizontal = 0;
     }
+
     update(delta: number, state: IGame.IGameContext): void {
         const g = this.graphics;
 
         g.clear();
         g.beginFill(0xff0000);
         for (let line = 32; line < state.game.width; line += 64) {
-            g.drawRect(line, 0, 1, state.game.height);
+            g.drawRect(line + this.offsetHorizontal, 0, 1, state.game.height);
         }
 
         for (let line = this.offsetVertical; line < state.game.height; line += 64) {
@@ -44,7 +48,7 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
         }
         g.endFill();
 
-        this.offsetVertical = (this.offsetVertical + 1) % 32;
+        //this.offsetHorizontal = ((state.game.width / 2) - (state.objects.ship.position.x + 32)) /5;        
+        this.offsetVertical = (this.offsetVertical + 1 * delta) % 32;
     }
-
 }
