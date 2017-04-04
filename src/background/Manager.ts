@@ -1,7 +1,9 @@
+import * as _ from 'lodash';
 import * as IGame from '../common/IGame';
 import GameObject from '../common/GameObject';
 import * as PIXI from 'pixi.js';
 import DisplayLayer from './../common/DisplayLayer';
+
 
 /**
  * Game Size
@@ -11,14 +13,13 @@ import DisplayLayer from './../common/DisplayLayer';
  * 
  */
 export default class Manager extends GameObject implements IGame.IGameDisplayObject {
-    /**
-     *
-     */
     private graphics: PIXI.Graphics;
     private offsetVertical: number;
-    private offsetHorizontal: number;
+
+    private lines: { color: number, currentOffset: number }[];
     constructor() {
         super();
+        this.lines = [];
     }
 
     collideWith(boundingBox: IGame.IBoundingBox): IGame.ICollisionData {
@@ -36,24 +37,44 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
     init(state: IGame.IGameContext): void {
         this.graphics = new PIXI.Graphics();
         this.offsetVertical = 0;
-        this.offsetHorizontal = 0;
+
+        for (let line = this.offsetVertical; line < state.game.height; line += 64) {
+            this.lines.push({
+                color: this.getRandomColor(),
+                currentOffset: line
+            })
+
+        }
     }
 
     update(delta: number, state: IGame.IGameContext): void {
         const g = this.graphics;
 
         g.clear();
-        g.beginFill(0xff0000);
-        for (let line = 32; line < state.game.width; line += 64) {
-            g.drawRect(line + this.offsetHorizontal, 0, 1, state.game.height);
-        }
 
-        for (let line = this.offsetVertical; line < state.game.height; line += 64) {
-            g.drawRect(0, line + this.offsetVertical, state.game.width, 1);
+        for (const line of this.lines) {
+            g.beginFill(line.color);
+            g.drawRect(0, line.currentOffset, state.game.width, 65);
+            g.endFill();
+            line.currentOffset += 1 * delta;
         }
-        g.endFill();
+        const minLine = _.minBy(this.lines, (line) => { return line.currentOffset });
 
-        //this.offsetHorizontal = ((state.game.width / 2) - (state.objects.ship.position.x + 32)) /5;        
-        this.offsetVertical = (this.offsetVertical + 1 * delta) % 32;
+        if (minLine.currentOffset >= 0) {
+            this.lines.push({
+                color: this.getRandomColor(),
+                currentOffset: -64
+            });
+        }
+        _.remove(this.lines, (line) => { line.currentOffset > state.game.height });
+    }
+
+    getRandomColor(): number {
+        const brightness = 30;
+        const red = (brightness + _.random(13, 50, false)) * 0x010000;
+        const green = (brightness + _.random(0, 10, false)) * 0x000100;
+        const blue = (brightness + _.random(0, 10, false)) * 0x000001;
+
+        return red + green + blue;
     }
 }
