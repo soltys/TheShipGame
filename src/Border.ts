@@ -3,7 +3,7 @@ import BoundingBox from './common/BoundingBox';
 import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
-export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
+export default class Border extends GameObject implements IGame.IGameDisplayObject {
 
     private border: BoundingBox;
 
