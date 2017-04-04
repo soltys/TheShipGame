@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import * as RS from './common/ResourceSupport';
+import DisplayLayer from  './common/DisplayLayer';
 export default class Bullet extends GameObject implements IGame.IGameDisplayObject {
     private bulletAnimation: PIXI.extras.AnimatedSprite;
     private graphics: PIXI.Graphics;
@@ -23,6 +24,10 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
     }
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.graphics, this.bulletAnimation];
+    }
+
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
     }
 
     static bulletAnimationFrames;

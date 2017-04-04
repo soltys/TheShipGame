@@ -1,7 +1,8 @@
 import * as IGame from '../common/IGame';
 import GameObject from '../common/GameObject';
 import * as PIXI from 'pixi.js';
-
+import DisplayLayer from  './../common/DisplayLayer';
+    
 /**
  * Game Size
  * const gameWidth = 640;  == 20 tiles 32x32 pixels each
@@ -26,6 +27,10 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
 
     get displayObjects() {
         return [this.graphics];
+    }
+
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Background;
     }
 
     init(state: IGame.IGameContext): void {

@@ -7,6 +7,7 @@ import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import PlayerAction from './common/PlayerAction';
 import Timer from './common/Timer';
+import DisplayLayer from './common/DisplayLayer';
 import { GetPlayerAction } from './PlayerAction';
 
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
@@ -232,6 +233,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     get displayObjects() {
         return [this.shipSprite];
+    }
+
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
     }
 
 } 

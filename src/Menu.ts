@@ -4,6 +4,7 @@ import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import Keys from './common/Keys';
 import PlayState from './state/PlayState';
+import DisplayLayer from './common/DisplayLayer';
 export default class Menu extends GameObject implements IGame.IGameDisplayObject {
     private startDisplay: PIXI.Text;
     private textStyle: Object;
@@ -32,5 +33,9 @@ export default class Menu extends GameObject implements IGame.IGameDisplayObject
 
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.startDisplay];
+    }
+
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
     }
 }

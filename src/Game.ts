@@ -6,8 +6,10 @@ import Stats from './common/Stats';
 import TimerService from './common/TimerService';
 import GameConfig from './GameConfig';
 import InitState from './state/InitState';
+import DisplayLayers from './common/DisplayLayer';
 export default class Game implements IGame.IHost {
-    public readonly stage: PIXI.Container;
+    readonly stage: PIXI.Container;
+    readonly displayLayers: PIXI.Container[];
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly context: IGame.IGameContext;
     private gamepads: Gamepad[];
@@ -24,7 +26,13 @@ export default class Game implements IGame.IHost {
         this.height = gameHeight;
 
         this.stage = this.newStage();
-        this.stage.interactive = true;
+        this.displayLayers = [];        
+        for (let stageIndex = 0; stageIndex <= DisplayLayers.Ui; stageIndex += 1) {
+            const newStage = this.newStage()            
+            this.displayLayers.push(newStage);
+            this.stage.addChild(newStage);
+        }
+
         this.renderer = this.newRenderer();
         this.gamepads = [];
 
@@ -68,12 +76,11 @@ export default class Game implements IGame.IHost {
     }
 
     public removeObject(gameObject: IGame.IGameObject): void {
-        const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
-        if (displayObjects) {
-            for (const displayObject of displayObjects) {
-                this.stage.removeChild(displayObject);
+        const gameDisplayObject = (<IGame.IGameDisplayObject>gameObject);
+        if (gameDisplayObject) {
+            for (const displayObject of gameDisplayObject.displayObjects) {
+                this.displayLayers[gameDisplayObject.displayLayer].removeChild(displayObject);
             }
-
         }
 
         const index = _.indexOf(this.context.objects.all, gameObject);
@@ -82,19 +89,20 @@ export default class Game implements IGame.IHost {
 
     public addObject(gameObject: IGame.IGameObject): void {
         gameObject.init(this.context);
-
+        console.log(this.displayLayers)
         this.context.objects.all.push(gameObject);
-        const displayObjects = (<IGame.IGameDisplayObject>gameObject).displayObjects;
-        if (displayObjects) {
-            for (const displayObject of displayObjects) {
-                this.stage.addChild(displayObject);
+        const gameDisplayObject = (<IGame.IGameDisplayObject>gameObject);
+        if (gameDisplayObject) {
+            for (const displayObject of gameDisplayObject.displayObjects) {
+                this.displayLayers[gameDisplayObject.displayLayer].addChild(displayObject);
             }
-
         }
     }
 
     private newStage() {
-        return new PIXI.Container();
+        const stage = new PIXI.Container();
+        stage.interactive = true;
+        return stage;
     }
 
     private newRenderer() {

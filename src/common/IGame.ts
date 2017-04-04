@@ -1,5 +1,6 @@
 import CollisionDirection from './CollisionDirection';
 import PlayerAction from './PlayerAction';
+import DisplayLayer from './DisplayLayer';
 import * as PIXI from 'pixi.js';
 export interface IBoundingBox {
     readonly x: number;
@@ -109,6 +110,7 @@ export interface IGameObject {
 
 export interface IGameDisplayObject extends IGameObject {
     readonly displayObjects: PIXI.DisplayObject[];
+    readonly displayLayer: DisplayLayer;
 }
 
 export interface IDictionary {
