@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import BoundingBox from './common/BoundingBox';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
-import DisplayLayer from  './common/DisplayLayer';
+import DisplayLayer from './common/DisplayLayer';
 
 export default class Coin extends GameObject implements IGame.IGameDisplayObject {
     private coinAnimation: PIXI.extras.AnimatedSprite;
@@ -43,7 +43,7 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
         return [this.coinAnimation];
     }
 
-    get displayLayer(): DisplayLayer{
+    get displayLayer(): DisplayLayer {
         return DisplayLayer.Main;
     }
 } 

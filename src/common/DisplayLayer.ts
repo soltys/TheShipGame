@@ -1,4 +1,4 @@
-enum DisplayLayer{
+enum DisplayLayer {
     Background,
     Main,
     Ui

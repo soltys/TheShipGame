@@ -13,7 +13,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         return DisplayLayer.Ui;
     }
 
-    constructor(gameWidth) {
+    constructor(gameWidth: number) {
         super();
         this.score = 0;
 
@@ -40,7 +40,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
     }
 
     private updateScoreDisplay() {
-        const score = this.leftPad(this.score, 7, '0');
+        const score = this.leftPad(this.score.toString(), 7, '0');
         this.scoreDisplay.text = `Score: ${score}`;
     }
 
@@ -57,7 +57,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         '         '
     ];
 
-    leftPad(str, len, ch) {
+    leftPad(str: string, len: number, ch: string) {
         // convert `str` to `string`
         str = str + '';
         // `len` is the `pad`'s length now
@@ -65,11 +65,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         // doesn't need to pad
         if (len <= 0) {
             return str;
-        }
-        // `ch` defaults to `' '`
-        if (!ch && ch !== 0) {
-            ch = ' ';
-        }
+        }        
         // convert `ch` to `string`
         ch = ch + '';
         // cache common use cases
