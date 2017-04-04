@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import * as IGame from '../common/IGame';
-import GameObject from '../common/GameObject';
 import * as PIXI from 'pixi.js';
+import GameObject from '../common/GameObject';
+import * as IGame from '../common/IGame';
 import DisplayLayer from './../common/DisplayLayer';
 
 
@@ -42,7 +42,7 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
             this.lines.push({
                 color: this.getRandomColor(),
                 currentOffset: line
-            })
+            });
 
         }
     }
@@ -58,7 +58,7 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
             g.endFill();
             line.currentOffset += 1 * delta;
         }
-        const minLine = _.minBy(this.lines, (line) => { return line.currentOffset });
+        const minLine = _.minBy(this.lines, (line) => { return line.currentOffset; });
 
         if (minLine.currentOffset >= 0) {
             this.lines.push({
@@ -66,7 +66,7 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
                 currentOffset: -64
             });
         }
-        _.remove(this.lines, (line) => { line.currentOffset > state.game.height });
+        _.remove(this.lines, (line) => { return line.currentOffset > state.game.height; });
     }
 
     getRandomColor(): number {

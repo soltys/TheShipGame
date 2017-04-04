@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
-import DisplayLayer from './common/DisplayLayer';
 
 export default class Score extends GameObject implements IGame.IGameDisplayObject, IGame.IScore {
     private score: number;
@@ -65,7 +65,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         // doesn't need to pad
         if (len <= 0) {
             return str;
-        }        
+        }
         // convert `ch` to `string`
         ch = ch + '';
         // cache common use cases

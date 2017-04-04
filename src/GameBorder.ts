@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import BoundingBox from './common/BoundingBox';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
-import DisplayLayer from './common/DisplayLayer';
 export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
 
     private border: BoundingBox;

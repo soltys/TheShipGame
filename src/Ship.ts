@@ -3,11 +3,11 @@ import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './common/BoundingBox';
 import CollisionDirection from './common/CollisionDirection';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import PlayerAction from './common/PlayerAction';
 import Timer from './common/Timer';
-import DisplayLayer from './common/DisplayLayer';
 import { GetPlayerAction } from './PlayerAction';
 
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {

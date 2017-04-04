@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import * as RS from './common/ResourceSupport';
-import DisplayLayer from  './common/DisplayLayer';
 export default class Bullet extends GameObject implements IGame.IGameDisplayObject {
     private bulletAnimation: PIXI.extras.AnimatedSprite;
     private graphics: PIXI.Graphics;

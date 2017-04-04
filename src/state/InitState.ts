@@ -1,6 +1,6 @@
+import * as PIXI from 'pixi.js';
 import * as IGame from './../common/IGame';
 import BaseState from './BaseState';
-import * as PIXI from 'pixi.js';
 import PlayState from './PlayState';
 
 export default class Init extends BaseState {

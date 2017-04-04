@@ -57,7 +57,7 @@
     "stylelint-config-standard": "^16.0.0",
     "stylelint-webpack-plugin": "^0.7.0",
     "ts-loader": "^2.0.3",
-    "tslint": "^5.0.0",
+    "tslint": "^4.0.0",
     "tslint-eslint-rules": "^3.5.1",
     "tslint-loader": "^3.4.3",
     "tslint-microsoft-contrib": "^4.0.1",

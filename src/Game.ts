@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
+import DisplayLayers from './common/DisplayLayer';
 import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
 import GameConfig from './GameConfig';
 import InitState from './state/InitState';
-import DisplayLayers from './common/DisplayLayer';
 export default class Game implements IGame.IHost {
     readonly stage: PIXI.Container;
     readonly displayLayers: PIXI.Container[];
@@ -26,9 +26,9 @@ export default class Game implements IGame.IHost {
         this.height = gameHeight;
 
         this.stage = this.newStage();
-        this.displayLayers = [];        
+        this.displayLayers = [];
         for (let stageIndex = 0; stageIndex <= DisplayLayers.Ui; stageIndex += 1) {
-            const newStage = this.newStage()            
+            const newStage = this.newStage();
             this.displayLayers.push(newStage);
             this.stage.addChild(newStage);
         }
@@ -89,7 +89,6 @@ export default class Game implements IGame.IHost {
 
     public addObject(gameObject: IGame.IGameObject): void {
         gameObject.init(this.context);
-        console.log(this.displayLayers)
         this.context.objects.all.push(gameObject);
         const gameDisplayObject = (<IGame.IGameDisplayObject>gameObject);
         if (gameDisplayObject) {
