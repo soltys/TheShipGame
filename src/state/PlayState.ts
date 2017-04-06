@@ -1,5 +1,6 @@
 import { random } from 'lodash';
 import * as PIXI from 'pixi.js';
+import Background from './../background/Manager';
 import Coin from './../Coin';
 import * as IGame from './../common/IGame';
 import * as RS from './../common/ResourceSupport';
@@ -8,31 +9,31 @@ import GameBorder from './../GameBorder';
 import GameCorner from './../GameCorner';
 import Score from './../Score';
 import Ship from './../Ship';
-import BaseState from './BaseState';
+import Base from './BaseState';
 type Sides = 'left' | 'right';
 type TopOrBottom = 'top' | 'bottom';
 type Directions = Sides | TopOrBottom;
 
-export default class PlayState extends BaseState {
+export default class Play extends Base {
     private borderSize = 32;
     private onVisibilityChangedProxy: EventListener;
     handle(context: IGame.IGameContext) {
         const game = context.game;
         const coinAnimationFrames = RS.createAnimation('coin', 7);
-        for (const border of this.getGameBorders(game.gameWidth, game.gameHeight)) {
+        for (const border of this.getGameBorders(game.width, game.height)) {
             game.addObject(border);
             context.objects.borders.push(border);
         }
-        
 
-        for (const corner of this.getCorners(game.gameWidth, game.gameHeight)) {
+
+        for (const corner of this.getCorners(game.width, game.height)) {
             game.addObject(corner);
         }
-
+        game.addObject(new Background());
         game.addObject(new Ship(RS.createTexture('ship2.png'), RS.createTexture('ship2_to_left.png'), RS.createTexture('ship2_to_right.png')));
-        game.addObject(new Score(game.gameWidth));
+        game.addObject(new Score(game.width));
         context.timerService.add(Timer.create(1000, () => {
-            game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), random(64, game.gameWidth - 64), random(64, game.gameHeight - 64)));
+            game.addObject(new Coin(new PIXI.extras.AnimatedSprite(coinAnimationFrames), random(64, game.width - 64), random(64, game.height - 64)));
         }));
 
         this.onVisibilityChangedProxy = () => this.onVisibilityChange(game);
@@ -54,33 +55,33 @@ export default class PlayState extends BaseState {
         }
     }
 
-    getGameBorders(gameWidth: number, gameHeight: number): GameBorder[] {
+    getGameBorders(width: number, height: number): GameBorder[] {
 
         const gameBorders: GameBorder[] = [];
         //up
         gameBorders.push(new GameBorder(
-            new PIXI.Rectangle(0, 0, gameWidth, this.borderSize),
+            new PIXI.Rectangle(0, 0, width, this.borderSize),
             this.getBorderTexture('top')
         ));
         //down
         gameBorders.push(new GameBorder(
-            new PIXI.Rectangle(0, gameHeight - this.borderSize, gameWidth, this.borderSize),
+            new PIXI.Rectangle(0, height - this.borderSize, width, this.borderSize),
             this.getBorderTexture('bottom')
         ));
         //left
         gameBorders.push(new GameBorder(
-            new PIXI.Rectangle(0, 0, this.borderSize, gameHeight),
+            new PIXI.Rectangle(0, 0, this.borderSize, height),
             this.getBorderTexture('left')
         ));
         gameBorders.push(new GameBorder(
-            new PIXI.Rectangle(gameWidth - this.borderSize, 0, this.borderSize, gameHeight),
+            new PIXI.Rectangle(width - this.borderSize, 0, this.borderSize, height),
             this.getBorderTexture('right')
         ));
 
         return gameBorders;
     }
 
-    getCorners(gameWidth: number, gameHeight: number): GameCorner[] {
+    getCorners(width: number, height: number): GameCorner[] {
 
         const corners: GameCorner[] = [];
         //left-top
@@ -90,17 +91,17 @@ export default class PlayState extends BaseState {
         ));
         //left-bottom
         corners.push(new GameCorner(
-            new PIXI.Rectangle(0, gameHeight - this.borderSize, this.borderSize, this.borderSize),
+            new PIXI.Rectangle(0, height - this.borderSize, this.borderSize, this.borderSize),
             this.getCornerTexture('left', 'bottom')
         ));
         //right-top
         corners.push(new GameCorner(
-            new PIXI.Rectangle(gameWidth - this.borderSize, 0, this.borderSize, this.borderSize),
+            new PIXI.Rectangle(width - this.borderSize, 0, this.borderSize, this.borderSize),
             this.getCornerTexture('right', 'top')
         ));
         //right-bottom
         corners.push(new GameCorner(
-            new PIXI.Rectangle(gameWidth - this.borderSize, gameHeight - this.borderSize, this.borderSize, this.borderSize),
+            new PIXI.Rectangle(width - this.borderSize, height - this.borderSize, this.borderSize, this.borderSize),
             this.getCornerTexture('right', 'bottom')
         ));
 
@@ -115,5 +116,3 @@ export default class PlayState extends BaseState {
         return PIXI.Texture.fromImage(`assets/borders/corner_${leftOrRight}_${topOrBottom}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
     }
 }
-
-

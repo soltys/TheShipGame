@@ -36,7 +36,7 @@ module.exports = function (env) {
         module: {
             rules: [
                 {
-                    test: /\.ts$/,
+                    test: /\.tsx?$/,
                     enforce: "pre",
                     loader: 'tslint-loader'
                 },

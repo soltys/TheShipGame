@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import BoundingBox from './common/BoundingBox';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 export default class GameBorder extends GameObject implements IGame.IGameDisplayObject {
@@ -33,5 +34,9 @@ export default class GameBorder extends GameObject implements IGame.IGameDisplay
 
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.tilingSprite];
+    }
+
+    get displayLayer(): DisplayLayer {
+        return DisplayLayer.Ui;
     }
 }

@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 export default class GameCorner extends GameObject implements IGame.IGameDisplayObject {
@@ -15,5 +16,9 @@ export default class GameCorner extends GameObject implements IGame.IGameDisplay
 
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.cornerSprite];
+    }
+
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
     }
 }

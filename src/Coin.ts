@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import BoundingBox from './common/BoundingBox';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 
@@ -14,10 +15,11 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
         this.coinAnimation = coinAnimation;
 
         coinAnimation.position.set(posX, posY);
-        this.box = new BoundingBox(new PIXI.Rectangle(posX, posY, this.coinWidth, this.coinHeight));
         coinAnimation.animationSpeed = 0.2;
         coinAnimation.play();
 
+        this.box = new BoundingBox(new PIXI.Rectangle(posX, posY, this.coinWidth, this.coinHeight));
+        this.box.linkSprite(this.coinAnimation);
     }
 
     update(timeDelta: number, context: IGame.IGameContext) {
@@ -27,12 +29,21 @@ export default class Coin extends GameObject implements IGame.IGameDisplayObject
             context.objects.score.addToScore(10);
 
             context.game.removeObject(this);
+            return;
         }
 
+        if (this.box.y > context.game.height) {
+            context.game.removeObject(this);
+            return;
+        }
+        this.box.y += 1;
     }
 
     get displayObjects(): PIXI.DisplayObject[] {
         return [this.coinAnimation];
     }
 
-} 
+    get displayLayer(): DisplayLayer {
+        return DisplayLayer.Main;
+    }
+}

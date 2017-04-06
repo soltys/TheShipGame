@@ -1,13 +1,19 @@
 import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
+
 export default class Score extends GameObject implements IGame.IGameDisplayObject, IGame.IScore {
     private score: number;
     private scoreDisplay: PIXI.Text;
     private textStyle: Object;
 
-    constructor(gameWidth) {
+    get displayLayer(): DisplayLayer {
+        return DisplayLayer.Ui;
+    }
+
+    constructor(gameWidth: number) {
         super();
         this.score = 0;
 
@@ -34,7 +40,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
     }
 
     private updateScoreDisplay() {
-        let score = this.leftPad(this.score, 7, '0');
+        const score = this.leftPad(this.score.toString(), 7, '0');
         this.scoreDisplay.text = `Score: ${score}`;
     }
 
@@ -51,7 +57,7 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         '         '
     ];
 
-    leftPad(str, len, ch) {
+    leftPad(str: string, len: number, ch: string) {
         // convert `str` to `string`
         str = str + '';
         // `len` is the `pad`'s length now
@@ -59,10 +65,6 @@ export default class Score extends GameObject implements IGame.IGameDisplayObjec
         // doesn't need to pad
         if (len <= 0) {
             return str;
-        }
-        // `ch` defaults to `' '`
-        if (!ch && ch !== 0) {
-            ch = ' ';
         }
         // convert `ch` to `string`
         ch = ch + '';

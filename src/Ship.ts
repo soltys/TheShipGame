@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './common/BoundingBox';
 import CollisionDirection from './common/CollisionDirection';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import PlayerAction from './common/PlayerAction';
@@ -59,8 +60,6 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             200, 163, 64, 28
         ));
 
-
-
     }
     get position() {
         return new PIXI.Point(this.shipSprite.position.x + this.shipSprite.width / 2, this.shipSprite.position.y + this.shipSprite.height / 2);
@@ -106,7 +105,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         let deltaX = this.velocityX * timeDelta;
         let deltaY = this.velocityY * timeDelta;
 
-        let tempBoundingBox = this.boundingBoxAll.clone();
+        const tempBoundingBox = this.boundingBoxAll.clone();
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
 
@@ -207,9 +206,6 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 scaleUpFunc(this.boundingBoxWings.width, this.boundingBoxWings.height, [this.boundingBoxWings]);
                 scaleUpFunc(this.shipSprite.width, this.shipSprite.height, [this.shipSprite, this.boundingBoxAll]);
                 //scaleUpFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
-
-
-
             }
         }
         const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
@@ -237,6 +233,10 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     get displayObjects() {
         return [this.shipSprite];
+    }
+
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
     }
 
 } 

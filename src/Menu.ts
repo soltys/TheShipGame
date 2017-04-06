@@ -1,9 +1,10 @@
 import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import Keys from './common/Keys';
-import PlayState from './states/PlayState';
+import PlayState from './state/PlayState';
 export default class Menu extends GameObject implements IGame.IGameDisplayObject {
     private startDisplay: PIXI.Text;
     private textStyle: Object;
@@ -34,9 +35,7 @@ export default class Menu extends GameObject implements IGame.IGameDisplayObject
         return [this.startDisplay];
     }
 
-
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
+    }
 }
-
-
-
-

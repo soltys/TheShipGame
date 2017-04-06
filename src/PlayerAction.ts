@@ -11,7 +11,13 @@ let gameContext: IGame.IGameContext;
 export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActionData[] {
     gameContext = context;
     const playerActions: IGame.IPlayerActionData[] = [];
-    const inputs = context.inputs;
+    const inputs = _.cloneDeep(context.inputs);
+
+    if (inputs.touches.length > 0) {
+        inputs.mouse = inputs.touches[0];
+        inputs.clicks[MouseButtons.LEFT_BUTTON] = inputs.touches[0];
+    }
+
     shouldMoveUp(inputs, playerActions);
     shouldMoveDown(inputs, playerActions);
     shouldMoveRight(inputs, playerActions);
@@ -37,12 +43,12 @@ export function GetPlayerAction(context: IGame.IGameContext): IGame.IPlayerActio
 /**
  * When player moves diagonal with speed of 1 in both directions, then player moves at sqrt(2). To limit that
  * Player should move at sqrt(1/2) ~= 0.70710678118
- * 
+ *
  * @param {IGame.IPlayerActionData[]} data
  * @param {[PA, PA][]} diagonalPairs
  */
 function diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [PA, PA][]): void {
-    const speedFix: number = 0.707;
+    const speedFix = 0.707;
     diagonalPairs.forEach(pair => {
         const data1 = _.find(data, ['action', pair[0]]);
         const data2 = _.find(data, ['action', pair[1]]);
@@ -282,5 +288,3 @@ function shouldScaleDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         });
     }
 }
-
-

@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import DisplayLayer from './common/DisplayLayer';
 import GameObject from './common/GameObject';
 import * as IGame from './common/IGame';
 import * as RS from './common/ResourceSupport';
@@ -25,10 +26,14 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
         return [this.graphics, this.bulletAnimation];
     }
 
+    get displayLayer(): DisplayLayer{
+        return DisplayLayer.Main;
+    }
+
     static bulletAnimationFrames;
     static create(posX: number, posY: number): Bullet {
         this.bulletAnimationFrames = RS.createAnimation('bullet', 2);
         return new Bullet(new PIXI.extras.AnimatedSprite(this.bulletAnimationFrames), posX, posY);
     }
 
-} 
+}

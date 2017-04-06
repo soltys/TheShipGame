@@ -1,12 +1,6 @@
 import * as IGame from './../common/IGame';
-import BaseState from './BaseState';
 
-export default class InitState extends BaseState {
-
-    constructor() {
-        super();
-
-    }
+export default class Base implements IGame.IGameState {
     handle(context: IGame.IGameContext) {
     }
 
