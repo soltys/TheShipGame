@@ -29,7 +29,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private maximumVelocityY = 10;
     private accelerationY = 1;
 
-    private scaleFactor = 2;
+    private scaleFactor = 10;
 
     private minWidth = 20;
     private minHeight = 20;
@@ -53,11 +53,11 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         ));
 
         this.boundingBox = new BoundingBox(new PIXI.Rectangle(
-            210, 150, 24, 64
+            225, 150, 14, 60
         ));
 
         this.boundingBoxWings = new BoundingBox(new PIXI.Rectangle(
-            200, 163, 64, 28
+            200, 185, 64, 18
         ));
 
     }
@@ -144,13 +144,17 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBoxAll.x += deltaX;
         this.boundingBoxAll.y += deltaY;
 
-        // const drawBoundingBox = (box) => {
+        // const drawBoundingBox = (box, color) => {
+        //     this.graphics.beginFill(color);
         //     this.graphics.drawRect(box.x, box.y, box.width, box.height);
+        //     this.graphics.endFill();
         // };
         // this.graphics.clear();
-        // this.graphics.beginFill(0xff0000);
-        // drawBoundingBox(this.boundingBoxWings);
-        // this.graphics.endFill();
+
+        // drawBoundingBox(this.boundingBoxAll, 0x0000ff);
+        // drawBoundingBox(this.boundingBoxWings, 0xff0000);
+        // drawBoundingBox(this.boundingBox, 0x00ff00);
+
 
     }
 
@@ -189,6 +193,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         }
 
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
+
         if (scaleUp) {
             const scaleUpFunc = (baseWidth, baseHeight, updateThis: any[]) => {
                 const newWidth = baseWidth + this.scaleFactor * timeDelta * scaleUp.value;
@@ -235,8 +240,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         return [this.shipSprite];
     }
 
-    get displayLayer(): DisplayLayer{
+    get displayLayer(): DisplayLayer {
         return DisplayLayer.Main;
     }
 
-} 
+}
