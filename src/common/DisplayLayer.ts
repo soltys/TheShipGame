@@ -1,7 +1,8 @@
 enum DisplayLayer {
     Background,
     Main,
-    Ui
+    Ui,
+    Overlay
 }
 
 export default DisplayLayer;

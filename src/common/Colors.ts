@@ -7,6 +7,10 @@ class Colors {
         return 0x546e7a;
     }
 
+    static get OverlayColor(): number {
+        return 0xffffff;
+    }
+
     static get TextColor(): string {
         return '#eee';
     }

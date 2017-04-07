@@ -1,7 +1,8 @@
-import CollisionDirection from './CollisionDirection';
-import PlayerAction from './PlayerAction';
-import DisplayLayer from './DisplayLayer';
 import * as PIXI from 'pixi.js';
+import GameConfig from './../GameConfig';
+import CollisionDirection from './CollisionDirection';
+import DisplayLayer from './DisplayLayer';
+import PlayerAction from './PlayerAction';
 export interface IBoundingBox {
     readonly x: number;
     readonly y: number;
@@ -17,11 +18,12 @@ export interface IHost {
     removeObject(gameObject: IGameObject): void;
     addObject(gameObject: IGameObject): void;
     gotoState(state: IGameState): void;
-    animate(): void;
+    animate(forceUpdate?: boolean): void;
     pause(): void;
 
     readonly height: number;
     readonly width: number;
+    readonly config: GameConfig;
 
     addRendererToElement(element: HTMLElement);
     addFPSCounter(element: HTMLElement);
@@ -74,6 +76,7 @@ export interface IGameObjectCollection {
     score: IScore;
     ship: IShip;
     borders: IGameObject[];
+    pauseOverlay: IGameObject;
 }
 
 

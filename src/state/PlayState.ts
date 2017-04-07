@@ -47,10 +47,10 @@ export default class Play extends Base {
 
     onVisibilityChange(game: IGame.IHost) {
         if (document['hidden']) {
-            //pause game           
+            //pause game
             game.pause();
         } else {
-            //resume     
+            //resume
             game.animate();
         }
     }
