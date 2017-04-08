@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js';
 import * as IGame from './../common/IGame';
 import BaseState from './BaseState';
-import PlayState from './PlayState';
+//import PlayState from './PlayState';
+import MenuState from './MenuState';
 
 export default class Init extends BaseState {
 
@@ -28,14 +29,14 @@ export default class Init extends BaseState {
 
         ]).load((load, ret) => {
             const game = context.game;
-            game.gotoState(new PlayState());
+            game.gotoState(new MenuState());
             game.addRendererToElement(document.getElementById('gameHost'));
             game.addFPSCounter(document.getElementById('fps-counter'));
             game.addEventListenerToElement(document.body);
             game.animate();
         });
     }
-    
+
     onLeave(context: IGame.IGameContext) {
 
     }
