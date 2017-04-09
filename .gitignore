@@ -3,3 +3,4 @@ npm-debug.log
 /typings/
 /build/
 .awcache/
+*.twitch.txt
