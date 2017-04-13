@@ -86,7 +86,7 @@
             2
         ],
         "no-empty-line-after-opening-brace": false,
-        "no-single-line-block-comment": true,
+        /*"no-single-line-block-comment": true,*/
         "no-unnecessary-semicolons": true,
         "object-literal-key-quotes": [
             true,
@@ -101,7 +101,8 @@
         ],
         "quotemark": [
             true,
-            "single"
+            "single",
+            "jsx-double"
         ],
         "trailing-comma": [
             true,
