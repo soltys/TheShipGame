@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
-import DisplayLayers from './common/DisplayLayer';
+import { getNumberOfLayers } from './common/DisplayLayer';
 import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
@@ -28,7 +28,7 @@ export default class Game implements IGame.IHost {
 
         this.stage = this.newStage();
         this.displayLayers = [];
-        for (let stageIndex = 0; stageIndex <= DisplayLayers.Overlay; stageIndex += 1) {
+        for (let stageIndex = 0; stageIndex <= getNumberOfLayers(); stageIndex += 1) {
             const newStage = this.newStage();
             this.displayLayers.push(newStage);
             this.stage.addChild(newStage);
@@ -286,5 +286,4 @@ export default class Game implements IGame.IHost {
         element.addEventListener('touchcancel', touchEnd, false);
         element.addEventListener('touchmove', touchMove, false);
     }
-
 }
