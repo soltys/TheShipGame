@@ -29,7 +29,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private maximumVelocityY = 10;
     private accelerationY = 1;
 
-    private scaleFactor = 10;
+    private scaleFactor = 2;
 
     private minWidth = 20;
     private minHeight = 20;
@@ -144,16 +144,16 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBoxAll.x += deltaX;
         this.boundingBoxAll.y += deltaY;
 
-        // const drawBoundingBox = (box, color) => {
-        //     this.graphics.beginFill(color);
-        //     this.graphics.drawRect(box.x, box.y, box.width, box.height);
-        //     this.graphics.endFill();
-        // };
-        // this.graphics.clear();
+        const drawBoundingBox = (box, color) => {
+            this.graphics.beginFill(color);
+            this.graphics.drawRect(box.x, box.y, box.width, box.height);
+            this.graphics.endFill();
+        };
+        this.graphics.clear();
 
-        // drawBoundingBox(this.boundingBoxAll, 0x0000ff);
-        // drawBoundingBox(this.boundingBoxWings, 0xff0000);
-        // drawBoundingBox(this.boundingBox, 0x00ff00);
+        drawBoundingBox(this.boundingBoxAll, 0x0000ff);
+        drawBoundingBox(this.boundingBoxWings, 0xff0000);
+        drawBoundingBox(this.boundingBox, 0x00ff00);
 
 
     }
@@ -193,51 +193,40 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         }
 
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
+        const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: any[]): { newHeight: number, newWidth: number } => {
+            const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue;
+            const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue;
+            for (const update of updateThis) {
+                update.width = newWidth;
+                update.height = newHeight;
+            }
+            return {
+                newHeight: newHeight,
+                newWidth: newWidth
+            };
+        };
 
         if (scaleUp) {
-            const scaleUpFunc = (baseWidth, baseHeight, updateThis: any[]) => {
-                const newWidth = baseWidth + this.scaleFactor * timeDelta * scaleUp.value;
-                const newHeight = baseHeight + this.scaleFactor * timeDelta * scaleUp.value;
-                for (const update of updateThis) {
-                    update.width = newWidth;
-                    update.height = newHeight;
-                }
-            };
-            const newWidth = this.shipSprite.width + this.scaleFactor * timeDelta * scaleUp.value;
-            const newHeight = this.shipSprite.height + this.scaleFactor * timeDelta * scaleUp.value;
-
-            if (newHeight < this.maxHeight || newWidth < this.maxWidth) {
-                scaleUpFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
-                scaleUpFunc(this.boundingBoxWings.width, this.boundingBoxWings.height, [this.boundingBoxWings]);
-                scaleUpFunc(this.shipSprite.width, this.shipSprite.height, [this.shipSprite, this.boundingBoxAll]);
-                //scaleUpFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
+            const newSize = scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, []);
+            if (newSize.newHeight < this.maxHeight || newSize.newWidth < this.maxWidth) {
+                scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, [this.boundingBox]);
+                scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, [this.boundingBoxWings]);
+                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, [this.shipSprite, this.boundingBoxAll]);
             }
         }
         const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
         if (scaleDown) {
-
-            const scaleDownFunc = (baseWidth, baseHeight, updateThis: any[]) => {
-                const newWidth = baseWidth + -this.scaleFactor * timeDelta * scaleDown.value;
-                const newHeight = baseHeight + -this.scaleFactor * timeDelta * scaleDown.value;
-                for (const update of updateThis) {
-                    update.width = newWidth;
-                    update.height = newHeight;
-                }
-            };
-            const newWidth = this.shipSprite.width + -this.scaleFactor * timeDelta * scaleDown.value;
-            const newHeight = this.shipSprite.height + -this.scaleFactor * timeDelta * scaleDown.value;
-
-            if (newHeight > this.minHeight || newWidth > this.minWidth) {
-                scaleDownFunc(this.shipSprite.width, this.shipSprite.height, [this.shipSprite, this.boundingBoxAll]);
-                scaleDownFunc(this.boundingBox.width, this.boundingBox.height, [this.boundingBox]);
-                scaleDownFunc(this.boundingBoxWings.width, this.boundingBoxWings.height, [this.boundingBoxWings]);
-
+            const newSize = scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, []);
+            if (newSize.newHeight > this.minHeight || newSize.newWidth > this.minWidth) {
+                scaleFunc(-this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleDown.value, [this.shipSprite, this.boundingBoxAll]);
+                scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, [this.boundingBox]);
+                scaleFunc(-this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleDown.value, [this.boundingBoxWings]);
             }
         }
     }
 
     get displayObjects() {
-        return [this.shipSprite];
+        return [this.graphics, this.shipSprite];
     }
 
     get displayLayer(): DisplayLayer {
