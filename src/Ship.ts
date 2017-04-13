@@ -59,6 +59,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBoxWings = new BoundingBox(new PIXI.Rectangle(
             200, 185, 64, 18
         ));
+        this.boundingBoxAll.linkSprite(this.shipSprite);
 
     }
     get position() {
@@ -135,8 +136,6 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             }
         });
 
-        this.shipSprite.x += deltaX;
-        this.shipSprite.y += deltaY;
         this.boundingBox.x += deltaX;
         this.boundingBox.y += deltaY;
         this.boundingBoxWings.x += deltaX;
@@ -154,8 +153,6 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         drawBoundingBox(this.boundingBoxAll, 0x0000ff);
         drawBoundingBox(this.boundingBoxWings, 0xff0000);
         drawBoundingBox(this.boundingBox, 0x00ff00);
-
-
     }
 
     private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number) {
@@ -197,6 +194,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue;
             const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue;
             for (const update of updateThis) {
+                update.x += (baseWidth - newWidth) / 2;
+                update.y += (baseHeight - newHeight) / 2;
                 update.width = newWidth;
                 update.height = newHeight;
             }
@@ -211,14 +210,14 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             if (newSize.newHeight < this.maxHeight || newSize.newWidth < this.maxWidth) {
                 scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, [this.boundingBox]);
                 scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, [this.boundingBoxWings]);
-                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, [this.shipSprite, this.boundingBoxAll]);
+                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, [this.boundingBoxAll]);
             }
         }
         const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
         if (scaleDown) {
             const newSize = scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, []);
             if (newSize.newHeight > this.minHeight || newSize.newWidth > this.minWidth) {
-                scaleFunc(-this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleDown.value, [this.shipSprite, this.boundingBoxAll]);
+                scaleFunc(-this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleDown.value, [this.boundingBoxAll]);
                 scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, [this.boundingBox]);
                 scaleFunc(-this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleDown.value, [this.boundingBoxWings]);
             }
