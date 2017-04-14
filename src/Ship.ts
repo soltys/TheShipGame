@@ -191,11 +191,14 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
         const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: any[]): { newHeight: number, newWidth: number } => {
-            const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue;
-            const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue;
+            const ratioWidth = (baseWidth < baseHeight) ? baseWidth / baseHeight : 1;
+            const ratioHeight = (baseHeight < baseWidth) ? baseHeight / baseWidth : 1;
+
+            const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue * ratioWidth;
+            const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue * ratioHeight   ;
             for (const update of updateThis) {
                 update.x += (baseWidth - newWidth) / 2;
-                update.y += (baseHeight - newHeight) / 2;
+                update.y += (baseHeight - newHeight) /2;
                 update.width = newWidth;
                 update.height = newHeight;
             }
