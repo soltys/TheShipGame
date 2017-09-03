@@ -34,8 +34,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private minWidth = 20;
     private minHeight = 20;
 
-    private maxWidth = 150;
-    private maxHeight = 150;
+    private maxWidth = 50;
+    private maxHeight = 50;
 
     private graphics: PIXI.Graphics;
     constructor(texture: PIXI.Texture, textureToLeft: PIXI.Texture, textureToRight: PIXI.Texture) {
@@ -188,17 +188,17 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 this.maximumVelocityY
             );
         }
-
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
         const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: any[]): { newHeight: number, newWidth: number } => {
             const ratioWidth = (baseWidth < baseHeight) ? baseWidth / baseHeight : 1;
             const ratioHeight = (baseHeight < baseWidth) ? baseHeight / baseWidth : 1;
 
             const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue * ratioWidth;
-            const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue * ratioHeight   ;
+            const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue * ratioHeight;
+
             for (const update of updateThis) {
                 update.x += (baseWidth - newWidth) / 2;
-                update.y += (baseHeight - newHeight) / 2;
+                update.y += (baseHeight - newHeight) / 1.28125;
                 update.width = newWidth;
                 update.height = newHeight;
             }
@@ -234,5 +234,4 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     get displayLayer(): DisplayLayer {
         return DisplayLayer.Main;
     }
-
 }
