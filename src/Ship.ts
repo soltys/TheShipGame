@@ -198,7 +198,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue * ratioHeight   ;
             for (const update of updateThis) {
                 update.x += (baseWidth - newWidth) / 2;
-                update.y += (baseHeight - newHeight) /2;
+                update.y += (baseHeight - newHeight) / 2;
                 update.width = newWidth;
                 update.height = newHeight;
             }
