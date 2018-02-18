@@ -18,7 +18,7 @@ export default class GameCorner extends GameObject implements IGame.IGameDisplay
         return [this.cornerSprite];
     }
 
-    get displayLayer(): DisplayLayer{
+    get displayLayer(): DisplayLayer {
         return DisplayLayer.Main;
     }
 }

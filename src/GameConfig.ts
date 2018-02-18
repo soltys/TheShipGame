@@ -23,7 +23,7 @@ export default class GameConfig {
         };
     }
 
-    update(configKey, newValue) {
+    update(configKey: string, newValue) {
         const oldValue = this.config[configKey];
         this.config[configKey] = newValue;
         this.localStorage.set('gameconfig', this.config);
@@ -38,11 +38,11 @@ export default class GameConfig {
 
     }
 
-    public get(configKey) {
+    public get(configKey: string): {} {
         return this.config[configKey];
     }
 
-    public getAll() {
+    public getAll(): Readonly<IGame.IConfig> {
         return this.config;
     }
 }

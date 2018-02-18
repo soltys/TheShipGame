@@ -1,11 +1,12 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Colors from './common/Colors';
-import DisplayLayers from './common/DisplayLayer';
+import { getNumberOfLayers } from './common/DisplayLayer';
 import * as IGame from './common/IGame';
 import Stats from './common/Stats';
 import TimerService from './common/TimerService';
 import GameConfig from './GameConfig';
+import PauseOverlay from './PauseOverlay';
 import InitState from './state/InitState';
 export default class Game implements IGame.IHost {
     readonly stage: PIXI.Container;
@@ -19,7 +20,7 @@ export default class Game implements IGame.IHost {
     private scale = 1;
     private stats: Stats;
     private requestAnimationFrameId: number;
-
+    private isAnimationOn: boolean;
     private timerService: TimerService;
     constructor(gameWidth: number, gameHeight: number) {
         this.width = gameWidth;
@@ -27,7 +28,7 @@ export default class Game implements IGame.IHost {
 
         this.stage = this.newStage();
         this.displayLayers = [];
-        for (let stageIndex = 0; stageIndex <= DisplayLayers.Ui; stageIndex += 1) {
+        for (let stageIndex = 0; stageIndex <= getNumberOfLayers(); stageIndex += 1) {
             const newStage = this.newStage();
             this.displayLayers.push(newStage);
             this.stage.addChild(newStage);
@@ -43,6 +44,7 @@ export default class Game implements IGame.IHost {
         this.config = new GameConfig();
 
         this.stats = new Stats(this.config.get('showFPSCounter'));
+        this.isAnimationOn = true;
     }
 
     private createGameContext(): IGame.IGameContext {
@@ -67,7 +69,8 @@ export default class Game implements IGame.IHost {
                 all: [],
                 score: undefined,
                 ship: undefined,
-                borders: []
+                borders: [],
+                pauseOverlay: undefined
             },
             state: new InitState(),
             game: this,
@@ -131,19 +134,27 @@ export default class Game implements IGame.IHost {
     }
 
     public pause() {
+        this.isAnimationOn = false;
         cancelAnimationFrame(this.requestAnimationFrameId);
+        if (!this.context.objects.pauseOverlay) {
+            this.addObject(new PauseOverlay(this.width, this.height, 'Pause'));
+        }
+
     }
 
-    public animate() {
+    public animate(forceStart?: boolean) {
         //Set the frame rate
         const fps = 60;
         //Get the start time
         let start = performance.now();
         //Set the frame duration in milliseconds
         const frameDuration = 1000 / fps;
+        if (forceStart) {
+            this.isAnimationOn = true;
+            return;
+        }
 
         const caller = (currentTime) => {
-
             this.stats.begin();
             const elapsed = currentTime - start;
             start = currentTime;
@@ -154,10 +165,14 @@ export default class Game implements IGame.IHost {
             if (this.gamepads.length > 0) {
                 this.updateGamepadInputs();
             }
-            this.timerService.update(currentTime);
-            this.context.objects.all.forEach((object) => {
-                object.update(lagOffset, this.context);
-            });
+            if (this.isAnimationOn) {
+                this.timerService.update(currentTime);
+                this.context.objects.all.forEach((object) => {
+                    object.update(lagOffset, this.context);
+                });
+            } else {
+                this.context.objects.pauseOverlay.update(lagOffset, this.context);
+            }
 
             this.renderer.render(this.stage);
             this.stats.end();
@@ -271,5 +286,4 @@ export default class Game implements IGame.IHost {
         element.addEventListener('touchcancel', touchEnd, false);
         element.addEventListener('touchmove', touchMove, false);
     }
-
 }

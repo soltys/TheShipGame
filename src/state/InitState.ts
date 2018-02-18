@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import * as IGame from './../common/IGame';
 import BaseState from './BaseState';
 import PlayState from './PlayState';
+//import MenuState from './MenuState';
 
 export default class Init extends BaseState {
 
@@ -35,7 +36,7 @@ export default class Init extends BaseState {
             game.animate();
         });
     }
-    
+
     onLeave(context: IGame.IGameContext) {
 
     }

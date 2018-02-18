@@ -37,9 +37,9 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
         return (
             <div>
                 <h2>Options</h2>
-                <ul className='options-list'>
-                    <li><ToggleOption id='isMouseEnabled' label='Enable mouse' value={this.state.isMouseEnabled} onChange={(val) => this.updateGameConfig('isMouseEnabled', val)} /></li>
-                    <li><ToggleOption id='showFPSCounter' label='Show FPS counter' value={this.state.showFPSCounter} onChange={(val) => this.updateGameConfig('showFPSCounter', val)} /></li>
+                <ul className="options-list">
+                    <li><ToggleOption id="isMouseEnabled" label="Enable mouse" value={this.state.isMouseEnabled} onChange={(val) => this.updateGameConfig('isMouseEnabled', val)} /></li>
+                    <li><ToggleOption id="showFPSCounter" label="Show FPS counter" value={this.state.showFPSCounter} onChange={(val) => this.updateGameConfig('showFPSCounter', val)} /></li>
                 </ul>
             </div>
         );
