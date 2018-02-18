@@ -1,4 +1,4 @@
-import * as IGame from 'IGame';
+import * as IGame from './IGame';
 export default class TimerService {
     private _timerList: IGame.ITimer[];
 

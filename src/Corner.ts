@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import DisplayLayer from './common/DisplayLayer';
-import GameObject from './common/GameObject';
-import * as IGame from './common/IGame';
+import DisplayLayer from './DisplayLayer';
+import GameObject from './GameObject';
+import * as IGame from './IGame';
 export default class GameCorner extends GameObject implements IGame.IGameDisplayObject {
 
     private cornerSprite: PIXI.Sprite;

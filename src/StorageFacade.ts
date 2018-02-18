@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import { IStorage } from './IStorage';
+import IStorage from './IStorage';
 export default class StorageFacade implements IStorage {
     private storage: Storage;
-    
+
     constructor(storage: Storage) {
         this.storage = storage;
     }

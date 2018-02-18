@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
-import GameConfig from './../GameConfig';
+import GameConfig from './GameConfig';
 import CollisionDirection from './CollisionDirection';
 import DisplayLayer from './DisplayLayer';
-import PlayerAction from './PlayerAction';
+import PlayerActionType from './PlayerActionType';
 export interface IBoundingBox {
     readonly x: number;
     readonly y: number;
@@ -49,7 +49,7 @@ export interface IScore {
 }
 
 export interface IPlayerActionData {
-    action: PlayerAction;
+    action: PlayerActionType;
     value: number;
 }
 export interface IGameContext {

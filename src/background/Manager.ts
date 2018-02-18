@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
-import GameObject from '../common/GameObject';
-import * as IGame from '../common/IGame';
-import DisplayLayer from './../common/DisplayLayer';
+import GameObject from '../GameObject';
+import * as IGame from '../IGame';
+import DisplayLayer from './../DisplayLayer';
 
 
 /**
@@ -10,7 +10,7 @@ import DisplayLayer from './../common/DisplayLayer';
  * const gameWidth = 640;  == 20 tiles 32x32 pixels each
  * const gameHeight = 704; == 22 tiles 32x32 pixels each
  * 2 rows of tiles and 2 columns of tiles are used by game border
- * 
+ *
  */
 export default class Manager extends GameObject implements IGame.IGameDisplayObject {
     private graphics: PIXI.Graphics;

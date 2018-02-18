@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
-import Colors from './common/Colors';
-import { getNumberOfLayers } from './common/DisplayLayer';
-import * as IGame from './common/IGame';
-import Stats from './common/Stats';
-import TimerService from './common/TimerService';
+import Colors from './Colors';
+import { getNumberOfLayers } from './DisplayLayer';
+import * as IGame from './IGame';
+import Stats from './Stats';
+import TimerService from './TimerService';
 import GameConfig from './GameConfig';
 import PauseOverlay from './PauseOverlay';
 import InitState from './state/InitState';

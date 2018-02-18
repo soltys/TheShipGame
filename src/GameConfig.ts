@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import * as IGame from './common/IGame';
-import { IStorage } from './common/IStorage';
-import LocalStorageFascade from './common/LocalStorageFacade';
+import * as IGame from './IGame';
+import IStorage from './IStorage';
+import LocalStorageFascade from './LocalStorageFacade';
 export default class GameConfig {
 
     private config: IGame.IConfig;

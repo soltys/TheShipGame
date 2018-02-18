@@ -1,4 +1,4 @@
-enum PlayerAction {
+enum PlayerActionType {
     MoveUp,
     MoveDown,
     MoveRight,
@@ -8,4 +8,4 @@ enum PlayerAction {
     ScaleDown
 }
 
-export default PlayerAction;
+export default PlayerActionType;

@@ -1,9 +1,9 @@
-import * as IGame from 'IGame';
+import * as IGame from './IGame';
 export default class Timer implements IGame.ITimer {
     private _nextFireTime: number;
     private _delay: number;
     private _action: () => void;
-   
+
     get nextFireTime() {
         return this._nextFireTime;
     }

@@ -1,6 +1,6 @@
-import * as IGame from './../common/IGame';
-import Keys from './../common/Keys';
-import MouseButtons from './../common/MouseButtons';
+import * as IGame from './../IGame';
+import Keys from './../Keys';
+import MouseButtons from './../MouseButtons';
 export default function StartGame(context: IGame.IGameContext): boolean {
     const inputs = context.inputs;
     if (inputs.gamepad.isConnected) {
