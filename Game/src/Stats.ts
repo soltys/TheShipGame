@@ -1,4 +1,5 @@
 import * as IGame from './IGame';
+import GameConfig from './GameConfig';
 interface IPanel {
     dom: HTMLCanvasElement;
     update(value: any, maxValue: any);
@@ -25,7 +26,7 @@ export default class Stats {
             this.showPanel(this.mode % this.container.children.length);
         }, false);
 
-        document.addEventListener('configUpdated', (event: CustomEvent) => {
+        document.addEventListener(GameConfig.ConfigUpdatedEventName, (event: CustomEvent) => {
             event.preventDefault();
             const eventData = <IGame.IConfigUpdatedEvent>event.detail;
             if (eventData.key === 'showFPSCounter') {

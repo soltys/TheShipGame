@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import GameConfig from './GameConfig';
-import CollisionDirection from './CollisionDirection';
+import { CollisionDirection } from 'game-support';
 import DisplayLayer from './DisplayLayer';
 import PlayerActionType from './PlayerActionType';
 export interface IBoundingBox {

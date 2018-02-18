@@ -13,6 +13,7 @@ function getAppSettings(env) {
         app.push('webpack-dev-server/client?http://localhost:8080/');
     }
     app.push('./src/app.tsx');
+    app.push('./../support/src/index.ts');
     return app;
 }
 

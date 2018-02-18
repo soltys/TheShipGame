@@ -1,4 +1,4 @@
-enum CollisionDirection {
+export enum CollisionDirection {
     Unknown,
     Up,
     Down,

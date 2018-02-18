@@ -10,7 +10,7 @@
         "test": "karma start karma.conf.js",
         "tslint": "tslint",
         "stylelint": "stylelint",
-        "server": "webpack-dev-server -d  --inline  --content-base --client-log-level warning --env.dev",
+        "server": "server.cmd",
         "start": "npm run server",
         "build": "webpack --progress --colors --display-modules --env.production",
         "tsd": "tsd"

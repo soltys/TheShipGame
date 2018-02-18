@@ -3,7 +3,8 @@ import * as IGame from './IGame';
 
 import { LocalStorageFacade } from 'game-support';
 export default class GameConfig {
-
+    private readonly configLocation = 'gameconfig';
+    public static readonly ConfigUpdatedEventName = 'configUpdated';
     private config: IGame.IConfig;
     private localStorage: LocalStorageFacade;
 
@@ -12,7 +13,7 @@ export default class GameConfig {
         this.localStorage = new LocalStorageFacade();
 
         const factoryDefault = this.getFactoryDefaultConfig();
-        const localStorageConfig = this.localStorage.get('gameconfig');
+        const localStorageConfig = this.localStorage.get(this.configLocation);
         this.config = _.assign(factoryDefault, localStorageConfig);
     }
 
@@ -26,8 +27,8 @@ export default class GameConfig {
     update(configKey: string, newValue) {
         const oldValue = this.config[configKey];
         this.config[configKey] = newValue;
-        this.localStorage.set('gameconfig', this.config);
-        const configUpdated = new CustomEvent('configUpdated', {
+        this.localStorage.set(this.configLocation, this.config);
+        const configUpdated = new CustomEvent(GameConfig.ConfigUpdatedEventName, {
             detail: {
                 key: configKey,
                 newValue: newValue,

@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './BoundingBox';
-import CollisionDirection from './CollisionDirection';
+import { CollisionDirection } from 'game-support';
 import DisplayLayer from './DisplayLayer';
 import GameObject from './GameObject';
 import * as IGame from './IGame';

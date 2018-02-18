@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as IGame from './IGame';
-import Keys from './Keys';
+import { Keys } from 'game-support';
 import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
 import PA from './PlayerActionType';

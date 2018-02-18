@@ -1,5 +1,5 @@
 import BoundingBox from './BoundingBox';
-import CollisionDirection from './CollisionDirection';
+import { CollisionDirection } from 'game-support';
 import * as IGame from './IGame';
 export default class GameObject implements IGame.IGameObject {
     init(state: IGame.IGameContext): void {

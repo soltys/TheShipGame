@@ -1,4 +1,4 @@
-enum Keys {
+export enum Keys {
     BACKSPACE = 8,
     TAB = 9,
     ENTER = 13,
@@ -100,4 +100,4 @@ enum Keys {
     SINGLE_QUOTE = 222
 
 }
-export default  Keys;
+
