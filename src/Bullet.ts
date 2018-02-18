@@ -26,7 +26,7 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
         return [this.graphics, this.bulletAnimation];
     }
 
-    get displayLayer(): DisplayLayer{
+    get displayLayer(): DisplayLayer {
         return DisplayLayer.Main;
     }
 

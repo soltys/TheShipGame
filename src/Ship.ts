@@ -188,7 +188,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 this.maximumVelocityY
             );
         }
-        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
+
         const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: any[]): { newHeight: number, newWidth: number } => {
             const ratioWidth = (baseWidth < baseHeight) ? baseWidth / baseHeight : 1;
             const ratioHeight = (baseHeight < baseWidth) ? baseHeight / baseWidth : 1;
@@ -208,12 +208,13 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             };
         };
 
+        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
         if (scaleUp) {
             const newSize = scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, []);
             if (newSize.newHeight < this.maxHeight || newSize.newWidth < this.maxWidth) {
+                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, [this.boundingBoxAll]);
                 scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, [this.boundingBox]);
                 scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, [this.boundingBoxWings]);
-                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, [this.boundingBoxAll]);
             }
         }
         const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
