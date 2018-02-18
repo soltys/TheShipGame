@@ -1,0 +1,1 @@
+export {LocalStorageFacade} from "./LocalStorageFacade";

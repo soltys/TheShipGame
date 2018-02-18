@@ -1,5 +1,5 @@
 
-import LinearConvert from '../src/LinearConvert';
+import LinearConvert from '../src/LinearConverter';
 
 
 describe('LinearConvert', () => {

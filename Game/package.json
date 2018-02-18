@@ -1,6 +1,6 @@
 {
     "name": "the-ship-game",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "The game with ship in it",
     "keywords": [
         "game"
@@ -71,6 +71,7 @@
         "normalize-scss": "^7.0.1",
         "pixi.js": "^4.7.0",
         "react": "^16.2.0",
-        "react-dom": "^16.2.0"
+        "react-dom": "^16.2.0",
+        "game-support": "file:../support"
     }
 }

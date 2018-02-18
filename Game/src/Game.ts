@@ -241,7 +241,7 @@ export default class Game implements IGame.IHost {
                 deltaY: event.deltaY,
                 deltaZ: event.deltaZ
             };
-        }, false);
+        },  {passive: true});
         const touchStart = (event: TouchEvent) => {
             event.preventDefault();
             const touches = event.changedTouches;

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as IGame from './IGame';
 import Keys from './Keys';
-import LinearConvert from './LinearConvert';
+import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
 import PA from './PlayerActionType';
 
@@ -92,7 +92,7 @@ function shouldMoveUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[])
         if (leftStick < -gamepadActivationPoint) {
             data.push({
                 action: PA.MoveUp,
-                value: LinearConvert(-gamepadActivationPoint, -1, leftStick)
+                value: LinearConverter(-gamepadActivationPoint, -1, leftStick)
             });
             return;
         }
@@ -121,7 +121,7 @@ function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         if (leftStick > gamepadActivationPoint) {
             data.push({
                 action: PA.MoveDown,
-                value: LinearConvert(gamepadActivationPoint, 1, leftStick)
+                value: LinearConverter(gamepadActivationPoint, 1, leftStick)
             });
             return;
         }
@@ -158,7 +158,7 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
         if (leftStick < -gamepadActivationPoint) {
             data.push({
                 action: PA.MoveLeft,
-                value: LinearConvert(-gamepadActivationPoint, -1, leftStick)
+                value: LinearConverter(-gamepadActivationPoint, -1, leftStick)
             });
             return;
         }
@@ -198,7 +198,7 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
         if (leftStick > gamepadActivationPoint) {
             data.push({
                 action: PA.MoveRight,
-                value: LinearConvert(gamepadActivationPoint, 1, leftStick)
+                value: LinearConverter(gamepadActivationPoint, 1, leftStick)
             });
             return;
         }

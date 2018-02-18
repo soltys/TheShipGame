@@ -1,15 +1,15 @@
 import * as _ from 'lodash';
 import * as IGame from './IGame';
-import IStorage from './IStorage';
-import LocalStorageFascade from './LocalStorageFacade';
+
+import { LocalStorageFacade } from 'game-support';
 export default class GameConfig {
 
     private config: IGame.IConfig;
-    private localStorage: IStorage;
+    private localStorage: LocalStorageFacade;
 
     constructor() {
 
-        this.localStorage = new LocalStorageFascade();
+        this.localStorage = new LocalStorageFacade();
 
         const factoryDefault = this.getFactoryDefaultConfig();
         const localStorageConfig = this.localStorage.get('gameconfig');

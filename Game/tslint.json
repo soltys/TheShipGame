@@ -63,7 +63,6 @@
         "no-duplicate-case": true,
         "no-unused-expression": true,
         "no-duplicate-variable": true,
-        "no-var-self": true,
         "no-document-write": true,
         "no-console": [
             true,
