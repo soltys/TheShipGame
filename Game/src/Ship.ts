@@ -3,13 +3,18 @@ import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './BoundingBox';
 import { CollisionDirection } from 'game-support';
-import DisplayLayer from './DisplayLayer';
+import { DisplayLayer } from 'game-support';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
 import PlayerAction from './PlayerActionType';
 import Timer from './Timer';
 import { GetPlayerAction } from './PlayerAction';
-
+interface INewShipSize {
+    newX: number;
+    newY: number;
+    newHeight: number;
+    newWidth: number;
+}
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 
     private shipSprite: PIXI.Sprite;
@@ -98,7 +103,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     update(timeDelta: number, context: IGame.IGameContext) {
         const playerActions = GetPlayerAction(context);
-        this.playerInput(playerActions, timeDelta);
+        this.playerInput(playerActions, timeDelta, context);
 
         this.velocityX *= (1 - this.frictionX);
         this.velocityY *= (1 - this.frictionY);
@@ -155,7 +160,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         drawBoundingBox(this.boundingBox, 0x00ff00);
     }
 
-    private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number) {
+    private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number, context: IGame.IGameContext) {
         this.shipSprite.texture = this.normalShipTexture;
         const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveLeft));
         if (moveLeft) {
@@ -189,20 +194,27 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             );
         }
 
-        const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: any[]): { newHeight: number, newWidth: number } => {
+        const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: BoundingBox): INewShipSize => {
             const ratioWidth = (baseWidth < baseHeight) ? baseWidth / baseHeight : 1;
             const ratioHeight = (baseHeight < baseWidth) ? baseHeight / baseWidth : 1;
 
             const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue * ratioWidth;
             const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue * ratioHeight;
 
-            for (const update of updateThis) {
-                update.x += (baseWidth - newWidth) / 2;
-                update.y += (baseHeight - newHeight) / 1.28125;
-                update.width = newWidth;
-                update.height = newHeight;
+            let newX = 0;
+            let newY = 0;
+            if (updateThis) {
+                newX = updateThis.x + (baseWidth - newWidth) / 2;
+                newY = updateThis.y + (baseHeight - newHeight) / 1.28125;
+                updateThis.x = newX;
+                updateThis.y = newY;
+                updateThis.width = newWidth;
+                updateThis.height = newHeight;
             }
+
             return {
+                newX: newX,
+                newY: newY,
                 newHeight: newHeight,
                 newWidth: newWidth
             };
@@ -210,20 +222,22 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
         if (scaleUp) {
-            const newSize = scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, []);
+            const newSize = scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, undefined);
             if (newSize.newHeight < this.maxHeight || newSize.newWidth < this.maxWidth) {
-                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, [this.boundingBoxAll]);
-                scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, [this.boundingBox]);
-                scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, [this.boundingBoxWings]);
+                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, this.boundingBoxAll);
+                scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, this.boundingBox);
+                scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, this.boundingBoxWings);
             }
         }
         const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
         if (scaleDown) {
-            const newSize = scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, []);
+            const newSize = scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, undefined);
+
             if (newSize.newHeight > this.minHeight || newSize.newWidth > this.minWidth) {
-                scaleFunc(-this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleDown.value, [this.boundingBoxAll]);
-                scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, [this.boundingBox]);
-                scaleFunc(-this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleDown.value, [this.boundingBoxWings]);
+
+                scaleFunc(-this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleDown.value, this.boundingBoxAll);
+                scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, this.boundingBox);
+                scaleFunc(-this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleDown.value, this.boundingBoxWings);
             }
         }
     }

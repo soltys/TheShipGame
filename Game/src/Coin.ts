@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import BoundingBox from './BoundingBox';
-import DisplayLayer from './DisplayLayer';
+import { DisplayLayer } from 'game-support';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
 

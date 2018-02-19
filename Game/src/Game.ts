@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Colors from './Colors';
-import { getNumberOfLayers } from './DisplayLayer';
+import { GetNumberOfDisplayLayers } from 'game-support';
 import * as IGame from './IGame';
 import Stats from './Stats';
 import TimerService from './TimerService';
@@ -28,7 +28,7 @@ export default class Game implements IGame.IHost {
 
         this.stage = this.newStage();
         this.displayLayers = [];
-        for (let stageIndex = 0; stageIndex <= getNumberOfLayers(); stageIndex += 1) {
+        for (let stageIndex = 0; stageIndex <= GetNumberOfDisplayLayers(); stageIndex += 1) {
             const newStage = this.newStage();
             this.displayLayers.push(newStage);
             this.stage.addChild(newStage);

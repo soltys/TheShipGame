@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import Colors from './Colors';
-import DisplayLayer from './DisplayLayer';
+import { DisplayLayer } from 'game-support';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
 

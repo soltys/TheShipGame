@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import GameObject from '../GameObject';
 import * as IGame from '../IGame';
-import DisplayLayer from './../DisplayLayer';
+import { DisplayLayer } from 'game-support';
 
 
 /**

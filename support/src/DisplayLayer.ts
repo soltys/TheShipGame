@@ -7,7 +7,7 @@ export enum DisplayLayer {
     Overlay
 }
 
-export function getNumberOfLayers(): number {
+export function GetNumberOfDisplayLayers(): number {
     return _.max(getValues(DisplayLayer));
 }
 
@@ -19,5 +19,3 @@ function getValues(e: any) {
 function getObjectValues(e: any): (number | string)[] {
     return Object.keys(e).map(k => e[k]);
 }
-
-export default DisplayLayer;

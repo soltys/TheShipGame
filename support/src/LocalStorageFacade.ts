@@ -1,6 +1,6 @@
 import StorageFacade from './StorageFacade';
 let instance = undefined;
-export  class LocalStorageFacade extends StorageFacade {
+export class LocalStorageFacade extends StorageFacade {
     /**
      * Creates instance or gets one which exists already
      */

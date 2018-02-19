@@ -147,6 +147,7 @@ function shouldMoveDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
 function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const button = inputs.gamepad.buttons;
+        // bumpers for ship strafing
         if (button && button[4] && button[4].pressed) {
             data.push({
                 action: PA.MoveLeft,
@@ -186,6 +187,7 @@ function shouldMoveLeft(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[
 function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const button = inputs.gamepad.buttons;
+        // bumpers for ship strafing
         if (button && button[5] && button[5].pressed) {
             data.push({
                 action: PA.MoveRight,
@@ -225,6 +227,7 @@ function shouldMoveRight(inputs: IGame.IGameInput, data: IGame.IPlayerActionData
 function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const button = inputs.gamepad.buttons;
+        // using gamepad triggers
         if (button && button[7] && button[7].pressed) {
             data.push({
                 action: PA.ScaleUp,
@@ -259,6 +262,7 @@ function shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]
 function shouldScaleDown(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
     if (inputs.gamepad.isConnected) {
         const button = inputs.gamepad.buttons;
+        // using gamepad triggers
         if (button && button[6] && button[6].pressed) {
             data.push({
                 action: PA.ScaleDown,

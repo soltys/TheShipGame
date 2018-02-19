@@ -3,7 +3,7 @@ import * as IGame from './IGame';
 
 import { LocalStorageFacade } from 'game-support';
 export default class GameConfig {
-    private readonly configLocation = 'gameconfig';
+    private readonly configLocation = 'gameConfig';
     public static readonly ConfigUpdatedEventName = 'configUpdated';
     private config: IGame.IConfig;
     private localStorage: LocalStorageFacade;
