@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import * as IGame from './IGame';
-import { Keys } from 'game-support';
+import { Keys } from 'game-core';
 import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
-import PA from './PlayerActionType';
+import { PlayerActionType as PA } from 'game-base';
 
 const gamepadActivationPoint = 0.25;
 

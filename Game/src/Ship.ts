@@ -2,11 +2,11 @@ import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './BoundingBox';
-import { CollisionDirection } from 'game-support';
-import { DisplayLayer } from 'game-support';
+import { CollisionDirection } from 'game-core';
+import { DisplayLayer } from 'game-core';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
-import PlayerAction from './PlayerActionType';
+import { PlayerActionType } from 'game-base';
 import Timer from './Timer';
 import { GetPlayerAction } from './PlayerAction';
 interface INewShipSize {
@@ -162,7 +162,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
     private playerInput(playerActions: IGame.IPlayerActionData[], timeDelta: number, context: IGame.IGameContext) {
         this.shipSprite.texture = this.normalShipTexture;
-        const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveLeft));
+        const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveLeft));
         if (moveLeft) {
             this.velocityX = Math.max(
                 this.velocityX - (this.accelerationX * moveLeft.value),
@@ -171,7 +171,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             this.shipSprite.texture = this.leftShipTexture;
         }
 
-        const moveRight: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveRight));
+        const moveRight: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveRight));
         if (moveRight) {
             this.velocityX = Math.min(
                 this.velocityX + (this.accelerationX * moveRight.value),
@@ -179,14 +179,14 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             );
             this.shipSprite.texture = this.rightShipTexture;
         }
-        const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveUp));
+        const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveUp));
         if (moveUp) {
             this.velocityY = Math.max(
                 this.velocityY - (this.accelerationY * moveUp.value),
                 this.maximumVelocityY * -1
             );
         }
-        const moveDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.MoveDown));
+        const moveDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveDown));
         if (moveDown) {
             this.velocityY = Math.min(
                 this.velocityY + (this.accelerationY * moveDown.value),
@@ -220,7 +220,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             };
         };
 
-        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleUp));
+        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.ScaleUp));
         if (scaleUp) {
             const newSize = scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, undefined);
             if (newSize.newHeight < this.maxHeight || newSize.newWidth < this.maxWidth) {
@@ -229,7 +229,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, this.boundingBoxWings);
             }
         }
-        const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerAction.ScaleDown));
+        const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.ScaleDown));
         if (scaleDown) {
             const newSize = scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, undefined);
 

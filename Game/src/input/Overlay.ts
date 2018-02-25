@@ -1,5 +1,5 @@
 import * as IGame from './../IGame';
-import { Keys } from 'game-support';
+import { Keys } from 'game-core';
 import MouseButtons from './../MouseButtons';
 export function DiscardPauseOverlay(context: IGame.IGameContext): boolean {
 

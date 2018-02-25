@@ -1,5 +1,5 @@
 import Colors from './Colors';
-import { DisplayLayer } from 'game-support';
+import { DisplayLayer } from 'game-core';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
 import { DiscardPauseOverlay } from './input/Overlay';

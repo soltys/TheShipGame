@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Colors from './Colors';
-import { GetNumberOfDisplayLayers } from 'game-support';
+import { GetNumberOfDisplayLayers } from 'game-core';
 import * as IGame from './IGame';
 import Stats from './Stats';
 import TimerService from './TimerService';

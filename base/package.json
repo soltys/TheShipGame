@@ -1,0 +1,21 @@
+{
+    "name": "game-base",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^2.7.2",
+        "tslint": "^5.9.1",
+        "tslint-eslint-rules": "^5.0.0",
+        "tslint-loader": "^3.5.3",
+        "tslint-microsoft-contrib": "^5.0.3",
+        "@types/pixi.js": "^4.7.1",
+        "pixi.js": "^4.7.0"
+    }
+}

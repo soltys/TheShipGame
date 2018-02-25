@@ -1,8 +1,13 @@
 import * as PIXI from 'pixi.js';
-import GameConfig from './GameConfig';
-import { CollisionDirection } from 'game-support';
-import { DisplayLayer } from 'game-support';
-import PlayerActionType from './PlayerActionType';
+import { CollisionDirection } from 'game-core';
+import { DisplayLayer } from 'game-core';
+import { PlayerActionType } from 'game-base';
+
+export interface IGameConfig {
+    get(configKey: string): {};
+    getAll(): Readonly<IConfig>;
+}
+
 export interface IBoundingBox {
     readonly x: number;
     readonly y: number;
@@ -23,7 +28,7 @@ export interface IHost {
 
     readonly height: number;
     readonly width: number;
-    readonly config: GameConfig;
+    readonly config: IGameConfig;
 
     addRendererToElement(element: HTMLElement);
     addFPSCounter(element: HTMLElement);
