@@ -40,8 +40,9 @@ export interface IConfig {
     readonly showFPSCounter: boolean;
 }
 
+
 export interface IShip extends IGameObject {
-    readonly position: PIXI.Point;
+    readonly position: IPosition;
 }
 
 export interface IGameState {
@@ -86,8 +87,8 @@ export interface IGameObjectCollection {
 
 
 export interface IPosition {
-    clientX: number;
-    clientY: number;
+    x: number;
+    y: number;
 }
 
 

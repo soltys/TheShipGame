@@ -8,7 +8,7 @@ import GameObject from './GameObject';
 import * as IGame from './IGame';
 import { PlayerActionType } from 'game-base';
 import Timer from './Timer';
-import { GetPlayerAction } from './PlayerAction';
+import { PlayerActionManager } from './PlayerActionManager';
 interface INewShipSize {
     newX: number;
     newY: number;
@@ -102,7 +102,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     }
 
     update(timeDelta: number, context: IGame.IGameContext) {
-        const playerActions = GetPlayerAction(context);
+        const playerActions = PlayerActionManager.update(context);
         this.playerInput(playerActions, timeDelta, context);
 
         this.velocityX *= (1 - this.frictionX);

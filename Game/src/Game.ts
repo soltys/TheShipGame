@@ -52,7 +52,7 @@ export default class Game implements IGame.IHost {
             inputs: {
                 keys: {},
                 clicks: {},
-                mouse: { clientX: 0, clientY: 0 },
+                mouse: { x: 0, y: 0 },
                 touches: [],
                 gamepad: {
                     buttons: [],
@@ -211,8 +211,8 @@ export default class Game implements IGame.IHost {
                 return;
             }
             inputs.clicks[event.which] = {
-                clientX: event.clientX,
-                clientY: event.clientY
+                x: event.clientX,
+                y: event.clientY
             };
         });
 
@@ -227,8 +227,8 @@ export default class Game implements IGame.IHost {
             if (!this.config.get('isMouseEnabled')) {
                 return;
             }
-            inputs.mouse.clientX = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
-            inputs.mouse.clientY = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
+            inputs.mouse.x = (event.clientX - this.renderer.view.getBoundingClientRect().left) / this.scale;
+            inputs.mouse.y = (event.clientY - this.renderer.view.getBoundingClientRect().top) / this.scale;
         });
 
         element.addEventListener('wheel', (event: WheelEvent) => {
@@ -250,8 +250,8 @@ export default class Game implements IGame.IHost {
                 const touch = touches[i];
                 inputs.touches.push({
                     id: touch.identifier,
-                    clientX: touch.pageX,
-                    clientY: touch.pageY
+                    x: touch.pageX,
+                    y: touch.pageY
                 });
             }
         };
@@ -265,8 +265,8 @@ export default class Game implements IGame.IHost {
                 const touch = touches[i];
                 const touchPoint = _.find(inputs.touches, (t) => t.id === touch.identifier);
                 if (touchPoint) {
-                    touchPoint.clientX = touch.pageX;
-                    touchPoint.clientY = touch.pageY;
+                    touchPoint.x = touch.pageX;
+                    touchPoint.y = touch.pageY;
                 }
             }
         };

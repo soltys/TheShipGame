@@ -49,7 +49,15 @@ module.exports = function (env) {
                 },
                 {
                     test: /\.tsx?$/,
-                    loader: ['babel-loader', 'awesome-typescript-loader'],
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env']
+                            }
+                        },
+                        { loader: 'ts-loader' },
+                    ],
                     exclude: [/\.(spec|e2e|d)\.ts$/]
                 },
                 {
