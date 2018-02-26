@@ -6,7 +6,7 @@ export interface IGameConfig {
     get(configKey: string): {};
     getAll(): Readonly<IConfig>;
 }
-interface IBox {
+export interface IBox {
     readonly x: number;
     readonly y: number;
     readonly width: number;

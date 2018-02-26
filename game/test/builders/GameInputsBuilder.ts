@@ -1,12 +1,16 @@
 import * as IGame from './../../src/IGame';
+import { Keys } from 'game-core';
 export class GameInputsBuilder {
     private gameInputs: IGame.IGameInput;
     constructor() {
         this.gameInputs = {
-            keys: undefined,
+            keys: {},
             clicks: {},
             wheel: undefined,
-            mouse: undefined,
+            mouse: {
+                x: undefined,
+                y: undefined
+            },
             touches: [],
             gamepad: { isConnected: false, axes: undefined, buttons: undefined }
         };
@@ -22,10 +26,16 @@ export class GameInputsBuilder {
         return this;
     }
 
-    public setGamepad(axes: number[], buttons: GamepadButton[]) {
+    public addKey(key: Keys, isPressed: boolean): GameInputsBuilder {
+        this.gameInputs.keys[key] = isPressed;
+        return this;
+    }
+
+    public setGamepad(axes: number[], buttons: GamepadButton[]): GameInputsBuilder {
         this.gameInputs.gamepad.isConnected = true;
         this.gameInputs.gamepad.axes = axes;
         this.gameInputs.gamepad.buttons = buttons;
+        return this;
     }
 
 

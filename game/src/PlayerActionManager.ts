@@ -17,9 +17,12 @@ export class PlayerActionManager {
     public static update(context: IGame.IGameContext): IGame.IPlayerActionData[] {
         this.gameContext = context;
         const playerActions: IGame.IPlayerActionData[] = [];
+        if (!context.inputs) {
+            return [];
+        }
         const inputs = _.cloneDeep(context.inputs);
 
-        if (inputs.touches.length > 0) {
+        if (inputs.touches && inputs.touches.length > 0) {
             inputs.mouse = inputs.touches[0];
             inputs.clicks[MouseButtons.LEFT_BUTTON] = inputs.touches[0];
         }

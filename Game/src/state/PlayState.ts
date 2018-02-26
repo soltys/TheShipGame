@@ -109,11 +109,11 @@ export default class Play extends Base {
         return corners;
     }
 
-    getBorderTexture(name: Directions): PIXI.Texture {
+    private getBorderTexture(name: Directions): PIXI.Texture {
         return PIXI.Texture.fromImage(`assets/borders/${name}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
     }
 
-    getCornerTexture(leftOrRight: Sides, topOrBottom: TopOrBottom): PIXI.Texture {
+    private getCornerTexture(leftOrRight: Sides, topOrBottom: TopOrBottom): PIXI.Texture {
         return PIXI.Texture.fromImage(`assets/borders/corner_${leftOrRight}_${topOrBottom}.png`, undefined, PIXI.SCALE_MODES.NEAREST);
     }
 }

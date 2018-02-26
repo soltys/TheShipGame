@@ -1,6 +1,6 @@
 import * as IGame from './IGame';
 import GameConfig from './GameConfig';
-interface IPanel {
+export interface IPanel {
     dom: HTMLCanvasElement;
     update(value: any, maxValue: any);
 }

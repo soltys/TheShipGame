@@ -35,6 +35,7 @@ module.exports = function (config) {
         },
 
         webpack: {
+
             resolve: {
                 modules: [
                     path.join(__dirname, 'node_modules'),
@@ -93,7 +94,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome'],
         phantomjsLauncher: {
             // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
             exitOnResourceError: true

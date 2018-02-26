@@ -1,5 +1,7 @@
 import * as IGame from './../../src/IGame';
+import Ship from './../../src/Ship';
 import { GameInputsBuilder } from './GameInputsBuilder';
+import * as mockito from 'ts-mockito';
 export class GameContextBuilder {
     private gameContext: IGame.IGameContext;
     constructor() {
@@ -25,8 +27,13 @@ export class GameContextBuilder {
         return this;
     }
 
-    public setShip(): GameContextBuilder {
-
+    public setShip(positionX, positionY): GameContextBuilder {
+        const shipMock = mockito.mock(Ship);
+        const pointMock = mockito.mock(PIXI.Point);
+        mockito.when(pointMock.x).thenReturn(positionX);
+        mockito.when(pointMock.y).thenReturn(positionY);
+        mockito.when(shipMock.position).thenReturn(mockito.instance(pointMock));
+        this.gameContext.objects.ship = mockito.instance(shipMock);
         return this;
     }
 
