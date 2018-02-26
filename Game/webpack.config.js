@@ -13,17 +13,15 @@ function getAppSettings(env) {
         app.push('webpack-dev-server/client?http://localhost:8080/');
     }
     app.push('./src/app.tsx');
+    app.push('./../base/src/index.ts');
+    app.push('./../core/src/index.ts');
     return app;
 }
 
 module.exports = function (env) {
     return {
         entry: {
-            app: getAppSettings(env),
-            base: './../base/src/index.ts',
-            core: './../core/src/index.ts',
-
-
+            app: getAppSettings(env)
         },
         output: {
             path: outputPath,
