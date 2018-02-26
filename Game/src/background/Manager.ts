@@ -70,10 +70,11 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
     }
 
     getRandomColor(): number {
-        const brightness = 30;
-        const red = (brightness + _.random(13, 50, false)) * 0x010000;
-        const green = (brightness + _.random(0, 10, false)) * 0x000100;
-        const blue = (brightness + _.random(0, 10, false)) * 0x000001;
+        const max = 255;
+        const brightness = 45;
+        const red = Math.min((brightness + _.random(0, 10, false)), max) * 0x010000;
+        const green = Math.min((brightness + _.random(10, 30, false)), max) * 0x000100;
+        const blue = Math.min((brightness + _.random(0, 10, false)), max) * 0x000001;
 
         return red + green + blue;
     }

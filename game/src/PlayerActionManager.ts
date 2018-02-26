@@ -5,7 +5,19 @@ import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
 import { PlayerActionType as PA } from 'game-base';
 
-
+/**
+ * Converts player input into to Actions
+ * Translates:
+ *  - Keyboard
+ *  - Gamepad
+ *  - Mouse
+ *  - Touch
+ * Into:
+ *  - MoveUp
+ *  - MoveDown
+ *  - ScaleDown
+ *  - Etc.
+ */
 export class PlayerActionManager {
     private static gamepadActivationPoint = 0.25;
     private static gameContext: IGame.IGameContext;
