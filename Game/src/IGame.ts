@@ -1,4 +1,3 @@
-import * as PIXI from 'pixi.js';
 import { CollisionDirection } from 'game-core';
 import { DisplayLayer } from 'game-core';
 import { PlayerActionType } from 'game-base';
@@ -7,16 +6,16 @@ export interface IGameConfig {
     get(configKey: string): {};
     getAll(): Readonly<IConfig>;
 }
-
-export interface IBoundingBox {
+interface IBox {
     readonly x: number;
     readonly y: number;
     readonly width: number;
     readonly height: number;
-
-    collidesWith(box: IBoundingBox);
-    collidesInDirection(other: IBoundingBox);
-    linkSprite(sprite: PIXI.Sprite);
+}
+export interface IBoundingBox extends IBox {
+    collidesWith(box: IBox);
+    collidesInDirection(other: IBox);
+    linkSprite(sprite: IBox);
 }
 
 export interface IHost {

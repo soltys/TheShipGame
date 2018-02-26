@@ -8,15 +8,9 @@ export class GameContextBuilder {
             objects: {
                 all: [],
                 score: undefined,
-                ship: {
-                    position: {
-                        x: 0,
-                        y: 0
-                    }
-                },
-                pauseOverlay: {},
-                borders: {}
-
+                ship: undefined,
+                pauseOverlay: undefined,
+                borders: undefined
             },
             game: undefined,
             state: undefined,
