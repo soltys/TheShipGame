@@ -7,10 +7,10 @@
     ],
     "main": "index.js",
     "scripts": {
-        "test": "karma start karma.conf.js",
+        "test": "call scripts/run_test.cmd",
         "tslint": "tslint",
         "stylelint": "stylelint",
-        "server": "server.cmd",
+        "server": "call scripts/server.cmd",
         "start": "npm run server",
         "build": "webpack --progress --colors --display-modules --env.production",
         "tsd": "tsd"
