@@ -42,6 +42,7 @@ module.exports = function (config) {
                 ],
                 extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
             },
+            devtool: 'source-map',
             module: {
                 rules: [
                     {

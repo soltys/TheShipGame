@@ -63,7 +63,8 @@ module.exports = function (env) {
                 {
                     test: /\.scss$/,
                     loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
-                }]
+                }
+            ]
         },
         plugins: [
             new ExtractTextPlugin('[name].css'),
