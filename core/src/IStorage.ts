@@ -14,7 +14,7 @@ export default interface IStorage {
     get(key: string): {};
 
     /**
-     * Sets valuee at given key
+     * Sets value at given key
      *
      * @param {string} key
      * @param {{}} value

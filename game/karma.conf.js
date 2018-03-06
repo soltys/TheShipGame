@@ -40,7 +40,11 @@ module.exports = function (config) {
                 modules: [
                     path.join(__dirname, 'node_modules'),
                 ],
-                extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
+                extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js'],
+                alias: {
+                    "game-core": path.join(__dirname, 'node_modules/game-core/src/index.ts'),
+                    "game-base": path.join(__dirname, 'node_modules/game-base/src/index.ts')
+                }
             },
             module: {
                 rules: [
@@ -94,7 +98,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome'],
+        browsers: ['ChromeHeadless'],
         phantomjsLauncher: {
             // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
             exitOnResourceError: true
