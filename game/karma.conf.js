@@ -36,7 +36,11 @@ module.exports = function (config) {
                 modules: [
                     path.join(__dirname, 'node_modules'),
                 ],
-                extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
+                extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js'],
+                alias: {
+                    "game-core": path.join(__dirname, 'node_modules/game-core/src/index.ts'),
+                    "game-base": path.join(__dirname, 'node_modules/game-base/src/index.ts')
+                }
             },
             devtool: 'source-map',
             module: {
@@ -76,7 +80,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome'],
+        browsers: ['ChromeHeadless'],
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

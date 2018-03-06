@@ -13,8 +13,6 @@ function getAppSettings(env) {
         app.push('webpack-dev-server/client?http://localhost:8080/');
     }
     app.push('./src/app.tsx');
-    app.push('./../base/src/index.ts');
-    app.push('./../core/src/index.ts');
     return app;
 }
 
@@ -32,7 +30,11 @@ module.exports = function (env) {
             modules: [
                 path.join(__dirname, 'node_modules'),
             ],
-            extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js']
+            extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js'],
+            alias: {
+                "game-core": path.join(__dirname, 'node_modules/game-core/src/index.ts'),
+                "game-base": path.join(__dirname, 'node_modules/game-base/src/index.ts')
+            }
         },
         devtool: 'source-map',
         module: {
