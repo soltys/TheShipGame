@@ -145,6 +145,7 @@ export default class Game implements IGame.IHost {
     public animate(forceStart?: boolean) {
         //Set the frame rate
         const fps = 60;
+
         //Get the start time
         let start = performance.now();
         //Set the frame duration in milliseconds
@@ -154,10 +155,12 @@ export default class Game implements IGame.IHost {
             return;
         }
 
-        const caller = (currentTime) => {
+        const caller = (nowTime) => {
+            this.requestAnimationFrameId = requestAnimationFrame(caller);
+
             this.stats.begin();
-            const elapsed = currentTime - start;
-            start = currentTime;
+            const elapsed = nowTime - start;
+
             //Add the elapsed time to the lag counter
             const lagOffset = elapsed / frameDuration;
 
@@ -165,19 +168,22 @@ export default class Game implements IGame.IHost {
             if (this.gamepads.length > 0) {
                 this.updateGamepadInputs();
             }
-            if (this.isAnimationOn) {
-                this.timerService.update(currentTime);
-                this.context.objects.all.forEach((object) => {
-                    object.update(lagOffset, this.context);
-                });
-            } else {
-                this.context.objects.pauseOverlay.update(lagOffset, this.context);
+
+            if (elapsed > frameDuration) {
+                start = nowTime - (elapsed % frameDuration);
+                if (this.isAnimationOn) {
+                    this.timerService.update(nowTime);
+                    this.context.objects.all.forEach((object) => {
+                        object.update(lagOffset, this.context);
+                    });
+                } else {
+                    this.context.objects.pauseOverlay.update(lagOffset, this.context);
+                }
+
+                this.renderer.render(this.stage);
+                this.stats.end();
             }
 
-            this.renderer.render(this.stage);
-            this.stats.end();
-
-            this.requestAnimationFrameId = requestAnimationFrame(caller);
         };
 
         caller(start);
@@ -241,7 +247,7 @@ export default class Game implements IGame.IHost {
                 deltaY: event.deltaY,
                 deltaZ: event.deltaZ
             };
-        },  {passive: true});
+        }, { passive: true });
         const touchStart = (event: TouchEvent) => {
             event.preventDefault();
             const touches = event.changedTouches;
