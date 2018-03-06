@@ -5,7 +5,7 @@ var sassPath = path.resolve(__dirname, 'src/scss');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
-
+var webpackConfigShared = require('./webpack.config.shared');
 
 function getAppSettings(env) {
     const app = [];
@@ -47,19 +47,7 @@ module.exports = function (env) {
                     enforce: "pre",
                     loader: 'source-map-loader'
                 },
-                {
-                    test: /\.tsx?$/,
-                    use: [
-                        {
-                            loader: 'babel-loader',
-                            options: {
-                                presets: ['@babel/preset-env']
-                            }
-                        },
-                        { loader: 'ts-loader' },
-                    ],
-                    exclude: [/\.(spec|e2e|d)\.ts$/]
-                },
+                webpackConfigShared.typescriptRule(),
                 {
                     test: /\.scss$/,
                     loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
