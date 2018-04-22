@@ -2,7 +2,7 @@ var path = require('path');
 var outputPath = path.resolve(__dirname, 'build');
 var autoprefixer = require('autoprefixer');
 var sassPath = path.resolve(__dirname, 'src/scss');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 var webpackConfigShared = require('./webpack.config.shared');
@@ -43,12 +43,17 @@ module.exports = function (env) {
                 webpackConfigShared.typescriptRule(),
                 {
                     test: /\.scss$/,
-                    loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'sass-loader'])
+                    use: [{
+                        loader: "style-loader" // creates style nodes from JS strings
+                    }, {
+                        loader: "css-loader" // translates CSS into CommonJS
+                    }, {
+                        loader: "sass-loader" // compiles Sass to CSS
+                    }]
                 }
             ]
         },
         plugins: [
-            new ExtractTextPlugin('[name].css'),
             new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
             new webpack.LoaderOptionsPlugin({
                 debug: true,
