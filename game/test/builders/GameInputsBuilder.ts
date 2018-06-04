@@ -1,4 +1,4 @@
-import * as IGame from './../../src/IGame';
+import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
 export class GameInputsBuilder {
     private gameInputs: IGame.IGameInput;

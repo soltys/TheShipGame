@@ -1,4 +1,4 @@
-import * as IGame from './../IGame';
+import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
 import MouseButtons from './../MouseButtons';
 export default function StartGame(context: IGame.IGameContext): boolean {

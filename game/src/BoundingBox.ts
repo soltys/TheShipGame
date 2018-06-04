@@ -1,5 +1,5 @@
 import { CollisionDirection } from '@core/CollisionDirection';
-import * as IGame from './IGame';
+import * as IGame from '@IGame';
 class BoundingBox implements IGame.IBoundingBox {
     private rectangle: PIXI.Rectangle;
     private sprite: PIXI.Sprite;

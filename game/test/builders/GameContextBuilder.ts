@@ -1,4 +1,4 @@
-import * as IGame from './../../src/IGame';
+import * as IGame from '@IGame';
 import Ship from './../../src/Ship';
 import { GameInputsBuilder } from './GameInputsBuilder';
 import * as mockito from 'ts-mockito';

@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import Background from './../background/Manager';
 import Border from './../Border';
 import Coin from './../Coin';
-import * as IGame from './../IGame';
+import * as IGame from '@IGame';
 import * as RS from './../ResourceSupport';
 import Timer from './../Timer';
 import Corner from './../Corner';

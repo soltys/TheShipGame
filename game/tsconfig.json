@@ -16,6 +16,9 @@
             ],
             "@base/*":[
                 "base/*"
+            ],
+            "@IGame":[
+                "IGame.ts"
             ]
         },
         "noUnusedLocals": true,

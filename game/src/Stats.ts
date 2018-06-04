@@ -1,4 +1,4 @@
-import * as IGame from './IGame';
+import * as IGame from '@IGame';
 import GameConfig from './GameConfig';
 export interface IPanel {
     dom: HTMLCanvasElement;

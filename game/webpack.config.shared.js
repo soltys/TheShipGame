@@ -12,7 +12,8 @@ module.exports.resolve = function () {
         extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js'],
         alias: {
             "@core": path.join(__dirname, 'src/core'),
-            "@base": path.join(__dirname, 'src/base')
+            "@base": path.join(__dirname, 'src/base'),
+            "@IGame": path.join(__dirname, 'src/IGame.ts')
         }
     };
 }

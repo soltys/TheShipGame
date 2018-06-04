@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
-import GameObject from '../GameObject';
-import * as IGame from '../IGame';
+import GameObject from '@core/GameObject';
+import * as IGame from '@IGame';
 import { DisplayLayer } from '@core/DisplayLayer';
 
 

@@ -1,7 +1,7 @@
 import Colors from './Colors';
 import { DisplayLayer } from '@core/DisplayLayer';
-import GameObject from './GameObject';
-import * as IGame from './IGame';
+import GameObject from '@core/GameObject';
+import * as IGame from '@IGame';
 import { DiscardPauseOverlay } from './input/Overlay';
 
 export default class PauseOverlay extends GameObject implements IGame.IGameDisplayObject {

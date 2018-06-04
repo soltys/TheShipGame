@@ -1,4 +1,4 @@
-import * as IGame from './../IGame';
+import * as IGame from '@IGame';
 
 export default class Base implements IGame.IGameState {
     /**

@@ -1,4 +1,4 @@
-import * as IGame from './../IGame';
+import * as IGame from '@IGame';
 import MenuGameObject from './../Menu';
 import BaseState from './BaseState';
 

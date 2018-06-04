@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as IGame from '../IGame';
+import * as IGame from '@IGame';
 import GameConfig from './../GameConfig';
 import { ToggleOption } from './ToggleOption';
 export interface OptionsProps { gameConfig: GameConfig; }

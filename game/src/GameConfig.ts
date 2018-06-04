@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as IGame from './IGame';
+import * as IGame from '@IGame';
 
 import { LocalStorageFacade } from '@core/LocalStorageFacade';
 export default class GameConfig {

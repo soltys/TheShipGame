@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as IGame from './IGame';
+import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
 import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';

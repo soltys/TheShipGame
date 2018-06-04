@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import * as IGame from './../IGame';
+import * as IGame from '@IGame';
 import BaseState from './BaseState';
 import PlayState from './PlayState';
 //import MenuState from './MenuState';

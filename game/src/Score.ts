@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import Colors from './Colors';
 import { DisplayLayer } from '@core/DisplayLayer';
-import GameObject from './GameObject';
-import * as IGame from './IGame';
+import GameObject from '@core/GameObject';
+import * as IGame from '@IGame';
 
 export default class Score extends GameObject implements IGame.IGameDisplayObject, IGame.IScore {
     private score: number;
