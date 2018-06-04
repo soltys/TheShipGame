@@ -27,7 +27,7 @@ export class GameContextBuilder {
         return this;
     }
 
-    public setShip(positionX, positionY): GameContextBuilder {
+    public setShip(positionX: number, positionY: number): GameContextBuilder {
         const shipMock = mockito.mock(Ship);
         const pointMock = mockito.mock(PIXI.Point);
         mockito.when(pointMock.x).thenReturn(positionX);

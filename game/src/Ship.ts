@@ -70,12 +70,12 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     get position() {
         return new PIXI.Point(this.shipSprite.position.x + this.shipSprite.width / 2, this.shipSprite.position.y + this.shipSprite.height / 2);
     }
-    init(state: IGame.IGameContext): void {
+    init(context: IGame.IGameContext): void {
         this.graphics = new PIXI.Graphics();
-        state.objects.ship = this;
+        context.objects.ship = this;
 
-        state.timerService.add(Timer.create(100, () => {
-            state.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width / 2), this.boundingBoxAll.y));
+        context.timerService.add(Timer.create(100, () => {
+            context.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width / 2), this.boundingBoxAll.y));
         }));
 
     }
@@ -148,7 +148,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.boundingBoxAll.x += deltaX;
         this.boundingBoxAll.y += deltaY;
 
-        const drawBoundingBox = (box, color) => {
+        const drawBoundingBox = (box: BoundingBox, color: number) => {
             this.graphics.beginFill(color);
             this.graphics.drawRect(box.x, box.y, box.width, box.height);
             this.graphics.endFill();
@@ -194,7 +194,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             );
         }
 
-        const scaleFunc = (scaleFactor, baseWidth, baseHeight, scaleValue, updateThis: BoundingBox): INewShipSize => {
+        const scaleFunc = (scaleFactor: number, baseWidth: number, baseHeight: number, scaleValue: number, updateThis: BoundingBox): INewShipSize => {
             const ratioWidth = (baseWidth < baseHeight) ? baseWidth / baseHeight : 1;
             const ratioHeight = (baseHeight < baseWidth) ? baseHeight / baseWidth : 1;
 

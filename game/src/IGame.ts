@@ -35,8 +35,8 @@ export interface IHost {
 }
 
 export interface IConfig {
-    readonly isMouseEnabled: boolean;
-    readonly showFPSCounter: boolean;
+    isMouseEnabled: boolean;
+    showFPSCounter: boolean;
 }
 
 

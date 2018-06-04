@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';
-import * as RS from './ResourceSupport';
+import * as RS from '@core/ResourceSupport';
 export default class Bullet extends GameObject implements IGame.IGameDisplayObject {
     private bulletAnimation: PIXI.extras.AnimatedSprite;
     private graphics: PIXI.Graphics;
@@ -30,10 +30,8 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
         return DisplayLayer.Main;
     }
 
-    static bulletAnimationFrames;
     static create(posX: number, posY: number): Bullet {
-        this.bulletAnimationFrames = RS.createAnimation('bullet', 2);
-        return new Bullet(new PIXI.extras.AnimatedSprite(this.bulletAnimationFrames), posX, posY);
+        return new Bullet(RS.createAnimation('bullet_animation', 2), posX, posY);
     }
 
 }

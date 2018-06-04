@@ -5,7 +5,8 @@ import { LocalStorageFacade } from '@core/LocalStorageFacade';
 export default class GameConfig {
     private readonly configLocation = 'gameConfig';
     public static readonly ConfigUpdatedEventName = 'configUpdated';
-    private config: IGame.IConfig;
+
+    private config: IGame.IConfig ;
     private localStorage: LocalStorageFacade;
 
     constructor() {
@@ -24,7 +25,7 @@ export default class GameConfig {
         };
     }
 
-    update(configKey: string, newValue) {
+    update(configKey: keyof IGame.IConfig, newValue: any) {
         const oldValue = this.config[configKey];
         this.config[configKey] = newValue;
         this.localStorage.set(this.configLocation, this.config);

@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import IStorage from './IStorage';
+import IStorage from '@core/IStorage';
 export default class StorageFacade implements IStorage {
     private storage: Storage;
 

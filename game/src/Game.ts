@@ -155,7 +155,7 @@ export default class Game implements IGame.IHost {
             return;
         }
 
-        const caller = (nowTime) => {
+        const caller = (nowTime: number) => {
             this.requestAnimationFrameId = requestAnimationFrame(caller);
 
             this.stats.begin();
@@ -202,7 +202,7 @@ export default class Game implements IGame.IHost {
         }
     }
 
-    public addEventListenerToElement(element): void {
+    public addEventListenerToElement(element: HTMLElement): void {
         const inputs = this.context.inputs;
         element.addEventListener('keydown', (event: KeyboardEvent) => {
             inputs.keys[event.keyCode] = true;
