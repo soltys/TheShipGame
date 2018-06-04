@@ -2,11 +2,11 @@ import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './BoundingBox';
-import { CollisionDirection } from 'game-core';
-import { DisplayLayer } from 'game-core';
+import { CollisionDirection } from '@core/CollisionDirection';
+import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
-import { PlayerActionType } from 'game-base';
+import { PlayerActionType } from '@base/PlayerActionType';
 import Timer from './Timer';
 import { PlayerActionManager } from './PlayerActionManager';
 interface INewShipSize {

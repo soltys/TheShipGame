@@ -1,5 +1,5 @@
 import * as IGame from './../../src/IGame';
-import { Keys } from 'game-core';
+import { Keys } from '@core/Keys';
 export class GameInputsBuilder {
     private gameInputs: IGame.IGameInput;
     constructor() {

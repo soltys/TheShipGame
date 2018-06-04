@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { DisplayLayer } from 'game-core';
+import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from './GameObject';
 import * as IGame from './IGame';
 import * as RS from './ResourceSupport';

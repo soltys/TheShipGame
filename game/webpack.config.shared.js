@@ -1,5 +1,6 @@
+//@ts-check
 var path = require('path');
-
+var webpack = require('webpack');
 /**
  * @returns {webpack.Resolve}
  */
@@ -10,8 +11,8 @@ module.exports.resolve = function () {
         ],
         extensions: ['.ts', '.tsx', '.webpack.js', '.web.js', '.js'],
         alias: {
-            "game-core": path.join(__dirname, 'node_modules/game-core/src/index.ts'),
-            "game-base": path.join(__dirname, 'node_modules/game-base/src/index.ts')
+            "@core": path.join(__dirname, 'src/core'),
+            "@base": path.join(__dirname, 'src/base')
         }
     };
 }

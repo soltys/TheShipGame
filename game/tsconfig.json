@@ -4,10 +4,20 @@
         "target": "es5",
         "module": "commonjs",
         "jsx": "react",
+        "moduleResolution": "node",
         "sourceMap": true,
         "typeRoots": [
             "./node_modules/@types"
         ],
+        "baseUrl": "src",
+        "paths": {
+            "@core/*": [
+                "core/*"
+            ],
+            "@base/*":[
+                "base/*"
+            ]
+        },
         "noUnusedLocals": true,
         "inlineSources": true,
         "noImplicitReturns": true

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as IGame from './IGame';
 
-import { LocalStorageFacade } from 'game-core';
+import { LocalStorageFacade } from '@core/LocalStorageFacade';
 export default class GameConfig {
     private readonly configLocation = 'gameConfig';
     public static readonly ConfigUpdatedEventName = 'configUpdated';

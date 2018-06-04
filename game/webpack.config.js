@@ -1,3 +1,4 @@
+//@ts-check
 var path = require('path');
 var outputPath = path.resolve(__dirname, 'build');
 var autoprefixer = require('autoprefixer');
@@ -54,6 +55,7 @@ module.exports = function (env) {
             ]
         },
         plugins: [
+            // @ts-ignore
             new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
             new webpack.LoaderOptionsPlugin({
                 debug: true,

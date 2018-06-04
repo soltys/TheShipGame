@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import * as IGame from './IGame';
-import { Keys } from 'game-core';
+import { Keys } from '@core/Keys';
 import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
-import { PlayerActionType as PA } from 'game-base';
+import { PlayerActionType as PA } from '@base/PlayerActionType';
 
 /**
  * Converts player input into to Actions
