@@ -1,1 +1,0 @@
-Aktualnie robię: Przesuwanie kodu dt. pauzy do osobnego stanu
