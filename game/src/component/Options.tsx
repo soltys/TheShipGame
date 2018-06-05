@@ -25,11 +25,10 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
 
     }
 
-    updateGameConfig(name, value) {
-        this.setState({
-            [name]: value
-        }, () => {
-            this.props.gameConfig.update(name, value);
+    updateGameConfig(name: keyof IGame.IConfig, value) {
+        this.props.gameConfig.update(name, value);
+        this.setState((prevState, props) => {
+            return this.props.gameConfig.getAll();
         });
     }
 
