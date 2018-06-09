@@ -149,7 +149,7 @@ export default class Game implements IGame.IHost {
         //Get the start time
         let start = performance.now();
         //Set the frame duration in milliseconds
-        const frameDuration = 1000 / fps;
+
         if (forceStart) {
             this.isAnimationOn = true;
             return;
@@ -159,31 +159,34 @@ export default class Game implements IGame.IHost {
             this.requestAnimationFrameId = requestAnimationFrame(caller);
 
             this.stats.begin();
-            const elapsed = nowTime - start;
+            let elapsed = nowTime - start;
+            start = nowTime;
 
             //Add the elapsed time to the lag counter
-            const lagOffset = elapsed / frameDuration;
+            if (elapsed < 0) {
+                elapsed = 0;
+            }
+            if (elapsed > 1000) {
+                elapsed = 1000;
+            }
+            const lagOffset = elapsed * fps / 1000;
 
             this.gamepads = navigator.getGamepads() || [];
             if (this.gamepads.length > 0) {
                 this.updateGamepadInputs();
             }
 
-            if (elapsed > frameDuration) {
-                start = nowTime - (elapsed % frameDuration);
-                if (this.isAnimationOn) {
-                    this.timerService.update(nowTime);
-                    this.context.objects.all.forEach((object) => {
-                        object.update(lagOffset, this.context);
-                    });
-                } else {
-                    this.context.objects.pauseOverlay.update(lagOffset, this.context);
-                }
-
-                this.renderer.render(this.stage);
-                this.stats.end();
+            if (this.isAnimationOn) {
+                this.timerService.update(nowTime);
+                this.context.objects.all.forEach((object) => {
+                    object.update(lagOffset, this.context);
+                });
+            } else {
+                this.context.objects.pauseOverlay.update(lagOffset, this.context);
             }
 
+            this.renderer.render(this.stage);
+            this.stats.end();
         };
 
         caller(start);
