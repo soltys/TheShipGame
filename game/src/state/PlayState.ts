@@ -16,14 +16,15 @@ export default class Play extends Base {
     private onVisibilityChangedProxy: EventListener;
     handle(context: IGame.IGameContext) {
         const game = context.game;
+
         for (const border of this.getGameBorders(game.width, game.height)) {
             game.addObject(border);
             context.objects.borders.push(border);
         }
 
-        for (const corner of this.getCorners(game.width, game.height)) {
-            game.addObject(corner);
-        }
+        this.getCorners(game.width, game.height)
+            .forEach(corner => game.addObject(corner));
+
         game.addObject(new Background());
         game.addObject(new Ship(RS.getTexture('ship'), RS.getTexture('ship_to_left'), RS.getTexture('ship_to_right')));
         game.addObject(new Score(game.width));

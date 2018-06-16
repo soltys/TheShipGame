@@ -1,7 +1,4 @@
-
 import LinearConvert from '../src/LinearConverter';
-
-
 describe('LinearConvert', () => {
     it('LinearConvert object should be defined', () => {
         //LinearConvert.should.not.be.undefined;

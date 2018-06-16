@@ -1,9 +1,13 @@
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Options } from './component/Options';
 import Game from './Game';
 import InitState from './state/InitState';
 import './styles/main.scss';
+
+import '@core/NumberExtensions';
+import '@core/GamepadExtensions';
 
 const gameWidth = 640;
 const gameHeight = 704;

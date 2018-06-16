@@ -1,19 +1,21 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Colors from './Colors';
-import { GetNumberOfDisplayLayers } from '@core/DisplayLayer';
+import { GetDisplayLayers } from '@core/DisplayLayer';
+import { ToGamepadArray } from '@core/GamepadExtensions';
 import * as IGame from '@IGame';
 import Stats from './Stats';
 import TimerService from './TimerService';
 import GameConfig from './GameConfig';
 import PauseOverlay from './PauseOverlay';
 import InitState from './state/InitState';
+
 export default class Game implements IGame.IHost {
     readonly stage: PIXI.Container;
     readonly displayLayers: PIXI.Container[];
     private readonly renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private readonly context: IGame.IGameContext;
-    private gamepads: Gamepad[];
+    private gamepads: GamepadList;
     public width = 0;
     public height = 0;
     public readonly config: GameConfig;
@@ -28,11 +30,12 @@ export default class Game implements IGame.IHost {
 
         this.stage = this.newStage();
         this.displayLayers = [];
-        for (let stageIndex = 0; stageIndex <= GetNumberOfDisplayLayers(); stageIndex += 1) {
+
+        GetDisplayLayers().forEach(_ => {
             const newStage = this.newStage();
             this.displayLayers.push(newStage);
             this.stage.addChild(newStage);
-        }
+        });
 
         this.renderer = this.newRenderer();
         this.gamepads = [];
@@ -78,25 +81,27 @@ export default class Game implements IGame.IHost {
         };
     }
 
-    public removeObject(gameObject: IGame.IGameObject): void {
-        const gameDisplayObject = (<IGame.IGameDisplayObject>gameObject);
-        if (gameDisplayObject) {
-            for (const displayObject of gameDisplayObject.displayObjects) {
-                this.displayLayers[gameDisplayObject.displayLayer].removeChild(displayObject);
+    isGameDisplayObject(gameObject: IGame.IGameObject | IGame.IGameDisplayObject): gameObject is IGame.IGameDisplayObject {
+        return (<IGame.IGameDisplayObject>gameObject).displayObjects !== undefined;
+    }
+
+    public removeObject(gameObject: IGame.IGameObject | IGame.IGameDisplayObject): void {
+        if (this.isGameDisplayObject(gameObject)) {
+            for (const displayObject of gameObject.displayObjects) {
+                this.displayLayers[gameObject.displayLayer].removeChild(displayObject);
             }
         }
-
         const index = _.indexOf(this.context.objects.all, gameObject);
         this.context.objects.all.splice(index, 1);
     }
 
-    public addObject(gameObject: IGame.IGameObject): void {
+    public addObject(gameObject: IGame.IGameObject | IGame.IGameDisplayObject): void {
         gameObject.init(this.context);
         this.context.objects.all.push(gameObject);
-        const gameDisplayObject = (<IGame.IGameDisplayObject>gameObject);
-        if (gameDisplayObject) {
-            for (const displayObject of gameDisplayObject.displayObjects) {
-                this.displayLayers[gameDisplayObject.displayLayer].addChild(displayObject);
+
+        if (this.isGameDisplayObject(gameObject)) {
+            for (const displayObject of gameObject.displayObjects) {
+                this.displayLayers[gameObject.displayLayer].addChild(displayObject);
             }
         }
     }
@@ -157,36 +162,27 @@ export default class Game implements IGame.IHost {
 
         const caller = (nowTime: number) => {
             this.requestAnimationFrameId = requestAnimationFrame(caller);
+            this.stats.measureFrame(() => {
+                const elapsed = (nowTime - start).limit(0, 1000);
+                start = nowTime;
+                const lagOffset = elapsed * fps / 1000;
 
-            this.stats.begin();
-            let elapsed = nowTime - start;
-            start = nowTime;
+                this.gamepads = navigator.getGamepads() || [];
+                if (this.gamepads.length > 0) {
+                    this.updateGamepadInputs();
+                }
 
-            //Add the elapsed time to the lag counter
-            if (elapsed < 0) {
-                elapsed = 0;
-            }
-            if (elapsed > 1000) {
-                elapsed = 1000;
-            }
-            const lagOffset = elapsed * fps / 1000;
+                if (this.isAnimationOn) {
+                    this.timerService.update(nowTime);
+                    this.context.objects.all.forEach((object) => {
+                        object.update(lagOffset, this.context);
+                    });
+                } else {
+                    this.context.objects.pauseOverlay.update(lagOffset, this.context);
+                }
 
-            this.gamepads = navigator.getGamepads() || [];
-            if (this.gamepads.length > 0) {
-                this.updateGamepadInputs();
-            }
-
-            if (this.isAnimationOn) {
-                this.timerService.update(nowTime);
-                this.context.objects.all.forEach((object) => {
-                    object.update(lagOffset, this.context);
-                });
-            } else {
-                this.context.objects.pauseOverlay.update(lagOffset, this.context);
-            }
-
-            this.renderer.render(this.stage);
-            this.stats.end();
+                this.renderer.render(this.stage);
+            });
         };
 
         caller(start);
@@ -196,13 +192,14 @@ export default class Game implements IGame.IHost {
         const inputs = this.context.inputs;
 
         inputs.gamepad.isConnected = false;
-        for (const gamepad of this.gamepads) {
-            if (gamepad) {
+
+        ToGamepadArray(this.gamepads)
+            .filter(x => x)
+            .forEach(gamepad => {
                 inputs.gamepad.isConnected = true;
                 inputs.gamepad.axes = gamepad.axes;
                 inputs.gamepad.buttons = gamepad.buttons;
-            }
-        }
+            });
     }
 
     public addEventListenerToElement(element: HTMLElement): void {
@@ -251,48 +248,5 @@ export default class Game implements IGame.IHost {
                 deltaZ: event.deltaZ
             };
         }, { passive: true });
-        const touchStart = (event: TouchEvent) => {
-            event.preventDefault();
-            const touches = event.changedTouches;
-            const inputs = this.context.inputs;
-            for (let i = 0; i < touches.length; i += 1) {
-                const touch = touches[i];
-                inputs.touches.push({
-                    id: touch.identifier,
-                    x: touch.pageX,
-                    y: touch.pageY
-                });
-            }
-        };
-
-        const touchMove = (event: TouchEvent) => {
-            event.preventDefault();
-            const touches = event.changedTouches;
-            const inputs = this.context.inputs;
-
-            for (let i = 0; i < touches.length; i += 1) {
-                const touch = touches[i];
-                const touchPoint = _.find(inputs.touches, (t) => t.id === touch.identifier);
-                if (touchPoint) {
-                    touchPoint.x = touch.pageX;
-                    touchPoint.y = touch.pageY;
-                }
-            }
-        };
-
-        const touchEnd = (event: TouchEvent) => {
-            event.preventDefault();
-            const touches = event.changedTouches;
-            const inputs = this.context.inputs;
-
-            for (let i = 0; i < touches.length; i += 1) {
-                const touch = touches[i];
-                _.remove(inputs.touches, (t) => t.id === touch.identifier);
-            }
-        };
-        element.addEventListener('touchstart', touchStart, false);
-        element.addEventListener('touchend', touchEnd, false);
-        element.addEventListener('touchcancel', touchEnd, false);
-        element.addEventListener('touchmove', touchMove, false);
     }
 }

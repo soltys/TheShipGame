@@ -6,9 +6,6 @@
         "jsx": "react",
         "moduleResolution": "node",
         "sourceMap": true,
-        "typeRoots": [
-            "./node_modules/@types"
-        ],
         "baseUrl": "src",
         "paths": {
             "@core/*": [
@@ -21,6 +18,7 @@
                 "IGame.ts"
             ]
         },
+
         "noUnusedLocals": true,
         "inlineSources": true,
         "noImplicitReturns": true,

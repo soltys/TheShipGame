@@ -11,7 +11,6 @@ export default class GameCorner extends GameObject implements IGame.IGameDisplay
         this.cornerSprite = new PIXI.Sprite(texture);
         this.cornerSprite.x = rect.x;
         this.cornerSprite.y = rect.y;
-
     }
 
     get displayObjects(): PIXI.DisplayObject[] {

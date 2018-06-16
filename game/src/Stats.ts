@@ -76,7 +76,7 @@ export default class Stats {
     }
 
 
-    public end() {
+    private end() {
         this.frames += 1;
         const time = (performance || Date).now();
         this.msPanel.update(time - this.beginTime, 200);
@@ -92,8 +92,15 @@ export default class Stats {
         }
         return time;
     }
-    public begin() {
+    private begin() {
         this.beginTime = (performance || Date).now();
+    }
+
+
+    public measureFrame(action: () => void) {
+        this.begin();
+        action();
+        this.end();
     }
 
     private Panel(name, fg, bg): IPanel {

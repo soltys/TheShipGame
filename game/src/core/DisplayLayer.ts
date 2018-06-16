@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 export enum DisplayLayer {
     Background,
     Main,
@@ -7,8 +5,8 @@ export enum DisplayLayer {
     Overlay
 }
 
-export function GetNumberOfDisplayLayers(): number {
-    return _.max(getValues(DisplayLayer));
+export function GetDisplayLayers(): number[] {
+    return getValues(DisplayLayer);
 }
 
 //https://github.com/slavik57/enum-values
