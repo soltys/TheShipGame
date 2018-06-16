@@ -9,12 +9,7 @@ import * as IGame from '@IGame';
 import { PlayerActionType } from '@base/PlayerActionType';
 import Timer from './Timer';
 import { PlayerActionManager } from './PlayerActionManager';
-interface INewShipSize {
-    newX: number;
-    newY: number;
-    newHeight: number;
-    newWidth: number;
-}
+
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 
     private shipSprite: PIXI.Sprite;
@@ -39,8 +34,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private minWidth = 20;
     private minHeight = 20;
 
-    private maxWidth = 50;
-    private maxHeight = 50;
+    private maxWidth = 100;
+    private maxHeight = 100;
 
     private graphics: PIXI.Graphics;
     constructor(texture: PIXI.Texture, textureToLeft: PIXI.Texture, textureToRight: PIXI.Texture) {
@@ -194,50 +189,53 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             );
         }
 
-        const scaleFunc = (scaleFactor: number, baseWidth: number, baseHeight: number, scaleValue: number, updateThis: BoundingBox): INewShipSize => {
-            const ratioWidth = (baseWidth < baseHeight) ? baseWidth / baseHeight : 1;
-            const ratioHeight = (baseHeight < baseWidth) ? baseHeight / baseWidth : 1;
+        const scaleFunc = (scaleFactor: number, baseBox: BoundingBox, scaleValue: number, updateThis: BoundingBox): BoundingBox => {
+            const ratioWidth = (baseBox.width < baseBox.height) ? baseBox.width / baseBox.height : 1;
+            const ratioHeight = (baseBox.height < baseBox.width) ? baseBox.height / baseBox.width : 1;
 
-            const newWidth = baseWidth + scaleFactor * timeDelta * scaleValue * ratioWidth;
-            const newHeight = baseHeight + scaleFactor * timeDelta * scaleValue * ratioHeight;
+            const newWidth = baseBox.width + scaleFactor * timeDelta * scaleValue * ratioWidth;
+            const newHeight = baseBox.height + scaleFactor * timeDelta * scaleValue * ratioHeight;
 
-            let newX = 0;
-            let newY = 0;
+            let newX = baseBox.x;
+            let newY = baseBox.y;
             if (updateThis) {
-                newX = updateThis.x + (baseWidth - newWidth) / 2;
-                newY = updateThis.y + (baseHeight - newHeight) / 1.28125;
+                newX = updateThis.x + (baseBox.width - newWidth) / 2;
+                newY = updateThis.y + (baseBox.height - newHeight) / 1.28125;
                 updateThis.x = newX;
                 updateThis.y = newY;
                 updateThis.width = newWidth;
                 updateThis.height = newHeight;
             }
-
-            return {
-                newX: newX,
-                newY: newY,
-                newHeight: newHeight,
-                newWidth: newWidth
-            };
+            return new BoundingBox(new PIXI.Rectangle(newX, newY, newWidth, newHeight));
         };
 
         const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.ScaleUp));
         if (scaleUp) {
-            const newSize = scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, undefined);
-            if (newSize.newHeight < this.maxHeight || newSize.newWidth < this.maxWidth) {
-                scaleFunc(this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleUp.value, this.boundingBoxAll);
-                scaleFunc(this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleUp.value, this.boundingBox);
-                scaleFunc(this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleUp.value, this.boundingBoxWings);
+            const newSize = scaleFunc(this.scaleFactor, this.boundingBoxAll, scaleUp.value, undefined);
+            const isColliding = context.objects.borders
+                .map(border => border.collideWith(newSize))
+                .filter(cd => cd.isColliding)
+                .length > 0;
+
+
+            if (!isColliding && (newSize.height < this.maxHeight || newSize.width < this.maxWidth)) {
+                scaleFunc(this.scaleFactor, this.boundingBoxAll, scaleUp.value, this.boundingBoxAll);
+                scaleFunc(this.scaleFactor, this.boundingBox, scaleUp.value, this.boundingBox);
+                scaleFunc(this.scaleFactor, this.boundingBoxWings, scaleUp.value, this.boundingBoxWings);
             }
         }
         const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.ScaleDown));
         if (scaleDown) {
-            const newSize = scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, undefined);
+            const newSize = scaleFunc(-this.scaleFactor, this.boundingBoxAll, scaleDown.value, undefined);
+            const isColliding = context.objects.borders
+                .map(border => border.collideWith(newSize))
+                .filter(cd => cd.isColliding)
+                .length > 0;
+            if (!isColliding && (newSize.height > this.minHeight || newSize.width > this.minWidth)) {
 
-            if (newSize.newHeight > this.minHeight || newSize.newWidth > this.minWidth) {
-
-                scaleFunc(-this.scaleFactor, this.shipSprite.width, this.shipSprite.height, scaleDown.value, this.boundingBoxAll);
-                scaleFunc(-this.scaleFactor, this.boundingBox.width, this.boundingBox.height, scaleDown.value, this.boundingBox);
-                scaleFunc(-this.scaleFactor, this.boundingBoxWings.width, this.boundingBoxWings.height, scaleDown.value, this.boundingBoxWings);
+                scaleFunc(-this.scaleFactor, this.boundingBoxAll, scaleDown.value, this.boundingBoxAll);
+                scaleFunc(-this.scaleFactor, this.boundingBox, scaleDown.value, this.boundingBox);
+                scaleFunc(-this.scaleFactor, this.boundingBoxWings, scaleDown.value, this.boundingBoxWings);
             }
         }
     }
