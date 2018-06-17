@@ -4,6 +4,7 @@ import { Keys } from '@core/Keys';
 import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
 import { PlayerActionType as PA } from '@base/PlayerActionType';
+import { GamepadQuery } from '@core/GamepadQuery';
 
 /**
  * Converts player input into to Actions
@@ -122,6 +123,7 @@ export class PlayerActionManager {
                 return;
             }
         }
+
         if (inputs.clicks[MouseButtons.LEFT_BUTTON]) {
             const location = inputs.mouse;
             if (location.y < this.ship.position.y) {
@@ -250,24 +252,20 @@ export class PlayerActionManager {
         }
     }
     private static shouldScaleUp(inputs: IGame.IGameInput, data: IGame.IPlayerActionData[]): void {
-        if (inputs.gamepad.isConnected) {
-            const button = inputs.gamepad.buttons;
-            // using gamepad triggers
-            if (button && button[7] && button[7].pressed) {
+        GamepadQuery(inputs.gamepad)
+            .queryButton(7, (value) => {
                 data.push({
                     action: PA.ScaleUp,
-                    value: button[7].value
+                    value: value
                 });
-                return;
-            }
-            if (button && button[0] && button[0].pressed) {
+            })
+            .queryButton(0, (value) => {
                 data.push({
                     action: PA.ScaleUp,
                     value: 1
                 });
-                return;
-            }
-        }
+            });
+
         if (inputs.wheel && inputs.wheel.deltaY < 0) {
             data.push({
                 action: PA.ScaleUp,

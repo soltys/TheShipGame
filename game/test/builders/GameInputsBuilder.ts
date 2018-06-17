@@ -1,5 +1,12 @@
 import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
+
+export interface IGamepadButtonWriteable {
+    pressed: boolean;
+    value: number;
+    touched: boolean;
+}
+
 export class GameInputsBuilder {
     private gameInputs: IGame.IGameInput;
     constructor() {
@@ -12,7 +19,7 @@ export class GameInputsBuilder {
                 y: undefined
             },
             touches: [],
-            gamepad: { isConnected: false, axes: undefined, buttons: undefined }
+            gamepad: { isConnected: false, axes: [], buttons: [] }
         };
     }
 
@@ -31,13 +38,30 @@ export class GameInputsBuilder {
         return this;
     }
 
-    public setGamepad(axes: number[], buttons: GamepadButton[]): GameInputsBuilder {
-        this.gameInputs.gamepad.isConnected = true;
-        this.gameInputs.gamepad.axes = axes;
+    private changeGamepadConnection(value: boolean) {
+        this.gameInputs.gamepad.isConnected = value;
+    }
+
+    public connectGamepad(): GameInputsBuilder {
+        this.changeGamepadConnection(true);
+        return this;
+    }
+
+    public disconnectGamepad(): GameInputsBuilder {
+        this.changeGamepadConnection(false);
+        return this;
+    }
+
+
+    public setGamepadButtons(buttons: IGamepadButtonWriteable[]): GameInputsBuilder {
         this.gameInputs.gamepad.buttons = buttons;
         return this;
     }
 
+    public setGamepadAxis(axes: number[]): GameInputsBuilder {
+        this.gameInputs.gamepad.axes = axes;
+        return this;
+    }
 
     public build(): IGame.IGameInput {
         return this.gameInputs;
