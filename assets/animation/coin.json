@@ -1,0 +1,119 @@
+{
+    "frames": {
+        "coin_animation_0.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_1.png": {
+            "frame": {
+                "x": 8,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_2.png": {
+            "frame": {
+                "x": 16,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_3.png": {
+            "frame": {
+                "x": 24,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_4.png": {
+            "frame": {
+                "x": 32,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_5.png": {
+            "frame": {
+                "x": 24,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_6.png": {
+            "frame": {
+                "x": 16,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        },
+        "coin_animation_7.png": {
+            "frame": {
+                "x": 8,
+                "y": 0,
+                "w": 8,
+                "h": 8
+            },
+            "sourceSize": {
+                "w": 8,
+                "h": 8
+            },
+            "rotated": false
+        }
+    },
+    "meta": {
+        "app": "ShipGame",
+        "version": "1.0",
+        "image": "coin.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 40,
+            "h": 8
+        },
+        "scale": "1"
+    }
+}
