@@ -109,7 +109,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     update(timeDelta: number, context: IGame.IGameContext) {
         const playerActions = PlayerActionManager.update(context);
         this.calculateShipVelocity(playerActions);
-        this.scale(playerActions, timeDelta, context);
+        this.scaleAction(playerActions, timeDelta, context);
 
         this.velocity.x *= (1 - this.friction.x);
         this.velocity.y *= (1 - this.friction.y);
@@ -121,9 +121,9 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
 
-
+        const self = this;
         context.objects.borders.forEach(gameObject => {
-            if (this === gameObject) {
+            if (self === gameObject) {
                 return;
             }
 
@@ -133,16 +133,18 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             if (collisionData.isColliding && collisionData.name === 'GameBorder') {
 
                 if (collisionData.direction === CollisionDirection.Up) {
-                    deltaY = -Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - this.boundingBoxAll.y);
+                    deltaY = -Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - self.boundingBoxAll.y);
                 }
                 if (collisionData.direction === CollisionDirection.Down) {
-                    deltaY = Math.abs((collisionData.collisionBox.y) - (this.boundingBoxAll.y + this.boundingBoxAll.height));
+                    deltaY = Math.abs((collisionData.collisionBox.y) - (self.boundingBoxAll.y + self.boundingBoxAll.height));
                 }
                 if (collisionData.direction === CollisionDirection.Left) {
-                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - this.boundingBoxAll.x) * -1;
+                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - self.boundingBoxAll.x) * -1;
+                    console.log('cd left');
                 }
                 if (collisionData.direction === CollisionDirection.Right) {
-                    deltaX = Math.abs((collisionData.collisionBox.x) - (this.boundingBoxAll.x + this.boundingBoxAll.width));
+                    deltaX = Math.abs((collisionData.collisionBox.x) - (self.boundingBoxAll.x + self.boundingBoxAll.width));
+                    console.log('cd right');
                 }
             }
         });
@@ -200,26 +202,23 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             );
         }
     }
-    private scale(playerActions: IGame.IPlayerActionData[], timeDelta: number, context: IGame.IGameContext) {
+    private scaleAction(playerActions: IGame.IPlayerActionData[], timeDelta: number, context: IGame.IGameContext) {
 
-        const scaleFunc = (scaleFactor: number, baseBox: BoundingBox, scaleValue: number, updateThis: BoundingBox): BoundingBox => {
+        const scaleFunc = (scaleFactor: number, baseBox: BoundingBox, scaleValue: number): BoundingBox => {
             const ratioWidth = (baseBox.width < baseBox.height) ? baseBox.width / baseBox.height : 1;
             const ratioHeight = (baseBox.height < baseBox.width) ? baseBox.height / baseBox.width : 1;
 
-            const newWidth = baseBox.width + scaleFactor * timeDelta * scaleValue * ratioWidth;
-            const newHeight = baseBox.height + scaleFactor * timeDelta * scaleValue * ratioHeight;
+            const newSize: Dimension = {
+                width: baseBox.width + scaleFactor * timeDelta * scaleValue * ratioWidth,
+                height: baseBox.height + scaleFactor * timeDelta * scaleValue * ratioHeight
+            };
 
-            let newX = baseBox.x;
-            let newY = baseBox.y;
-            if (updateThis) {
-                newX = updateThis.x + (baseBox.width - newWidth) / 2;
-                newY = updateThis.y + (baseBox.height - newHeight) / 1.28125;
-                updateThis.x = newX;
-                updateThis.y = newY;
-                updateThis.width = newWidth;
-                updateThis.height = newHeight;
-            }
-            return new BoundingBox(new PIXI.Rectangle(newX, newY, newWidth, newHeight));
+            const newPosition: Axis<number> = {
+                x: Math.max(0, baseBox.x + (baseBox.width - newSize.width) / 2),
+                y:Math.max(0, baseBox.y + (baseBox.height - newSize.height) / 1.28125)
+            };
+
+            return new BoundingBox(new PIXI.Rectangle(newPosition.x, newPosition.y, newSize.width, newSize.height));
         };
 
         const getScaleFactor = (actionType: ScaleAction): number => {
@@ -229,25 +228,25 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             return -this.scaleFactor;
         };
 
-        const checkBounds = (actionType: ScaleAction, newSize: BoundingBox): boolean => {
+        const checkSizeBounds = (actionType: ScaleAction, newSize: BoundingBox): boolean => {
             if (actionType === PlayerActionType.ScaleUp) {
                 return (newSize.height < this.maxSize.height || newSize.width < this.maxSize.width);
             }
             return (newSize.height > this.minSize.height || newSize.width > this.minSize.width);
         };
-
+        const self = this;
         [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: ScaleAction) => {
             const scale: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', actionType));
             if (scale) {
                 const scaleFactor = getScaleFactor(actionType);
-                const newSize = scaleFunc(scaleFactor, this.boundingBoxAll, scale.value, undefined);
+                const newSize = scaleFunc(scaleFactor, this.boundingBoxAll, scale.value);
                 const isColliding = context.objects.borders
                     .map(border => border.collideWith(newSize))
                     .filter(cd => cd.isColliding)
                     .length > 0;
-                if (!isColliding && checkBounds(actionType, newSize)) {
+                if (!isColliding && checkSizeBounds(actionType, newSize)) {
                     [this.boundingBoxAll, this.boundingBox, this.boundingBoxWings].forEach(box => {
-                        scaleFunc(scaleFactor, box, scale.value, box);
+                        box.update(scaleFunc(scaleFactor, box, scale.value));
                     });
                 }
             }
