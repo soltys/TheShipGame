@@ -1,0 +1,44 @@
+{
+    "compilerOptions": {
+        "skipLibCheck": true,
+        "target": "es5",
+        "module": "commonjs",
+        "jsx": "react",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "baseUrl": "src",
+        "paths": {
+            "@core/*": [
+                "core/*"
+            ],
+            "@base/*":[
+                "base/*"
+            ],
+            "@IGame":[
+                "IGame.ts"
+            ]
+        },
+
+        "noUnusedLocals": true,
+        "inlineSources": true,
+        "noImplicitReturns": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitThis":true,
+        //"noImplicitAny":true,
+        //"strict":true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true,
+        "useWebpackText": true,
+        "useCache": true,
+        "useBabel": true
+    },
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
+}
