@@ -10,7 +10,8 @@ import { PlayerActionType } from '@base/PlayerActionType';
 import Timer from './Timer';
 import { PlayerActionManager } from './PlayerActionManager';
 
-type Scale = PlayerActionType.ScaleUp | PlayerActionType.ScaleDown;
+type ScaleAction = PlayerActionType.ScaleUp | PlayerActionType.ScaleDown;
+
 type Axis<TValue> = { x: TValue, y: TValue };
 type Dimension = { width: number, height: number };
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
@@ -221,21 +222,21 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             return new BoundingBox(new PIXI.Rectangle(newX, newY, newWidth, newHeight));
         };
 
-        const getScaleFactor = (actionType: Scale): number => {
+        const getScaleFactor = (actionType: ScaleAction): number => {
             if (actionType === PlayerActionType.ScaleUp) {
                 return this.scaleFactor;
             }
             return -this.scaleFactor;
         };
 
-        const checkBounds = (actionType: Scale, newSize: BoundingBox): boolean => {
+        const checkBounds = (actionType: ScaleAction, newSize: BoundingBox): boolean => {
             if (actionType === PlayerActionType.ScaleUp) {
                 return (newSize.height < this.maxSize.height || newSize.width < this.maxSize.width);
             }
             return (newSize.height > this.minSize.height || newSize.width > this.minSize.width);
         };
 
-        [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: Scale) => {
+        [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: ScaleAction) => {
             const scale: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', actionType));
             if (scale) {
                 const scaleFactor = getScaleFactor(actionType);
