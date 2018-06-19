@@ -209,35 +209,36 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             return new BoundingBox(new PIXI.Rectangle(newX, newY, newWidth, newHeight));
         };
 
-        const scaleUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.ScaleUp));
-        if (scaleUp) {
-            const newSize = scaleFunc(this.scaleFactor, this.boundingBoxAll, scaleUp.value, undefined);
-            const isColliding = context.objects.borders
-                .map(border => border.collideWith(newSize))
-                .filter(cd => cd.isColliding)
-                .length > 0;
-
-
-            if (!isColliding && (newSize.height < this.maxHeight || newSize.width < this.maxWidth)) {
-                scaleFunc(this.scaleFactor, this.boundingBoxAll, scaleUp.value, this.boundingBoxAll);
-                scaleFunc(this.scaleFactor, this.boundingBox, scaleUp.value, this.boundingBox);
-                scaleFunc(this.scaleFactor, this.boundingBoxWings, scaleUp.value, this.boundingBoxWings);
+        const getScaleFactor = (actionType: PlayerActionType.ScaleUp | PlayerActionType.ScaleDown): number => {
+            if (actionType === PlayerActionType.ScaleUp) {
+                return this.scaleFactor;
             }
-        }
-        const scaleDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.ScaleDown));
-        if (scaleDown) {
-            const newSize = scaleFunc(-this.scaleFactor, this.boundingBoxAll, scaleDown.value, undefined);
-            const isColliding = context.objects.borders
-                .map(border => border.collideWith(newSize))
-                .filter(cd => cd.isColliding)
-                .length > 0;
-            if (!isColliding && (newSize.height > this.minHeight || newSize.width > this.minWidth)) {
+            return -this.scaleFactor;
+        };
 
-                scaleFunc(-this.scaleFactor, this.boundingBoxAll, scaleDown.value, this.boundingBoxAll);
-                scaleFunc(-this.scaleFactor, this.boundingBox, scaleDown.value, this.boundingBox);
-                scaleFunc(-this.scaleFactor, this.boundingBoxWings, scaleDown.value, this.boundingBoxWings);
+        const checkBounds = (actionType: PlayerActionType.ScaleUp | PlayerActionType.ScaleDown, newSize: BoundingBox): boolean => {
+            if (actionType === PlayerActionType.ScaleUp) {
+                return (newSize.height < this.maxHeight || newSize.width < this.maxWidth);
             }
-        }
+            return (newSize.height > this.minHeight || newSize.width > this.minWidth);
+        };
+
+        [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: PlayerActionType.ScaleUp | PlayerActionType.ScaleDown) => {
+            const scale: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', actionType));
+            if (scale) {
+                const scaleFactor = getScaleFactor(actionType);
+                const newSize = scaleFunc(scaleFactor, this.boundingBoxAll, scale.value, undefined);
+                const isColliding = context.objects.borders
+                    .map(border => border.collideWith(newSize))
+                    .filter(cd => cd.isColliding)
+                    .length > 0;
+                if (!isColliding && checkBounds(actionType, newSize)) {
+                    scaleFunc(scaleFactor, this.boundingBoxAll, scale.value, this.boundingBoxAll);
+                    scaleFunc(scaleFactor, this.boundingBox, scale.value, this.boundingBox);
+                    scaleFunc(scaleFactor, this.boundingBoxWings, scale.value, this.boundingBoxWings);
+                }
+            }
+        });
     }
 
     get displayObjects() {

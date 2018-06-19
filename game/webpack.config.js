@@ -11,7 +11,7 @@ var webpackConfigShared = require('./webpack.config.shared');
 function getAppSettings(env) {
     const app = [];
     if (!env.production) {
-        app.push('webpack-dev-server/client?http://localhost:8080/');
+        app.push('webpack-dev-server/client?http://localhost:9000/');
     }
     app.push('./src/app.tsx');
     return app;
@@ -19,6 +19,10 @@ function getAppSettings(env) {
 
 module.exports = function (env) {
     return {
+        devServer:{
+            port: 9000
+        },
+        mode: 'development',
         entry: {
             app: getAppSettings(env)
         },
@@ -28,7 +32,7 @@ module.exports = function (env) {
             publicPath: 'build/'
         },
         resolve: webpackConfigShared.resolve(),
-        devtool: 'source-map',
+        devtool: 'eval-source-map',
         module: {
             rules: [
                 {
