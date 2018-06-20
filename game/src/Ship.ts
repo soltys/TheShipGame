@@ -17,13 +17,13 @@ type Dimension = { width: number, height: number };
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 
     private shipSprite: PIXI.Sprite;
-    private normalShipTexture: PIXI.Texture;
-    private leftShipTexture: PIXI.Texture;
-    private rightShipTexture: PIXI.Texture;
+    private readonly normalShipTexture: PIXI.Texture;
+    private readonly leftShipTexture: PIXI.Texture;
+    private readonly rightShipTexture: PIXI.Texture;
 
-    private boundingBox: BoundingBox;
-    private boundingBoxWings: BoundingBox;
-    private boundingBoxAll: BoundingBox;
+    private coreShipHitBox: BoundingBox;
+    private windsHitBox: BoundingBox;
+    private fullShipBox: BoundingBox;
 
     private scaleFactor = 2;
 
@@ -42,7 +42,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private readonly minSizeValue = 20;
     private readonly minSize: Dimension = { width: this.minSizeValue, height: this.minSizeValue };
 
-    private readonly maxSizeValue = 100;
+    private readonly maxSizeValue = 200;
     private readonly maxSize: Dimension = { width: this.maxSizeValue, height: this.maxSizeValue };
 
     private graphics: PIXI.Graphics;
@@ -55,19 +55,28 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.leftShipTexture = textureToLeft;
         this.rightShipTexture = textureToRight;
 
-        this.shipSprite.position.set(200, 150);
-        this.boundingBoxAll = new BoundingBox(new PIXI.Rectangle(
-            200, 150, 64, 64
+        const startPosition: Axis<number> = {
+            x: 200, y: 150
+        };
+
+        const shipSize: Dimension = {
+            width: 64,
+            height: 64
+        };
+
+        this.shipSprite.position.set(startPosition.x, startPosition.y);
+        this.fullShipBox = new BoundingBox(new PIXI.Rectangle(
+            startPosition.x, startPosition.y, shipSize.width, shipSize.height
         ));
 
-        this.boundingBox = new BoundingBox(new PIXI.Rectangle(
-            225, 150, 14, 60
+        this.coreShipHitBox = new BoundingBox(new PIXI.Rectangle(
+            startPosition.x + 25, startPosition.y, 14, 60
         ));
 
-        this.boundingBoxWings = new BoundingBox(new PIXI.Rectangle(
-            200, 185, 64, 18
+        this.windsHitBox = new BoundingBox(new PIXI.Rectangle(
+            startPosition.x, startPosition.y + 35, 64, 18
         ));
-        this.boundingBoxAll.linkSprite(this.shipSprite);
+        this.fullShipBox.linkSprite(this.shipSprite);
 
     }
 
@@ -80,27 +89,27 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         context.objects.ship = this;
 
         context.timerService.add(Timer.create(100, () => {
-            context.game.addObject(Bullet.create(this.boundingBoxAll.x + (this.boundingBoxAll.width / 2), this.boundingBoxAll.y));
+            context.game.addObject(Bullet.create(this.fullShipBox.x + (this.fullShipBox.width / 2), this.fullShipBox.y));
         }));
 
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
-        const data = super.checkCollision(this.boundingBox, boundingBox);
-        const dataWings = super.checkCollision(this.boundingBoxWings, boundingBox);
+        const data = super.checkCollision(this.coreShipHitBox, boundingBox);
+        const dataWings = super.checkCollision(this.windsHitBox, boundingBox);
         if (data.isColliding) {
             return {
                 name: 'Ship',
                 isColliding: data.isColliding,
                 direction: data.direction,
-                collisionBox: this.boundingBox
+                collisionBox: this.coreShipHitBox
             };
         } else {
             return {
                 name: 'Ship',
                 isColliding: dataWings.isColliding,
                 direction: dataWings.direction,
-                collisionBox: this.boundingBoxWings
+                collisionBox: this.windsHitBox
             };
         }
 
@@ -117,7 +126,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         let deltaX = this.velocity.x * timeDelta;
         let deltaY = this.velocity.y * timeDelta;
 
-        const tempBoundingBox = this.boundingBoxAll.clone();
+        const tempBoundingBox = this.fullShipBox.clone();
         tempBoundingBox.x += deltaX;
         tempBoundingBox.y += deltaY;
 
@@ -133,26 +142,26 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             if (collisionData.isColliding && collisionData.name === 'GameBorder') {
 
                 if (collisionData.direction === CollisionDirection.Up) {
-                    deltaY = -Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - self.boundingBoxAll.y);
+                    deltaY = -Math.abs(collisionData.collisionBox.y + collisionData.collisionBox.height - self.fullShipBox.y);
                 }
                 if (collisionData.direction === CollisionDirection.Down) {
-                    deltaY = Math.abs((collisionData.collisionBox.y) - (self.boundingBoxAll.y + self.boundingBoxAll.height));
+                    deltaY = Math.abs((collisionData.collisionBox.y) - (self.fullShipBox.y + self.fullShipBox.height));
                 }
                 if (collisionData.direction === CollisionDirection.Left) {
-                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - self.boundingBoxAll.x) * -1;
+                    deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - self.fullShipBox.x) * -1;
                 }
                 if (collisionData.direction === CollisionDirection.Right) {
-                    deltaX = Math.abs((collisionData.collisionBox.x) - (self.boundingBoxAll.x + self.boundingBoxAll.width));
+                    deltaX = Math.abs((collisionData.collisionBox.x) - (self.fullShipBox.x + self.fullShipBox.width));
                 }
             }
         });
 
-        this.boundingBox.x += deltaX;
-        this.boundingBox.y += deltaY;
-        this.boundingBoxWings.x += deltaX;
-        this.boundingBoxWings.y += deltaY;
-        this.boundingBoxAll.x += deltaX;
-        this.boundingBoxAll.y += deltaY;
+        this.coreShipHitBox.x += deltaX;
+        this.coreShipHitBox.y += deltaY;
+        this.windsHitBox.x += deltaX;
+        this.windsHitBox.y += deltaY;
+        this.fullShipBox.x += deltaX;
+        this.fullShipBox.y += deltaY;
 
         const drawBoundingBox = (box: BoundingBox, color: number) => {
             this.graphics.beginFill(color);
@@ -161,9 +170,9 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         };
         this.graphics.clear();
 
-        drawBoundingBox(this.boundingBoxAll, 0x0000ff);
-        drawBoundingBox(this.boundingBoxWings, 0xff0000);
-        drawBoundingBox(this.boundingBox, 0x00ff00);
+        drawBoundingBox(this.fullShipBox, 0x0000ff);
+        drawBoundingBox(this.windsHitBox, 0xff0000);
+        drawBoundingBox(this.coreShipHitBox, 0x00ff00);
     }
 
     private calculateShipVelocity(playerActions: IGame.IPlayerActionData[]) {
@@ -237,13 +246,13 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             const scale: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', actionType));
             if (scale) {
                 const scaleFactor = getScaleFactor(actionType);
-                const newSize = scaleFunc(scaleFactor, this.boundingBoxAll, scale.value);
+                const newSize = scaleFunc(scaleFactor, this.fullShipBox, scale.value);
                 const isColliding = context.objects.borders
                     .map(border => border.collideWith(newSize))
                     .filter(cd => cd.isColliding)
                     .length > 0;
                 if (!isColliding && checkSizeBounds(actionType, newSize)) {
-                    [this.boundingBoxAll, this.boundingBox, this.boundingBoxWings].forEach(box => {
+                    [this.fullShipBox, this.coreShipHitBox, this.windsHitBox].forEach(box => {
                         box.update(scaleFunc(scaleFactor, box, scale.value));
                     });
                 }
