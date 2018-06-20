@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
 import BoundingBox from './BoundingBox';
@@ -14,6 +13,11 @@ type ScaleAction = PlayerActionType.ScaleUp | PlayerActionType.ScaleDown;
 
 type Axis<TValue> = { x: TValue, y: TValue };
 type Dimension = { width: number, height: number };
+
+interface PlayerActionResponse {
+    [actionType: number]: (value: number) => void;
+}
+
 export default class Ship extends GameObject implements IGame.IGameDisplayObject, IGame.IShip {
 
     private shipSprite: PIXI.Sprite;
@@ -46,6 +50,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private readonly maxSize: Dimension = { width: this.maxSizeValue, height: this.maxSizeValue };
 
     private graphics: PIXI.Graphics;
+
+    private playerResponse: PlayerActionResponse;
     constructor(texture: PIXI.Texture, textureToLeft: PIXI.Texture, textureToRight: PIXI.Texture) {
         super();
         this.shipSprite = new PIXI.Sprite(texture);
@@ -92,6 +98,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             context.game.addObject(Bullet.create(this.fullShipBox.x + (this.fullShipBox.width / 2), this.fullShipBox.y));
         }));
 
+        this.playerResponse = this.getResponsesForPlayerActions(context);
     }
 
     collideWith(boundingBox: BoundingBox): IGame.ICollisionData {
@@ -116,9 +123,13 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     }
 
     update(timeDelta: number, context: IGame.IGameContext) {
+        this.shipSprite.texture = this.normalShipTexture;
         const playerActions = PlayerActionManager.update(context);
-        this.calculateShipVelocity(playerActions);
-        this.scaleAction(playerActions, timeDelta, context);
+        playerActions.forEach((playerAction) => {
+            if (this.playerResponse[playerAction.action]) {
+                this.playerResponse[playerAction.action](playerAction.value);
+            }
+        });
 
         this.velocity.x *= (1 - this.friction.x);
         this.velocity.y *= (1 - this.friction.y);
@@ -175,42 +186,39 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         drawBoundingBox(this.coreShipHitBox, 0x00ff00);
     }
 
-    private calculateShipVelocity(playerActions: IGame.IPlayerActionData[]) {
-        this.shipSprite.texture = this.normalShipTexture;
-        const moveLeft: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveLeft));
-        if (moveLeft) {
+    private getResponsesForPlayerActions(context: IGame.IGameContext): PlayerActionResponse {
+        const actionResponse: PlayerActionResponse = {};
+        actionResponse[PlayerActionType.MoveLeft] = (value) => {
             this.velocity.x = Math.max(
-                this.velocity.x - (this.acceleration.x * moveLeft.value),
+                this.velocity.x - (this.acceleration.x * value),
                 this.maxVelocity.x * -1
             );
             this.shipSprite.texture = this.leftShipTexture;
-        }
+        };
 
-        const moveRight: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveRight));
-        if (moveRight) {
+        actionResponse[PlayerActionType.MoveRight] = (value) => {
             this.velocity.x = Math.min(
-                this.velocity.x + (this.acceleration.x * moveRight.value),
+                this.velocity.x + (this.acceleration.x * value),
                 this.maxVelocity.x
             );
             this.shipSprite.texture = this.rightShipTexture;
-        }
-        const moveUp: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveUp));
-        if (moveUp) {
+        };
+
+        actionResponse[PlayerActionType.MoveUp] = (value) => {
             this.velocity.y = Math.max(
-                this.velocity.y - (this.acceleration.y * moveUp.value),
+                this.velocity.y - (this.acceleration.y * value),
                 this.maxVelocity.y * -1
             );
-        }
-        const moveDown: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', PlayerActionType.MoveDown));
-        if (moveDown) {
+        };
+
+        actionResponse[PlayerActionType.MoveDown] = (value) => {
             this.velocity.y = Math.min(
-                this.velocity.y + (this.acceleration.y * moveDown.value),
+                this.velocity.y + (this.acceleration.y * value),
                 this.maxVelocity.y
             );
-        }
-    }
-    private scaleAction(playerActions: IGame.IPlayerActionData[], timeDelta: number, context: IGame.IGameContext) {
+        };
 
+        const timeDelta = context.frameDeltaResolver();
         const scaleFunc = (scaleFactor: number, baseBox: BoundingBox, scaleValue: number): BoundingBox => {
             const ratioWidth = (baseBox.width < baseBox.height) ? baseBox.width / baseBox.height : 1;
             const ratioHeight = (baseBox.height < baseBox.width) ? baseBox.height / baseBox.width : 1;
@@ -242,22 +250,24 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             return (newSize.height > this.minSize.height || newSize.width > this.minSize.width);
         };
 
+
         [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: ScaleAction) => {
-            const scale: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', actionType));
-            if (scale) {
+            actionResponse[actionType] = (value) => {
                 const scaleFactor = getScaleFactor(actionType);
-                const newSize = scaleFunc(scaleFactor, this.fullShipBox, scale.value);
+                const newSize = scaleFunc(scaleFactor, this.fullShipBox, value);
                 const isColliding = context.objects.borders
                     .map(border => border.collideWith(newSize))
                     .filter(cd => cd.isColliding)
                     .length > 0;
                 if (!isColliding && checkSizeBounds(actionType, newSize)) {
                     [this.fullShipBox, this.coreShipHitBox, this.windsHitBox].forEach(box => {
-                        box.update(scaleFunc(scaleFactor, box, scale.value));
+                        box.update(scaleFunc(scaleFactor, box, value));
                     });
                 }
-            }
+            };
         });
+
+        return actionResponse;
     }
 
     get displayObjects() {

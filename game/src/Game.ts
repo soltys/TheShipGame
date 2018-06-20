@@ -77,7 +77,8 @@ export default class Game implements IGame.IHost {
             },
             state: new InitState(),
             game: this,
-            timerService: this.timerService
+            timerService: this.timerService,
+            frameDeltaResolver: () => { return 1; }
         };
     }
 
@@ -159,13 +160,17 @@ export default class Game implements IGame.IHost {
             this.isAnimationOn = true;
             return;
         }
+        let lagOffset = 1;
+        this.context.frameDeltaResolver = () => {
+            return lagOffset;
+        };
 
         const caller = (nowTime: number) => {
             this.requestAnimationFrameId = requestAnimationFrame(caller);
             this.stats.measureFrame(() => {
                 const elapsed = (nowTime - start).limit(0, 1000);
                 start = nowTime;
-                const lagOffset = elapsed * fps / 1000;
+                lagOffset = elapsed * fps / 1000;
 
                 this.gamepads = navigator.getGamepads() || [];
                 if (this.gamepads.length > 0) {
