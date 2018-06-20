@@ -1,4 +1,4 @@
-import '@core/NumberExtension';
+import '@core/NumberExtensions';
 
 describe('NumberExtension', () => {
     describe('limit', () => {

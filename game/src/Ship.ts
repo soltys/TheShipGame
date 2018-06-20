@@ -140,11 +140,9 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
                 }
                 if (collisionData.direction === CollisionDirection.Left) {
                     deltaX = Math.abs((collisionData.collisionBox.x + collisionData.collisionBox.width) - self.boundingBoxAll.x) * -1;
-                    console.log('cd left');
                 }
                 if (collisionData.direction === CollisionDirection.Right) {
                     deltaX = Math.abs((collisionData.collisionBox.x) - (self.boundingBoxAll.x + self.boundingBoxAll.width));
-                    console.log('cd right');
                 }
             }
         });
@@ -215,7 +213,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
 
             const newPosition: Axis<number> = {
                 x: Math.max(0, baseBox.x + (baseBox.width - newSize.width) / 2),
-                y:Math.max(0, baseBox.y + (baseBox.height - newSize.height) / 1.28125)
+                y: Math.max(0, baseBox.y + (baseBox.height - newSize.height) / 1.28125)
             };
 
             return new BoundingBox(new PIXI.Rectangle(newPosition.x, newPosition.y, newSize.width, newSize.height));
@@ -234,7 +232,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             }
             return (newSize.height > this.minSize.height || newSize.width > this.minSize.width);
         };
-        const self = this;
+
         [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: ScaleAction) => {
             const scale: IGame.IPlayerActionData = _.find(playerActions, _.matchesProperty('action', actionType));
             if (scale) {
