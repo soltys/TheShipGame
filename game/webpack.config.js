@@ -8,6 +8,10 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 var webpackConfigShared = require('./webpack.config.shared');
 
+/**
+ *
+ * @param {object} env
+ */
 function getAppSettings(env) {
     const app = [];
     if (!env.production) {
@@ -16,13 +20,15 @@ function getAppSettings(env) {
     app.push('./src/app.tsx');
     return app;
 }
-
-module.exports = function (env) {
+/**
+ * @returns {webpack.Configuration}
+ * @param {object} env
+ */
+function getWebpackConfig(env) {
     return {
-        devServer:{
+        devServer: {
             port: 9000
         },
-        mode: 'development',
         entry: {
             app: getAppSettings(env)
         },
@@ -87,4 +93,8 @@ module.exports = function (env) {
             "pixi.js": "PIXI"
         },
     }
-}
+};
+
+module.exports = function (env) {
+    return getWebpackConfig(env);
+};
