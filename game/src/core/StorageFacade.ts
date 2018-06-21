@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as Utils from '@core/Utils';
 import IStorage from '@core/IStorage';
 export default class StorageFacade implements IStorage {
     private storage: Storage;
@@ -16,12 +16,12 @@ export default class StorageFacade implements IStorage {
 
     get(key: string): {} {
         const storageValue = this.storage.getItem(key);
-        if (_.isEmpty(storageValue)) {
+        if (Utils.isEmpty(storageValue)) {
             return undefined;
         } else {
             try {
                 const jsonValue = JSON.parse(storageValue);
-                if (_.isNull(jsonValue)) {
+                if (jsonValue === null) {
                     return undefined;
                 }
                 return jsonValue;

@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
 import LinearConverter from './LinearConverter';
@@ -32,12 +31,12 @@ export class PlayerActionManager {
         if (!context.inputs) {
             return [];
         }
-        const inputs = _.cloneDeep(context.inputs);
+        const inputs: Readonly<IGame.IGameInput> = context.inputs;
 
-        if (inputs.touches && inputs.touches.length > 0) {
-            inputs.mouse = inputs.touches[0];
-            inputs.clicks[MouseButtons.LEFT_BUTTON] = inputs.touches[0];
-        }
+        // if (inputs.touches && inputs.touches.length > 0) {
+        //     inputs.mouse = inputs.touches[0];
+        //     inputs.clicks[MouseButtons.LEFT_BUTTON] = inputs.touches[0];
+        // }
 
         this.shouldMoveUp(inputs, playerActions);
         this.shouldMoveDown(inputs, playerActions);
@@ -71,14 +70,14 @@ export class PlayerActionManager {
     private static diagonalSpeedFix(data: IGame.IPlayerActionData[], diagonalPairs: [PA, PA][]): void {
         const speedFix = 0.707;
         diagonalPairs.forEach(pair => {
-            const data1 = _.find(data, ['action', pair[0]]);
-            const data2 = _.find(data, ['action', pair[1]]);
-            if (data1 && data2) {
-                if (data1.value === 1 && data2.value === 1) {
-                    data1.value = speedFix;
-                    data2.value = speedFix;
-                }
-            }
+            data.filter(x => x.action === pair[0]).forEach(data1 => {
+                data.filter(x => x.action === pair[1]).forEach(data2 => {
+                    if (data1.value === 1 && data2.value === 1) {
+                        data1.value = speedFix;
+                        data2.value = speedFix;
+                    }
+                });
+            });
         });
 
     }
@@ -317,5 +316,4 @@ export class PlayerActionManager {
             });
         }
     }
-
 }
