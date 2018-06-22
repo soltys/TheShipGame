@@ -16,7 +16,8 @@ export class GameContextBuilder {
             },
             game: undefined,
             state: undefined,
-            timerService: undefined
+            timerService: undefined,
+            frameDeltaResolver: undefined
         };
     }
 

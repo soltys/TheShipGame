@@ -109,6 +109,13 @@ class BoundingBox implements IGame.IBoundingBox {
     clone(): BoundingBox {
         return new BoundingBox(this.rectangle.clone());
     }
+
+    update(box: BoundingBox): void {
+        this.x = box.x;
+        this.y = box.y;
+        this.width = box.width;
+        this.height = box.height;
+    }
 }
 
 export default BoundingBox;

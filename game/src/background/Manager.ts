@@ -1,9 +1,8 @@
-import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';
 import { DisplayLayer } from '@core/DisplayLayer';
-
+import * as Utils from '@core/Utils';
 
 /**
  * Game Size
@@ -58,23 +57,23 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
             g.endFill();
             line.currentOffset += 1 * delta;
         }
-        const minLine = _.minBy(this.lines, (line) => { return line.currentOffset; });
 
-        if (minLine.currentOffset >= 0) {
+        const linesNotOnScreen = this.lines.filter(x => x.currentOffset < 0).length;
+        if (linesNotOnScreen === 0) {
             this.lines.push({
                 color: this.getRandomColor(),
                 currentOffset: -64
             });
         }
-        _.remove(this.lines, (line) => { return line.currentOffset > state.game.height; });
+        this.lines = this.lines.filter(line => line.currentOffset < state.game.height);
     }
 
     getRandomColor(): number {
         const max = 255;
         const brightness = 45;
-        const red = Math.min((brightness + _.random(0, 10, false)), max) * 0x010000;
-        const green = Math.min((brightness + _.random(10, 30, false)), max) * 0x000100;
-        const blue = Math.min((brightness + _.random(0, 10, false)), max) * 0x000001;
+        const red = Math.min((brightness + Utils.random(0, 10)), max) * 0x010000;
+        const green = Math.min((brightness + Utils.random(10, 30)), max) * 0x000100;
+        const blue = Math.min((brightness + Utils.random(0, 10)), max) * 0x000001;
 
         return red + green + blue;
     }

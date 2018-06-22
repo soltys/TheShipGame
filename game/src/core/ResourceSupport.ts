@@ -56,7 +56,9 @@ export function createAnimation(name: AnimationResource, frameNumber: number): P
 type Sides = 'left' | 'right';
 type TopOrBottom = 'top' | 'bottom';
 export function getTexture(res: Resource): PIXI.Texture {
-    return PIXI.Texture.fromImage(Resources[res], undefined, PIXI.SCALE_MODES.NEAREST);
+    const tex =  PIXI.Texture.fromImage(Resources[res], false, PIXI.SCALE_MODES.LINEAR);
+    tex.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    return tex;
 }
 
 export function getCornerTexture(leftOrRight: Sides, topOrBottom: TopOrBottom): PIXI.Texture {

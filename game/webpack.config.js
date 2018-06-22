@@ -8,17 +8,27 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 var webpackConfigShared = require('./webpack.config.shared');
 
+/**
+ *
+ * @param {object} env
+ */
 function getAppSettings(env) {
     const app = [];
     if (!env.production) {
-        app.push('webpack-dev-server/client?http://localhost:8080/');
+        app.push('webpack-dev-server/client?http://localhost:9000/');
     }
     app.push('./src/app.tsx');
     return app;
 }
-
-module.exports = function (env) {
+/**
+ * @returns {webpack.Configuration}
+ * @param {object} env
+ */
+function getWebpackConfig(env) {
     return {
+        devServer: {
+            port: 9000
+        },
         entry: {
             app: getAppSettings(env)
         },
@@ -28,7 +38,7 @@ module.exports = function (env) {
             publicPath: 'build/'
         },
         resolve: webpackConfigShared.resolve(),
-        devtool: 'source-map',
+        devtool: 'eval-source-map',
         module: {
             rules: [
                 {
@@ -83,4 +93,8 @@ module.exports = function (env) {
             "pixi.js": "PIXI"
         },
     }
-}
+};
+
+module.exports = function (env) {
+    return getWebpackConfig(env);
+};

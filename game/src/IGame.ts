@@ -63,6 +63,7 @@ export interface IGameContext {
     game: IHost;
     state: IGameState;
     timerService: ITimerService;
+    frameDeltaResolver: () => number;
 }
 export interface IGameInput {
     keys: { [index: number]: boolean };
