@@ -22,7 +22,7 @@ export default class Game implements IGame.IHost {
     public readonly config: GameConfig;
     private scale = 1;
     private stats: Stats;
-    private requestAnimationFrameId: number;
+    private requestAnimationFrameId: number | undefined;
     private isAnimationOn: boolean;
     private timerService: TimerService;
     //private gameloop: GameLoop;
@@ -145,7 +145,9 @@ export default class Game implements IGame.IHost {
 
     public pause() {
         this.isAnimationOn = false;
-        cancelAnimationFrame(this.requestAnimationFrameId);
+        if (this.requestAnimationFrameId !== undefined) {
+            cancelAnimationFrame(this.requestAnimationFrameId);
+        }
         if (!this.context.objects.pauseOverlay) {
             this.addObject(new PauseOverlay(this.width, this.height, 'Pause'));
         }
@@ -176,7 +178,13 @@ export default class Game implements IGame.IHost {
                 start = nowTime;
                 lagOffset = elapsed * fps / 1000;
 
-                this.gamepads = navigator.getGamepads() || [];
+                const gamepads = navigator.getGamepads();
+                if (gamepads === null) {
+                    this.gamepads = [];
+                } else {
+                    this.gamepads = <Gamepad[]>gamepads.filter(x => x !== null);
+                }
+
                 if (this.gamepads.length > 0) {
                     this.updateGamepadInputs();
                 }

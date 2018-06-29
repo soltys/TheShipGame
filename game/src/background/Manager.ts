@@ -19,6 +19,8 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
     constructor() {
         super();
         this.lines = [];
+        this.graphics = new PIXI.Graphics();
+        this.offsetVertical = 0;
     }
 
     collideWith(boundingBox: IGame.IBoundingBox): IGame.ICollisionData {
@@ -34,9 +36,6 @@ export default class Manager extends GameObject implements IGame.IGameDisplayObj
     }
 
     init(state: IGame.IGameContext): void {
-        this.graphics = new PIXI.Graphics();
-        this.offsetVertical = 0;
-
         for (let line = this.offsetVertical; line < state.game.height; line += 64) {
             this.lines.push({
                 color: this.getRandomColor(),

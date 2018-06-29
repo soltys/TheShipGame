@@ -9,7 +9,7 @@ export default class TimerService {
         this._timerList = [];
     }
 
-    public add(timer: IGame.ITimer) {
+    public add(timer: IGame.ITimer): void {
         this._timerList.push(timer);
     }
 

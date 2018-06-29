@@ -50,8 +50,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     private readonly maxSize: Dimension = { width: this.maxSizeValue, height: this.maxSizeValue };
 
     private graphics: PIXI.Graphics;
-
-    private playerResponse: PlayerActionResponse;
+    private playerResponse: PlayerActionResponse | undefined;
     constructor(texture: PIXI.Texture, textureToLeft: PIXI.Texture, textureToRight: PIXI.Texture) {
         super();
         this.shipSprite = new PIXI.Sprite(texture);
@@ -83,7 +82,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
             startPosition.x, startPosition.y + 35, 64, 18
         ));
         this.fullShipBox.linkSprite(this.shipSprite);
-
+        this.graphics = new PIXI.Graphics();
     }
 
     get position() {
@@ -91,7 +90,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
     }
 
     init(context: IGame.IGameContext): void {
-        this.graphics = new PIXI.Graphics();
+
         context.objects.ship = this;
 
         context.timerService.add(Timer.create(100, () => {
@@ -126,7 +125,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.shipSprite.texture = this.normalShipTexture;
         const playerActions = PlayerActionManager.update(context);
         playerActions.forEach((playerAction) => {
-            if (this.playerResponse[playerAction.action]) {
+            if (this.playerResponse && this.playerResponse[playerAction.action]) {
                 this.playerResponse[playerAction.action](playerAction.value);
             }
         });
@@ -251,7 +250,8 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         };
 
 
-        [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown].forEach((actionType: ScaleAction) => {
+        const scaleActions: ScaleAction[] = [PlayerActionType.ScaleUp, PlayerActionType.ScaleDown];
+        scaleActions.forEach((actionType: ScaleAction) => {
             actionResponse[actionType] = (value) => {
                 const scaleFactor = getScaleFactor(actionType);
                 const newSize = scaleFunc(scaleFactor, this.fullShipBox, value);

@@ -138,7 +138,7 @@ export interface ITimerService {
      *
      * @memberOf ITimerService
      */
-    add(timer: ITimer);
+    add(timer: ITimer): void;
 }
 export interface ITimer {
     /**
@@ -156,7 +156,7 @@ export interface ITimer {
      *
      * @memberOf ITimer
      */
-    triggerAction(currentTime: number);
+    triggerAction(currentTime: number): void;
 }
 
 export interface IConfigUpdatedEvent {

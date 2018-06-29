@@ -15,7 +15,7 @@ export default class Timer implements IGame.ITimer {
         return this._nextFireTime;
     }
 
-    public triggerAction(currentTime: number) {
+    public triggerAction(currentTime: number): void {
         this._nextFireTime = currentTime + this.delay;
         this.action();
     }

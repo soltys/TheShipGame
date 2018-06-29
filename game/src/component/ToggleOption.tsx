@@ -13,7 +13,7 @@ export class ToggleOption extends React.Component<ToggleProps, ToggleState> {
     /**
      *
      */
-    constructor(props) {
+    constructor(props: ToggleProps) {
         super(props);
         this.state = {
             checked: false
@@ -33,22 +33,21 @@ export class ToggleOption extends React.Component<ToggleProps, ToggleState> {
         });
     }
 
-    handleInputChange(event) {
+    handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
         this.setState({
-            ['checked']: value
+            ['checked']: target.checked
         }, () => {
-            this.props.onChange(value);
+            this.props.onChange(target.checked);
         });
     }
 
     render() {
         return (
             <div>
-                <input className="tgl tgl-ios" id={ this.props.id } type="checkbox" checked={ this.state.checked } onChange={ (event) => this.handleInputChange(event) } />
-                <label className="tgl-btn" htmlFor={ this.props.id }></label>
-                { this.props.label }
+                <input className="tgl tgl-ios" id={this.props.id} type="checkbox" checked={this.state.checked} onChange={(event) => this.handleInputChange(event)} />
+                <label className="tgl-btn" htmlFor={this.props.id}></label>
+                {this.props.label}
             </div>
         );
     }
