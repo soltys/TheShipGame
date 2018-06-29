@@ -2,7 +2,7 @@ import * as IGame from '@IGame';
 import GameConfig from './GameConfig';
 export interface IPanel {
     dom: HTMLCanvasElement;
-    update(value: any, maxValue: any);
+    update(value: number, maxValue: number): void;
 }
 export default class Stats {
     /**
@@ -15,7 +15,7 @@ export default class Stats {
     private frames: number;
     private fpsPanel: IPanel;
     private msPanel: IPanel;
-    private memPanel: IPanel;
+    private memPanel: IPanel | undefined;
     constructor(showAfterCreating: any) {
         this.mode = 0;
         this.container = document.createElement('div');
@@ -25,9 +25,14 @@ export default class Stats {
             this.mode += 1;
             this.showPanel(this.mode % this.container.children.length);
         }, false);
-
-        document.addEventListener(GameConfig.ConfigUpdatedEventName, (event: CustomEvent) => {
+        function isCustomEvent(event: Event): event is CustomEvent {
+            return 'detail' in event;
+        }
+        document.addEventListener(GameConfig.ConfigUpdatedEventName, (event: Event) => {
             event.preventDefault();
+            if (!isCustomEvent(event)) {
+                throw new Error('not a custom event');
+            }
             const eventData = <IGame.IConfigUpdatedEvent>event.detail;
             if (eventData.key === 'showFPSCounter') {
                 if (eventData.newValue) {
@@ -103,7 +108,7 @@ export default class Stats {
         this.end();
     }
 
-    private Panel(name, fg, bg): IPanel {
+    private Panel(name: string, fg: string, bg: string): IPanel {
         let min = Infinity;
         let max = 0;
         const round = Math.round;
@@ -120,6 +125,12 @@ export default class Stats {
         canvas.style.cssText = 'width:80px;height:48px';
 
         const context = canvas.getContext('2d');
+        if (context === null) {
+            return {
+                dom: canvas,
+                update: function () { }
+            };
+        }
         context.font = 'bold ' + (9 * PR) + 'px Helvetica,Arial,sans-serif';
         context.textBaseline = 'top';
 

@@ -8,7 +8,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
     /**
      *
      */
-    constructor(props) {
+    constructor(props: OptionsProps) {
         super(props);
         this.state = this.props.gameConfig.getAll();
         this.setGameOptionsConfig = this.setGameOptionsConfig.bind(this);
@@ -25,7 +25,7 @@ export class Options extends React.Component<OptionsProps, IGame.IConfig> {
 
     }
 
-    updateGameConfig(name: keyof IGame.IConfig, value) {
+    updateGameConfig(name: keyof IGame.IConfig, value: any) {
         this.props.gameConfig.update(name, value);
         this.setState((prevState, props) => {
             return this.props.gameConfig.getAll();

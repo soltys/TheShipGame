@@ -38,7 +38,7 @@ export const Resources: { [key in Resource]: string } = {
     coin_animation: 'assets/animation/coin.json'
 };
 export function ResourcesForLoader(): string[] {
-    return Object.keys(Resources).map((x: Resource) => Resources[x]);
+    return Object.values(Resources);
 }
 
 export function createAnimation(name: AnimationResource, frameNumber: number): PIXI.extras.AnimatedSprite {
@@ -56,7 +56,7 @@ export function createAnimation(name: AnimationResource, frameNumber: number): P
 type Sides = 'left' | 'right';
 type TopOrBottom = 'top' | 'bottom';
 export function getTexture(res: Resource): PIXI.Texture {
-    const tex =  PIXI.Texture.fromImage(Resources[res], false, PIXI.SCALE_MODES.LINEAR);
+    const tex = PIXI.Texture.fromImage(Resources[res], false, PIXI.SCALE_MODES.LINEAR);
     tex.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
     return tex;
 }

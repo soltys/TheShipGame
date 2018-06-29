@@ -25,11 +25,13 @@
         "forceConsistentCasingInFileNames": true,
         "noImplicitThis":true,
         //"noImplicitAny":true,
-        //"strict":true
+        // "strict":true,
+        "lib": ["es2017", "dom"]
     },
     "exclude": [
         "node_modules"
     ],
+
     "awesomeTypescriptLoaderOptions": {
         "forkChecker": true,
         "useWebpackText": true,

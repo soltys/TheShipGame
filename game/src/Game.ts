@@ -9,7 +9,7 @@ import TimerService from './TimerService';
 import GameConfig from './GameConfig';
 import PauseOverlay from './PauseOverlay';
 import InitState from './state/InitState';
-import GameLoop from './GameLoop';
+//import GameLoop from './GameLoop';
 
 export default class Game implements IGame.IHost {
     readonly stage: PIXI.Container;
@@ -25,7 +25,7 @@ export default class Game implements IGame.IHost {
     private requestAnimationFrameId: number;
     private isAnimationOn: boolean;
     private timerService: TimerService;
-    private gameloop: GameLoop;
+    //private gameloop: GameLoop;
     constructor(gameWidth: number, gameHeight: number) {
         this.width = gameWidth;
         this.height = gameHeight;
@@ -51,7 +51,7 @@ export default class Game implements IGame.IHost {
         this.stats = new Stats(this.config.get('showFPSCounter'));
         this.isAnimationOn = true;
 
-        this.gameloop = new GameLoop();
+        //this.gameloop = new GameLoop();
     }
 
     private createGameContext(): IGame.IGameContext {

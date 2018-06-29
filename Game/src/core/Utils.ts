@@ -45,7 +45,7 @@ export function random(min: number, max: number): number {
  * isEmpty({ 'a': 1 })
  * // => false
  */
-export function isEmpty(value) {
+export function isEmpty(value: any) {
     if (value === null) {
         return true;
     }

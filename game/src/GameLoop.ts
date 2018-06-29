@@ -89,7 +89,7 @@ export default class MainLoop {
 
     // The ID of the currently executing frame. Used to cancel frames when
     // stopping the loop.
-    private rafHandle: number;
+    private rafHandle = 0;
 
     /**
      * Gets how many milliseconds should be simulated by every run of update().

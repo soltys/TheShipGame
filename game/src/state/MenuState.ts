@@ -4,7 +4,7 @@ import BaseState from './BaseState';
 
 export default class Menu extends BaseState {
 
-    private menu: MenuGameObject;
+    private menu: MenuGameObject | undefined;
     handle(context: IGame.IGameContext) {
         const game = context.game;
         this.menu = new MenuGameObject(game.width, game.height);
@@ -12,6 +12,8 @@ export default class Menu extends BaseState {
     }
 
     onLeave(context: IGame.IGameContext) {
-        context.game.removeObject(this.menu);
+        if (this.menu !== undefined) {
+            context.game.removeObject(this.menu);
+        }
     }
 }

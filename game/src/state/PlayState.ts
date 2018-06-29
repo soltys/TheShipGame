@@ -13,7 +13,7 @@ import Base from './BaseState';
 
 export default class Play extends Base {
     private borderSize = 32;
-    private onVisibilityChangedProxy: EventListener;
+    private onVisibilityChangedProxy: EventListener | undefined;
     handle(context: IGame.IGameContext) {
         const game = context.game;
 
@@ -39,7 +39,9 @@ export default class Play extends Base {
     }
 
     onLeave(context: IGame.IGameContext) {
-        document.removeEventListener('visibilitychange', this.onVisibilityChangedProxy);
+        if (this.onVisibilityChangedProxy !== undefined) {
+            document.removeEventListener('visibilitychange', this.onVisibilityChangedProxy);
+        }
     }
 
     onVisibilityChange(game: IGame.IHost) {

@@ -14,10 +14,17 @@ export default class Init extends BaseState {
         PIXI.loader
             .add(ResourcesForLoader())
             .load(() => {
+                const gameHostEl = document.getElementById('gameHost');
+                const fpsCounterEl = document.getElementById('fps-counter');
+                if (gameHostEl === null) {
+                    return;
+                }
                 const game = context.game;
                 game.gotoState(new PlayState());
-                game.addRendererToElement(document.getElementById('gameHost'));
-                game.addFPSCounter(document.getElementById('fps-counter'));
+                game.addRendererToElement(gameHostEl);
+                if (fpsCounterEl !== null) {
+                    game.addFPSCounter(fpsCounterEl);
+                }
                 game.addEventListenerToElement(document.body);
                 game.animate();
             });

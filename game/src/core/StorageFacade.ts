@@ -17,16 +17,19 @@ export default class StorageFacade implements IStorage {
     get(key: string): {} {
         const storageValue = this.storage.getItem(key);
         if (Utils.isEmpty(storageValue)) {
-            return undefined;
+            return {};
         } else {
             try {
+                if (storageValue === null) {
+                    return {};
+                }
                 const jsonValue = JSON.parse(storageValue);
                 if (jsonValue === null) {
-                    return undefined;
+                    return {};
                 }
                 return jsonValue;
             } catch (e) {
-                return undefined;
+                return {};
             }
         }
     }
