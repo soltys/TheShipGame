@@ -1,4 +1,7 @@
-
+type beginMethod = (timestamp: number, delta: number) => void;
+type updateMethod = (delta: number) => void;
+type drawMethod = (interpolationPercentage: number) => void;
+type endMethod = (fps: number, panic: boolean) => void;
 export default class MainLoop {
     // The amount of time (in milliseconds) to simulate each time update()
     // runs. See `MainLoop.setSimulationTimestep()` for details.
@@ -70,19 +73,19 @@ export default class MainLoop {
 
     // A function that runs at the beginning of the main loop.
     // See `MainLoop.setBegin()` for details.
-    private begin: (timestamp: number, delta: number) => void = this.NOOP;
+    private begin: beginMethod = this.NOOP;
 
     // A function that runs updates (i.e. AI and physics).
     // See `MainLoop.setUpdate()` for details.
-    private update: (delta: number) => void = this.NOOP;
+    private update: updateMethod = this.NOOP;
 
     // A function that draws things on the screen.
     // See `MainLoop.setDraw()` for details.
-    private draw: (interpolationPercentage: number) => void = this.NOOP;
+    private draw: drawMethod = this.NOOP;
 
     // A function that runs at the end of the main loop.
     // See `MainLoop.setEnd()` for details.
-    private end: (fps: number, panic: boolean) => void = this.NOOP;
+    private end: endMethod = this.NOOP;
 
     // The ID of the currently executing frame. Used to cancel frames when
     // stopping the loop.
@@ -97,10 +100,9 @@ export default class MainLoop {
      *   The number of milliseconds that should be simulated by every run of
      *   {@link #setUpdate update}().
      */
-    public getSimulationTimestep() {
+    public getSimulationTimestep(): number {
         return this.simulationTimestep;
     }
-
 
     /**
      * Sets how many milliseconds should be simulated by every run of update().
@@ -141,7 +143,7 @@ export default class MainLoop {
      * @param {Number} [fps=Infinity]
      * @chainable
      */
-    public setMaxAllowedFPS(fps) {
+    public setMaxAllowedFPS(fps: number) {
         if (typeof fps === 'undefined') {
             fps = Infinity;
         }
@@ -169,7 +171,7 @@ export default class MainLoop {
     *   The total elapsed time that has not yet been simulated, in
     *   milliseconds.
     */
-    public setBegin(fun) {
+    public setBegin(fun: beginMethod) {
         this.begin = fun || this.begin;
         return this;
     }
@@ -183,7 +185,7 @@ export default class MainLoop {
       *   updates. The timestep is the same as that returned by
       *   `MainLoop.getSimulationTimestep()`.
       */
-    public setUpdate(fun) {
+    public setUpdate(fun: updateMethod) {
         this.update = fun || this.update;
         return this;
     }
@@ -196,7 +198,7 @@ export default class MainLoop {
       *   by the amount of time that will be simulated the next time update()
       *   runs. Useful for interpolating frames.
       */
-    public setDraw(fun) {
+    public setDraw(fun: drawMethod) {
         this.draw = fun || this.draw;
         return this;
     }
@@ -208,7 +210,7 @@ export default class MainLoop {
     *   Specifically, `panic` will be `true` if too many updates occurred in
     *   one frame.
     */
-    public setEnd(fun) {
+    public setEnd(fun: endMethod) {
         this.end = fun || this.end;
         return this;
     }
@@ -276,7 +278,7 @@ export default class MainLoop {
      * @param {DOMHighResTimeStamp} timestamp
      * @ignore
      */
-    public animate(timestamp) {
+    public animate(timestamp: number) {
         // Run the loop again the next time the browser is ready to render.
         // We set rafHandle immediately so that the next frame can be canceled
         // during the current frame.
@@ -326,7 +328,6 @@ export default class MainLoop {
         // refers to a time just before the current frame was delivered.
         this.framesSinceLastFpsUpdate += 1;
 
-
         this.numUpdateSteps = 0;
         while (this.frameDelta >= this.simulationTimestep) {
             this.update(this.simulationTimestep);
@@ -338,13 +339,8 @@ export default class MainLoop {
                 break;
             }
         }
-
-
         this.draw(this.frameDelta / this.simulationTimestep);
-
-
         this.end(this.fps, this.panic);
-
         this.panic = false;
     }
 }
