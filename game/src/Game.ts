@@ -182,7 +182,13 @@ export default class Game implements IGame.IHost {
                 if (gamepads === null) {
                     this.gamepads = [];
                 } else {
-                    this.gamepads = <Gamepad[]>gamepads.filter(x => x !== null);
+                    const tempGamepad: Gamepad[] = [];
+                    for (let i = 0; i < 4; i += 1) {
+                        if (gamepads[i] !== null) {
+                            tempGamepad.push(gamepads[i]);
+                        }
+                    }
+                    this.gamepads = tempGamepad;
                 }
 
                 if (this.gamepads.length > 0) {

@@ -1,4 +1,3 @@
-//@ts-check
 var path = require('path');
 var outputPath = path.resolve(__dirname, 'build');
 var autoprefixer = require('autoprefixer');
@@ -46,11 +45,11 @@ function getWebpackConfig(env) {
                     enforce: "pre",
                     loader: 'tslint-loader'
                 },
-                {
-                    test: /\.js$/,
-                    enforce: "pre",
-                    loader: 'source-map-loader'
-                },
+                // {
+                //     test: /\.js$/,
+                //     enforce: "pre",
+                //     loader: 'source-map-loader'
+                // },
                 webpackConfigShared.typescriptRule(),
                 {
                     test: /\.scss$/,
