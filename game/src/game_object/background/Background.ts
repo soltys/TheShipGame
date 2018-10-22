@@ -11,7 +11,7 @@ import * as Utils from '@core/Utils';
  * 2 rows of tiles and 2 columns of tiles are used by game border
  *
  */
-export default class Manager extends GameObject implements IGame.IGameDisplayObject {
+export default class Background extends GameObject implements IGame.IGameDisplayObject {
     private graphics: PIXI.Graphics;
     private offsetVertical: number;
 

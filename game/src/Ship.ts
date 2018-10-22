@@ -1,12 +1,12 @@
 import * as PIXI from 'pixi.js';
 import Bullet from './Bullet';
-import BoundingBox from './BoundingBox';
+import BoundingBox from './core/BoundingBox';
 import { CollisionDirection } from '@core/CollisionDirection';
 import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';
 import { PlayerActionType } from '@core/PlayerActionType';
-import Timer from './Timer';
+import Timer from './core/Timer';
 import { PlayerActionManager } from './PlayerActionManager';
 
 type ScaleAction = PlayerActionType.ScaleUp | PlayerActionType.ScaleDown;

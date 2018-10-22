@@ -5,7 +5,7 @@ import { GetDisplayLayers } from '@core/DisplayLayer';
 import { ToGamepadArray } from '@core/GamepadExtensions';
 import * as IGame from '@IGame';
 import Stats from './Stats';
-import TimerService from './TimerService';
+import TimerService from './core/TimerService';
 import GameConfig from './GameConfig';
 import PauseOverlay from './PauseOverlay';
 import InitState from './state/InitState';

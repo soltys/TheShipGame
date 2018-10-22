@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import BoundingBox from './BoundingBox';
+import BoundingBox from './core/BoundingBox';
 import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';

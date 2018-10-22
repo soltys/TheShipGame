@@ -11,9 +11,6 @@
             "@core/*": [
                 "core/*"
             ],
-            "@base/*":[
-                "base/*"
-            ],
             "@IGame":[
                 "IGame.ts"
             ]

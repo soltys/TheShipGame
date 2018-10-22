@@ -1,11 +1,11 @@
 import { random } from 'lodash';
 import * as PIXI from 'pixi.js';
-import Background from './../background/Manager';
+import Background from '../game_object/background/Background';
 import Border from './../Border';
 import Coin from './../Coin';
 import * as IGame from '@IGame';
 import * as RS from '@core/ResourceSupport';
-import Timer from './../Timer';
+import Timer from '@core/Timer';
 import Corner from './../Corner';
 import Score from './../Score';
 import Ship from './../Ship';
