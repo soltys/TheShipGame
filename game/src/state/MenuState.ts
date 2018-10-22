@@ -1,5 +1,5 @@
 import * as IGame from '@IGame';
-import MenuGameObject from './../Menu';
+import MenuGameObject from '../gameobjects/menu/Menu';
 import BaseState from './BaseState';
 
 export default class Menu extends BaseState {

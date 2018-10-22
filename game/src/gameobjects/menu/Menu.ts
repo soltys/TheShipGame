@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js';
-import Colors from './Colors';
+import Colors from '@core/Colors';
 import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';
-import StartGame from './input/Menu';
-import PlayState from './state/PlayState';
+import StartGame from './MenuInput';
+import PlayState from '../../state/PlayState';
 export default class Menu extends GameObject implements IGame.IGameDisplayObject {
     private startDisplay: PIXI.Text;
     private textStyle: Object;

@@ -1,8 +1,8 @@
 import * as IGame from '@IGame';
 import BaseState from './BaseState';
-import PlayState from './PlayState';
+// import PlayState from './PlayState';
 import { ResourcesForLoader } from '@core/ResourceSupport';
-//import MenuState from './MenuState';
+import MenuState from './MenuState';
 
 export default class Init extends BaseState {
     constructor() {
@@ -20,7 +20,7 @@ export default class Init extends BaseState {
                     return;
                 }
                 const game = context.game;
-                game.gotoState(new PlayState());
+                game.gotoState(new MenuState());
                 game.addRendererToElement(gameHostEl);
                 if (fpsCounterEl !== null) {
                     game.addFPSCounter(fpsCounterEl);

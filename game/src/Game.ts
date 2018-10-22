@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as PIXI from 'pixi.js';
-import Colors from './Colors';
+import Colors from './core/Colors';
 import { GetDisplayLayers } from '@core/DisplayLayer';
 import { ToGamepadArray } from '@core/GamepadExtensions';
 import * as IGame from '@IGame';
