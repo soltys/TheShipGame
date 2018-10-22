@@ -1,6 +1,6 @@
 import { CollisionDirection } from '@core/CollisionDirection';
 import { DisplayLayer } from '@core/DisplayLayer';
-import { PlayerActionType } from '@base/PlayerActionType';
+import { PlayerActionType } from '@core/PlayerActionType';
 
 export interface IGameConfig {
     get(configKey: string): {};

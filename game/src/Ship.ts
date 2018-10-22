@@ -5,7 +5,7 @@ import { CollisionDirection } from '@core/CollisionDirection';
 import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';
-import { PlayerActionType } from '@base/PlayerActionType';
+import { PlayerActionType } from '@core/PlayerActionType';
 import Timer from './Timer';
 import { PlayerActionManager } from './PlayerActionManager';
 

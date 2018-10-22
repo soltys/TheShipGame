@@ -2,7 +2,7 @@ import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
 import LinearConverter from './LinearConverter';
 import MouseButtons from './MouseButtons';
-import { PlayerActionType as PA } from '@base/PlayerActionType';
+import { PlayerActionType as PA } from '@core/PlayerActionType';
 import { GamepadQuery } from '@core/GamepadQuery';
 
 /**

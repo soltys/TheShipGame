@@ -1,7 +1,7 @@
 import { PlayerActionManager } from '../src/PlayerActionManager';
 import { GameContextBuilder } from './builders/GameContextBuilder';
 import { assert } from 'chai';
-import { PlayerActionType } from '@base/PlayerActionType';
+import { PlayerActionType } from '@core/PlayerActionType';
 
 describe('PlayerActionManager', () => {
     it('PlayerActionManager object should be defined', () => {
