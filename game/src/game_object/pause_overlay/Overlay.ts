@@ -1,6 +1,6 @@
 import * as IGame from '@IGame';
 import { Keys } from '@core/Keys';
-import MouseButtons from '../core/MouseButtons';
+import MouseButtons from '../../core/MouseButtons';
 export function DiscardPauseOverlay(context: IGame.IGameContext): boolean {
 
     const inputs = context.inputs;

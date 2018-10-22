@@ -2,7 +2,7 @@ import Colors from '@core/Colors';
 import { DisplayLayer } from '@core/DisplayLayer';
 import GameObject from '@core/GameObject';
 import * as IGame from '@IGame';
-import { DiscardPauseOverlay } from './input/Overlay';
+import { DiscardPauseOverlay } from './Overlay';
 
 export default class PauseOverlay extends GameObject implements IGame.IGameDisplayObject {
     private overlayMessage: PIXI.Text;

@@ -7,7 +7,7 @@ import * as IGame from '@IGame';
 import Stats from './Stats';
 import TimerService from './core/TimerService';
 import GameConfig from './GameConfig';
-import PauseOverlay from './PauseOverlay';
+import PauseOverlay from './game_object/pause_overlay/PauseOverlay';
 import InitState from './state/InitState';
 //import GameLoop from './GameLoop';
 
