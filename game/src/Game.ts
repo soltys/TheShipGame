@@ -25,7 +25,7 @@ export default class Game implements IGame.IHost {
     private requestAnimationFrameId: number | undefined;
     private isAnimationOn: boolean;
     private timerService: TimerService;
-    //private gameloop: GameLoop;
+
     constructor(gameWidth: number, gameHeight: number) {
         this.width = gameWidth;
         this.height = gameHeight;

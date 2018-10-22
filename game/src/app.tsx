@@ -11,11 +11,12 @@ import '@core/GamepadExtensions';
 
 const gameWidth = 640;
 const gameHeight = 704;
-const game = new Game(gameWidth, gameHeight);
+
 
 class GameApp extends React.Component {
+    game: Game = new Game(gameWidth, gameHeight);
     componentDidMount() {
-        game.gotoState(new InitState());
+        this.game.gotoState(new InitState());
     }
 
     render() {
@@ -40,7 +41,7 @@ class GameApp extends React.Component {
                     </div>
                     <div id="gameHost"></div>
                     <div id="right-side">
-                        <Options gameConfig={game.config} />
+                        <Options gameConfig={this.game.config} />
                     </div>
                 </div>
                 <div id="footer">
