@@ -9,19 +9,12 @@ export default class Axis {
         };
     }
 
-
     get x(): number {
         return this.data.x;
-    }
-    set x(value: number) {
-        this.data.x = value;
     }
 
     get y(): number {
         return this.data.y;
-    }
-    set y(value: number) {
-        this.data.y = value;
     }
 
     add(value: Axis): Axis {
@@ -42,6 +35,13 @@ export default class Axis {
         return new Axis(
             this.data.x * value,
             this.data.y * value
+        );
+    }
+
+    clone(): Axis {
+        return new Axis(
+            this.data.x,
+            this.data.y
         );
     }
 }
