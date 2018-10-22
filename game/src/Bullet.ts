@@ -5,17 +5,21 @@ import * as IGame from '@IGame';
 import * as RS from '@core/ResourceSupport';
 import Axis from '@core/Axis';
 export default class Bullet extends GameObject implements IGame.IGameDisplayObject {
+    /*
+        Bullet Width when changing sprite update this value
+    */
+    public static bulletWidth = 16;
+
     private bulletAnimation: PIXI.extras.AnimatedSprite;
-    private graphics: PIXI.Graphics;
     private readonly initialVelocity = 8;
     private velocity: Axis;
+
     constructor(bulletAnimation: PIXI.extras.AnimatedSprite, posX: number, posY: number) {
         super();
         this.bulletAnimation = bulletAnimation;
         this.bulletAnimation.position.set(posX, posY);
         this.bulletAnimation.animationSpeed = 0.1;
         this.bulletAnimation.play();
-        this.graphics = new PIXI.Graphics();
         this.velocity = new Axis(0, this.initialVelocity);
     }
 
@@ -32,7 +36,7 @@ export default class Bullet extends GameObject implements IGame.IGameDisplayObje
         }
     }
     get displayObjects(): PIXI.DisplayObject[] {
-        return [this.graphics, this.bulletAnimation];
+        return [this.bulletAnimation];
     }
 
     get displayLayer(): DisplayLayer {

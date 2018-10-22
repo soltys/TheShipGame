@@ -94,7 +94,7 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         context.objects.ship = this;
 
         context.timerService.add(Timer.create(100, () => {
-            const bulletPosition = this.computeBulletPosition();
+            const bulletPosition = this.getBulletPosition();
 
             context.game.addObject(
                 Bullet.create(bulletPosition.x, bulletPosition.y));
@@ -103,9 +103,9 @@ export default class Ship extends GameObject implements IGame.IGameDisplayObject
         this.playerResponse = this.getResponsesForPlayerActions(context);
     }
 
-    computeBulletPosition(): Axis<number> {
+    getBulletPosition(): Axis<number> {
         return{
-            x: this.fullShipBox.x + (this.fullShipBox.width / 2),
+            x: this.fullShipBox.x + (this.fullShipBox.width / 2) - Bullet.bulletWidth / 2,
             y: this.fullShipBox.y + this.velocity.y
         };
     }
